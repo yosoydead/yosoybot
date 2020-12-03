@@ -29,3 +29,5 @@
 * Trebuie sa vad ce types am nevoie sa folosesc
 * Trebuie sa vad cum pot sa organizez codul mai ok
 * **Poate scriu teste**????
+  * nu stiu daca ar avea rost sau cum ar trebui sa testez conexiunea botului. Poate asta o sa fie **tema** pentru mai tarziu!!
+  * o idee ar fi sa testez restul chestiilor pe care le scriu eu
