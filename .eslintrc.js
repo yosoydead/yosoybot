@@ -1,4 +1,5 @@
 module.exports = {
+	"parser": "@typescript-eslint/parser",
 	"env": {
 		"commonjs": true,
 		"es2021": true,
@@ -8,7 +9,6 @@ module.exports = {
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended"
 	],
-	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 12
 	},
