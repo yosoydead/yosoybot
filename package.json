@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:ts:watch": "tsc -w",
     "start:nodemon": "nodemon build/index.js",
-    "start": "concurrently npm:start:*"
+    "start": "concurrently npm:start:*",
+    "lint": "eslint src/"
   },
   "author": "Radu Bogdan-Mircea",
   "license": "ISC",
