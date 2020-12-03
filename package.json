@@ -1,0 +1,11 @@
+{
+  "name": "yosoybot",
+  "version": "0.0.1",
+  "description": "tentativa de bot pt discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Radu Bogdan-Mircea",
+  "license": "ISC"
+}
