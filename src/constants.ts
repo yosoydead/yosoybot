@@ -1,9 +1,9 @@
 export const REPLY_MESSAGES = {
-  UNKNOWN_COMMAND: "Nu stiu comanda :(",
+  ALO: "Aaalo",
+  EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
+  EMPTY_CATS_FACT: "The request failed. Check if the API is still available. :)",
   PONG: "PONG",
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
-  EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
-  ALO: "Aaalo",
-  
+  UNKNOWN_COMMAND: "Nu stiu comanda :(",
 }

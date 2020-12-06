@@ -54,4 +54,10 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
 // // setup cron job
 // cron(2000, () => console.log("cron job"))
 
-client.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN)
+  .then(() => {
+    client.user?.setActivity("!commands");
+  })
+  .catch(err => {
+    console.log(err);
+  });
