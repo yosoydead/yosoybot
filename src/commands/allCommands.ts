@@ -1,34 +1,19 @@
-import { CommandsObject, TypeCommandObject } from "./CommandNames";
-import Discord, { MessageEmbed, EmbedField } from "discord.js";
-
-export function createEmbedFields(allCommands: TypeCommandObject): EmbedField[] {
-  const commands = Object.keys(allCommands);
-  const commandsWithDescription: EmbedField[] = [];
-
-  for (let i = 0; i < commands.length; i++) {
-    const entry: EmbedField = {
-      name: commands[i],
-      value: CommandsObject[commands[i]],
-      inline: false
-    };
-
-    commandsWithDescription.push(entry);
-  }
-  
-  return commandsWithDescription;
-}
+import { CommandsObject } from "./CommandNames";
+import { MessageEmbed, EmbedField } from "discord.js";
+import { createEmbedFields } from "../utils/createEmbedFields";
+import { createMessageEmbed } from "../utils/createMessageEmbed";
+import { MESSAGE_COLORS, REPLY_MESSAGES } from "../constants";
 
 export function displayCommands(): MessageEmbed {
   const embedFields: EmbedField[] = createEmbedFields(CommandsObject);
-  
-  const message: MessageEmbed = new Discord.MessageEmbed()
-    .setColor("#3f51b5")
-    .setTitle("Hi. I am yosoybot!")
-    .setDescription("Here is a list of all my current commands:")
-    .addFields(embedFields)
-    .setAuthor("Yosoydead")
-    .setFooter("Much love. @yosoydead#9299 for other questions.")
-    .setTimestamp();
+  const message: MessageEmbed = createMessageEmbed(
+    MESSAGE_COLORS.DEFAULT,
+    REPLY_MESSAGES.COMMANDS_TITLE,
+    REPLY_MESSAGES.COMMANDS_DESCRIPTION,
+    embedFields,
+    "Yosoydead",
+    REPLY_MESSAGES.COMMANDS_FOOTER
+  );
 
   return message;
 }

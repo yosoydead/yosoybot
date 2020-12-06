@@ -5,12 +5,16 @@
 import Discord, { Client, Message, Guild, PartialMessage, MessageReaction, User } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
+import { MY_CHANNEL_IDS } from "./constants";
 
 dotenv.config();
 
 const client: Client = new Discord.Client();
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log("my body is ready");
+  // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+  // console.log(channelEntry);
+  
   // console.log(client.guilds);
   // console.log("---------------------------------------------------");
   
@@ -27,8 +31,12 @@ client.once("ready", () => {
   //   });
 });
 
-client.on("guildCreate", (guild: Guild) => {
+client.on("guildCreate", async (guild: Guild) => {
   console.log("intrat in", guild.name);
+  const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
+  console.log(myChannel.name);
+  const channelEntry = await myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+  channelEntry.send("salut");
 });
 
 client.on("guildDelete", (guild: Guild) => {
