@@ -22,6 +22,7 @@ export async function commandHandler(message: Message) {
   //daca mesajul nu incepe cu !, o sa ignor comanda
   if (splitMessage[0].charAt(0) !== "!") return;
   
+  // trec prin fiecare tip de comanda si ii dau sa faca ceva
   switch (splitMessage[0].substring(1)) {
   case CommandNames.EIGHT_BALL:
     if (splitMessage.length === 1) return await message.reply(REPLY_MESSAGES.EMPTY_EIGHT_BALL);

@@ -6,4 +6,8 @@ export const REPLY_MESSAGES = {
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
-}
+};
+
+export const REACT_EMOJI = {
+  RUBLERT: "rubl"
+};
