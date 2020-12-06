@@ -25,5 +25,11 @@ export const MY_CHANNEL_IDS = {
 
 export const MESSAGE_COLORS = {
   DEFAULT: "#3f51b5",
-  CHANNEL_JOIN: "#dd2c00"
+  CHANNEL_LEFT: "#dd2c00",
+  CHANNEL_JOIN: "#00c853"
 };
+
+export enum SERVER_ACTION {
+  JOIN,
+  KICK
+}

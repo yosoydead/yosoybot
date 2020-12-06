@@ -2,10 +2,14 @@
 // https://discord.com/developers/applications/784135061225734184/bot
 // https://discord.com/oauth2/authorize?client_id=<client id>&scope=bot accesezi asta ca sa dai invite la bot
 // https://discord.com/oauth2/authorize?client_id=784135061225734184&scope=bot
-import Discord, { Client, Message, Guild, PartialMessage, MessageReaction, User } from "discord.js";
+import Discord, { Client, Message, Guild, PartialMessage, MessageReaction, User, EmbedField } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
-import { MY_CHANNEL_IDS } from "./constants";
+import { TypeCommandObject } from "./commands/CommandNames";
+import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
+import { createMessageEmbed } from "./utils/createMessageEmbed";
+import { createEmbedFields } from "./utils/createEmbedFields";
+import { SendLogs } from "./utils/logJoinOrLeaveServer";
 
 dotenv.config();
 
@@ -32,15 +36,20 @@ client.once("ready", async () => {
 });
 
 client.on("guildCreate", async (guild: Guild) => {
-  console.log("intrat in", guild.name);
   const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
-  console.log(myChannel.name);
-  const channelEntry = await myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-  channelEntry.send("salut");
+  const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+  const message = SendLogs(guild, SERVER_ACTION.JOIN);
+
+  channelEntry.send(message);
 });
 
-client.on("guildDelete", (guild: Guild) => {
+client.on("guildDelete", async (guild: Guild) => {
   console.log("iesit din", guild);
+  const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
+  const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+  const message = SendLogs(guild, SERVER_ACTION.KICK);
+
+  channelEntry.send(message);
 });
 
 client.on("message", commandHandler);
