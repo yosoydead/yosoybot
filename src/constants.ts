@@ -12,9 +12,10 @@ export const REPLY_MESSAGES = {
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
 };
 
-export const REACT_EMOJI = {
-  RUBLERT: "rubl"
-};
+export const enum REACT_EMOJI {
+  RUBLERT =  "rubl",
+  STITCH = "stitch",
+}
 
 export const MY_CHANNEL_IDS = {
   INTRAT_PE_SERVERE: "785131037139140641",

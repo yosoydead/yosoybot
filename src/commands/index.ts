@@ -1,16 +1,15 @@
 import { Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
-import eightBall from "./eightBall";
-import { ping, pong} from "./ping";
+import eightBall from "./eightBall/eightBall";
+import { ping, pong} from "./ping/ping";
 import { REPLY_MESSAGES } from "../constants";
-import { cats} from "./cats";
-import { displayCommands } from "./allCommands";
+import { cats} from "./cats/cats";
+import { displayCommands } from "./allCommands/allCommands";
 
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
-
 export async function commandHandler(message: Message) {
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot

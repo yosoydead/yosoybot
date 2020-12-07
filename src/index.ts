@@ -2,14 +2,12 @@
 // https://discord.com/developers/applications/784135061225734184/bot
 // https://discord.com/oauth2/authorize?client_id=<client id>&scope=bot accesezi asta ca sa dai invite la bot
 // https://discord.com/oauth2/authorize?client_id=784135061225734184&scope=bot
-import Discord, { Client, Message, Guild, PartialMessage, MessageReaction, User, EmbedField } from "discord.js";
+import Discord, { Client, Message, Guild, PartialMessage } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
-import { TypeCommandObject } from "./commands/CommandNames";
 import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
-import { createMessageEmbed } from "./utils/createMessageEmbed";
-import { createEmbedFields } from "./utils/createEmbedFields";
 import { SendLogs } from "./utils/logJoinOrLeaveServer";
+import { reactionHandler } from "./reacting";
 
 dotenv.config();
 
@@ -44,7 +42,6 @@ client.on("guildCreate", async (guild: Guild) => {
 });
 
 client.on("guildDelete", async (guild: Guild) => {
-  console.log("iesit din", guild);
   const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
   const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
   const message = SendLogs(guild, SERVER_ACTION.KICK);
@@ -58,24 +55,7 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
   console.log("am sters:",message.content);
 });
 
-
-client.on("messageReactionAdd", async(...args) => {
-  // console.log(args);
-  
-  // console.log(reaction);
-  // console.log(reaction);
-  // const bla = "face_vomiting";
-  // if (reaction.emoji.name === bla) console.log("da");
-  
-  // await reaction.message.channel.send(reaction.emoji.name);
-  // console.log(reaction.emoji.toString());
-  console.log(args);
-  
-  
-  
-  console.log("----------------------------------------------");
-  // console.log(user);
-});
+client.on("messageReactionAdd", reactionHandler);
 
 // // cron function
 // function cron(ms, fn) {
