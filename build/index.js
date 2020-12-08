@@ -110,17 +110,29 @@ client.on("messageDelete", function (message) {
 });
 client.on("messageReactionAdd", reacting_1.reactionHandler);
 // // cron function
-// function cron(ms, fn) {
-//   function cb() {
-//       clearTimeout(timeout)
-//       timeout = setTimeout(cb, ms)
-//       fn()
-//   }
-//   let timeout = setTimeout(cb, ms)
-//   return () => {}
-// }
-// // setup cron job
-// cron(2000, () => console.log("cron job"))
+function cron(ms, fn) {
+    function cb() {
+        clearTimeout(timeout);
+        timeout = setTimeout(cb, ms);
+        fn();
+    }
+    var timeout = setTimeout(cb, ms);
+    return function () { };
+}
+// setup cron job 1500000
+cron(1500000, function () { return __awaiter(void 0, void 0, void 0, function () {
+    var wakeupChannel;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, client.channels.fetch(constants_1.MY_CHANNEL_IDS.WAKEUP_CRONJOB)];
+            case 1:
+                wakeupChannel = _a.sent();
+                // console.log(wakeupChannel);
+                wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+                return [2 /*return*/];
+        }
+    });
+}); });
 client.login(process.env.BOT_TOKEN)
     .then(function () {
     var _a;

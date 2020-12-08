@@ -2,7 +2,7 @@
 // https://discord.com/developers/applications/784135061225734184/bot
 // https://discord.com/oauth2/authorize?client_id=<client id>&scope=bot accesezi asta ca sa dai invite la bot
 // https://discord.com/oauth2/authorize?client_id=784135061225734184&scope=bot
-import Discord, { Client, Message, Guild, PartialMessage } from "discord.js";
+import Discord, { Client, Message, Guild, PartialMessage, Channel } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
 import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
@@ -58,17 +58,22 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
 client.on("messageReactionAdd", reactionHandler);
 
 // // cron function
-// function cron(ms, fn) {
-//   function cb() {
-//       clearTimeout(timeout)
-//       timeout = setTimeout(cb, ms)
-//       fn()
-//   }
-//   let timeout = setTimeout(cb, ms)
-//   return () => {}
-// }
-// // setup cron job
-// cron(2000, () => console.log("cron job"))
+function cron(ms, fn) {
+  function cb() {
+    clearTimeout(timeout);
+    timeout = setTimeout(cb, ms);
+    fn();
+  }
+  let timeout = setTimeout(cb, ms);
+  return () => {};
+}
+// setup cron job 1500000
+cron(1500000, async () => {
+  // console.log(client.channels);
+  const wakeupChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.WAKEUP_CRONJOB);
+  // console.log(wakeupChannel);
+  wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+});
 
 client.login(process.env.BOT_TOKEN)
   .then(() => {
