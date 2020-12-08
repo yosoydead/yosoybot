@@ -47,3 +47,8 @@
   1. pt local: **npm run local**
   2. pt build: **npm run build**
   3. atunci cand aplicatia o sa fie intr-un container de docker si toate cele bune: **npm run start**
+  "build": "tsc",
+    "lint": "eslint src/",
+    "local": "concurrently npm:start:*",
+    "start:ts:watch": "tsc -w",
+    "start:nodemon": "nodemon build/index.js",
