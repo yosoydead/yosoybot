@@ -6,6 +6,7 @@ import { REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
+import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
@@ -18,6 +19,12 @@ export async function commandHandler(message: Message) {
   
   //sparg mesajul in bucati si vreau sa vad care e primul cuvant din mesaj
   const splitMessage: string[] = message.content.split(" ");
+  
+  // verific daca mesajul contine un @user si weeb inainte sa procesez comenzile
+  // am pus spatiu acolo pentru ca vreau sa fie @user \n <ascii>
+  const containsWeebAndTag = doesMessageContainWeebAndTag(splitMessage);
+  if (containsWeebAndTag.weeb && containsWeebAndTag.tagging) return await message.channel.send(`${containsWeebAndTag.tag} 
+  ${weeb()}`);
 
   //daca mesajul nu incepe cu !, o sa ignor comanda
   if (splitMessage[0].charAt(0) !== "!") return;

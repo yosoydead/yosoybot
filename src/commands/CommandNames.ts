@@ -6,6 +6,7 @@ export const enum CommandNames {
   EIGHT_BALL =  "8ball",
   PING = "ping",
   PONG = "pong",
+  WEEB = "weeb"
 }
 
 export type TypeCommandObject = {[name: string]: string};
