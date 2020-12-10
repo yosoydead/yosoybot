@@ -1,3 +1,5 @@
+import getRandomString from "../../utils/getRandomStringFromArray";
+
 const eightBall: string[] = [
   "As i see it, yes",
   "Ask again later",
@@ -10,6 +12,5 @@ const eightBall: string[] = [
 ];
 
 export default (): string => {
-  const index: number = Math.floor(Math.random() * eightBall.length);
-  return eightBall[index];
+  return getRandomString(eightBall);
 };
