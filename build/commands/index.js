@@ -44,6 +44,7 @@ var eightBall_1 = __importDefault(require("./eightBall/eightBall"));
 var ping_1 = require("./ping/ping");
 var constants_1 = require("../constants");
 var cats_1 = require("./cats/cats");
+var dogs_1 = require("./dogs/dogs");
 var allCommands_1 = require("./allCommands/allCommands");
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
@@ -51,7 +52,7 @@ var allCommands_1 = require("./allCommands/allCommands");
 // const regex = /^ball\s.+/i;
 function commandHandler(message) {
     return __awaiter(this, void 0, void 0, function () {
-        var splitMessage, _a, catFact;
+        var splitMessage, _a, catFact, dogFacts;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -69,9 +70,10 @@ function commandHandler(message) {
                         case "ping" /* PING */: return [3 /*break*/, 5];
                         case "pong" /* PONG */: return [3 /*break*/, 7];
                         case "cats" /* CATS_FACT */: return [3 /*break*/, 9];
-                        case "commands" /* COMMANDS */: return [3 /*break*/, 14];
+                        case "dogs" /* DOGS_FACT */: return [3 /*break*/, 14];
+                        case "commands" /* COMMANDS */: return [3 /*break*/, 19];
                     }
-                    return [3 /*break*/, 16];
+                    return [3 /*break*/, 21];
                 case 1:
                     if (!(splitMessage.length === 1)) return [3 /*break*/, 3];
                     return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.EMPTY_EIGHT_BALL)];
@@ -86,14 +88,22 @@ function commandHandler(message) {
                 case 10:
                     catFact = _b.sent();
                     if (!(catFact === "")) return [3 /*break*/, 12];
-                    return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.EMPTY_CATS_FACT)];
+                    return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.EMPTY_ANIMAL_FACT)];
                 case 11: return [2 /*return*/, _b.sent()];
                 case 12: return [4 /*yield*/, message.reply(catFact)];
                 case 13: return [2 /*return*/, _b.sent()];
-                case 14: return [4 /*yield*/, message.reply(allCommands_1.displayCommands())];
-                case 15: return [2 /*return*/, _b.sent()];
-                case 16: return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND)];
-                case 17: return [2 /*return*/, _b.sent()];
+                case 14: return [4 /*yield*/, dogs_1.dogs()];
+                case 15:
+                    dogFacts = _b.sent();
+                    if (!(dogFacts === "")) return [3 /*break*/, 17];
+                    return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.EMPTY_ANIMAL_FACT)];
+                case 16: return [2 /*return*/, _b.sent()];
+                case 17: return [4 /*yield*/, message.reply(dogFacts)];
+                case 18: return [2 /*return*/, _b.sent()];
+                case 19: return [4 /*yield*/, message.reply(allCommands_1.displayCommands())];
+                case 20: return [2 /*return*/, _b.sent()];
+                case 21: return [4 /*yield*/, message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND)];
+                case 22: return [2 /*return*/, _b.sent()];
             }
         });
     });

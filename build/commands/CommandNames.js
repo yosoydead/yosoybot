@@ -6,4 +6,5 @@ exports.CommandsObject = {
     "!ping": "The bot responds with pong.",
     "!pong": "The bot responds with ping.",
     "!cats": "Get a random fact about cats.",
+    "!dogs": "Get a random fact about dogs."
 };
