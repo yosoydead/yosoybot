@@ -4,6 +4,7 @@ import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
 import { REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
+import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
 
 //command handler
@@ -32,9 +33,15 @@ export async function commandHandler(message: Message) {
     return await message.reply(ping());
   case CommandNames.CATS_FACT: {
     const catFact: string = await cats();
-    if (catFact === "") return await message.reply(REPLY_MESSAGES.EMPTY_CATS_FACT);
+    if (catFact === "") return await message.reply(REPLY_MESSAGES.EMPTY_ANIMAL_FACT);
 
     return await message.reply(catFact);
+  }
+  case CommandNames.DOGS_FACT: {
+    const dogFacts: string = await dogs();
+    if (dogFacts === "") return await message.reply(REPLY_MESSAGES.EMPTY_ANIMAL_FACT);
+
+    return await message.reply(dogFacts);
   }
   case CommandNames.COMMANDS:
     return await message.reply(displayCommands());

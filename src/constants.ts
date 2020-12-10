@@ -5,7 +5,7 @@ export const REPLY_MESSAGES = {
   COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
   COMMANDS_TITLE: "Hi. I am yosoybot!",
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
-  EMPTY_CATS_FACT: "The request failed. Check if the API is still available. :)",
+  EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
   PONG: "PONG",
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
@@ -25,13 +25,20 @@ export const MY_CHANNEL_IDS = {
   WAKEUP_CRONJOB: "785846537543876639"
 };
 
+//colorez MessageEmbed
 export const MESSAGE_COLORS = {
   DEFAULT: "#3f51b5",
   CHANNEL_LEFT: "#dd2c00",
   CHANNEL_JOIN: "#00c853"
 };
 
+// folosita pentru guildAdd/guildRemove
 export enum SERVER_ACTION {
   JOIN,
   KICK
+}
+
+export enum ANIMAL_FACTS_APIS {
+  CATS = "https://meowfacts.herokuapp.com/",
+  DOGS = "http://dog-api.kinduff.com/api/facts"
 }

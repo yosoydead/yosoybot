@@ -35,34 +35,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cats = void 0;
-var get_1 = require("../../services/animals/get");
+exports.getAnimalFact = void 0;
 var constants_1 = require("../../constants");
-function cats() {
+var node_fetch_1 = __importDefault(require("node-fetch"));
+function getAnimalFact(animalUrl) {
     return __awaiter(this, void 0, void 0, function () {
+        var request, requestData, result, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, get_1.getAnimalFact(constants_1.ANIMAL_FACTS_APIS.CATS)];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, node_fetch_1.default(animalUrl)];
+                case 1:
+                    request = _a.sent();
+                    return [4 /*yield*/, request.json()];
+                case 2:
+                    requestData = _a.sent();
+                    result = void 0;
+                    if (animalUrl === constants_1.ANIMAL_FACTS_APIS.CATS)
+                        result = requestData.data[0];
+                    else
+                        result = requestData.facts[0];
+                    // return animalUrl === ANIMAL_FACTS_APIS.CATS ? requestData.data?[0] : requestData.facts?[0];
+                    // if (animalUrl === ANIMAL_FACTS_APIS.CATS) return requestData.data?[0]
+                    // else return requestData.facts[0]
+                    // else return 
+                    return [2 /*return*/, result];
+                case 3:
+                    err_1 = _a.sent();
+                    return [2 /*return*/, ""];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-exports.cats = cats;
-//api-ul asta returneaza un obiect cu o proprietate numita DATA
-//data e un array cu un singur element in el
-// const url = "https://meowfacts.herokuapp.com/";
-// interface IRequestData {
-//   data: string[]
-// }
-// export async function cats(): Promise<string> {
-//   try{
-//     const request: Response = await fetch(url);
-//     const requestData: IRequestData = await request.json();
-//     return requestData.data[0];
-//   } catch(err) {
-//     console.log(err);
-//     return "";
-//   }
-// }
+exports.getAnimalFact = getAnimalFact;
