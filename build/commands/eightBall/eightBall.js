@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var getRandomStringFromArray_1 = __importDefault(require("../../utils/getRandomStringFromArray"));
 var eightBall = [
     "As i see it, yes",
     "Ask again later",
@@ -11,6 +15,5 @@ var eightBall = [
     "It is decidedly so"
 ];
 exports.default = (function () {
-    var index = Math.floor(Math.random() * eightBall.length);
-    return eightBall[index];
+    return getRandomStringFromArray_1.default(eightBall);
 });

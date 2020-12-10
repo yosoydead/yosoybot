@@ -44,7 +44,7 @@ var constants_1 = require("../../constants");
 var node_fetch_1 = __importDefault(require("node-fetch"));
 function getAnimalFact(animalUrl) {
     return __awaiter(this, void 0, void 0, function () {
-        var request, requestData, result, err_1;
+        var request, requestData, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,16 +55,11 @@ function getAnimalFact(animalUrl) {
                     return [4 /*yield*/, request.json()];
                 case 2:
                     requestData = _a.sent();
-                    result = void 0;
                     if (animalUrl === constants_1.ANIMAL_FACTS_APIS.CATS)
-                        result = requestData.data[0];
+                        return [2 /*return*/, requestData.data[0]];
                     else
-                        result = requestData.facts[0];
-                    // return animalUrl === ANIMAL_FACTS_APIS.CATS ? requestData.data?[0] : requestData.facts?[0];
-                    // if (animalUrl === ANIMAL_FACTS_APIS.CATS) return requestData.data?[0]
-                    // else return requestData.facts[0]
-                    // else return 
-                    return [2 /*return*/, result];
+                        return [2 /*return*/, requestData.facts[0]];
+                    return [3 /*break*/, 4];
                 case 3:
                     err_1 = _a.sent();
                     return [2 /*return*/, ""];
