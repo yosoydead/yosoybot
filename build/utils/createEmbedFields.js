@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEmbedFields = void 0;
 function createEmbedFields(entriesObject) {
     var commands = Object.keys(entriesObject);
     var commandsWithDescription = [];

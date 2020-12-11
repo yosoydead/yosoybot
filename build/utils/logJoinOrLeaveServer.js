@@ -1,14 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SendLogs = exports.whatHappened = exports.colorSelect = void 0;
 var constants_1 = require("../constants");
 var createEmbedFields_1 = require("./createEmbedFields");
 var createMessageEmbed_1 = require("./createMessageEmbed");
-var colorSelect = function (action) {
+exports.colorSelect = function (action) {
     return action === constants_1.SERVER_ACTION.JOIN ? constants_1.MESSAGE_COLORS.CHANNEL_JOIN : constants_1.MESSAGE_COLORS.CHANNEL_LEFT;
 };
-exports.colorSelect = colorSelect;
-var whatHappened = function (guildName, action) {
+exports.whatHappened = function (guildName, action) {
     var join = {
         "Numele serverului pe care am intrate: ": guildName
     };
@@ -17,7 +15,6 @@ var whatHappened = function (guildName, action) {
     };
     return action === constants_1.SERVER_ACTION.JOIN ? join : left;
 };
-exports.whatHappened = whatHappened;
 function SendLogs(guild, action) {
     var color = exports.colorSelect(action);
     var event = exports.whatHappened(guild.name, action);

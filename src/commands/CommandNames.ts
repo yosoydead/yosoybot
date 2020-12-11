@@ -16,5 +16,6 @@ export const CommandsObject: TypeCommandObject = {
   "!ping": "The bot responds with pong.", 
   "!pong": "The bot responds with ping.",
   "!cats": "Get a random fact about cats.",
-  "!dogs": "Get a random fact about dogs."
+  "!dogs": "Get a random fact about dogs.",
+  "@<person> <anything you want> weeb": "Tags that person and sends an ascii weeb stuff." 
 };

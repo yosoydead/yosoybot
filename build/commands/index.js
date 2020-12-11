@@ -39,7 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commandHandler = void 0;
 var eightBall_1 = __importDefault(require("./eightBall/eightBall"));
 var ping_1 = require("./ping/ping");
 var constants_1 = require("../constants");
