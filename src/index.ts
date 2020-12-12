@@ -77,7 +77,7 @@ cron(1500000, async () => {
 
 client.login(process.env.BOT_TOKEN)
   .then(() => {
-    client.user?.setActivity("!commands");
+    client.user?.setActivity("%commands");
   })
   .catch(err => {
     console.log(err);
