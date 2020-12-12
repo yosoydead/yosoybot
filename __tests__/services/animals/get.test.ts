@@ -1,36 +1,61 @@
+import fetch from "node-fetch";
+import { mocked } from "ts-jest/utils";
 import { getAnimalFact } from "../../../src/services/animals/get";
 import { ANIMAL_FACTS_APIS } from "../../../src/constants";
-import { mocked } from "ts-jest/utils";
 
-jest.mock("../../../src/services/animals/get");
+jest.mock("node-fetch");
 
-const mockedRequest = mocked(getAnimalFact, true);
-// let mockResolve: jest.Mock<Promise<string>, [string, ANIMAL_FACTS_APIS]>; 
-
-describe("Getting random fact about animals from an api", () => {
+describe("Get random facts about animal tested with mocked fetch module", () => {
   beforeEach(() => {
-    mockedRequest.mockClear();
+    mocked(fetch).mockClear();
   });
 
-  it("mocked the promise resolve", async () => {
-    const resolve = jest.fn((url: ANIMAL_FACTS_APIS) => Promise.resolve("random fact about url param"));
-    mockedRequest.mockImplementation(resolve);
-    const mockresult = await mockedRequest(ANIMAL_FACTS_APIS.CATS);
-    
-    expect(resolve).toHaveBeenCalledTimes(1);
-    expect(resolve).toHaveBeenCalledWith(ANIMAL_FACTS_APIS.CATS);
-    expect(resolve).not.toHaveBeenCalledWith(ANIMAL_FACTS_APIS.DOGS);
-    expect(mockresult).toContain("random fact");
-  });
-
-  it("mocked the promise reject", async () => {
-    const reject = jest.fn(() => Promise.reject(""));
-    mockedRequest.mockImplementation(reject);
-    await mockedRequest(ANIMAL_FACTS_APIS.DOGS)
-      .catch(err => {
-        expect(reject).toHaveBeenCalledTimes(1);
-        expect(err).toEqual("");
-        expect(reject).toHaveBeenCalledWith(ANIMAL_FACTS_APIS.DOGS);
+  it("returns fact about cat from mocked fetch request module", async () => {
+    /* 
+      * atunci cand folosesti fetch, default o sa fie GET request
+      * fiecare request e un PROMISE
+      * cand request e ok, fiecare PROMISE, o sa returneze si o functie json care returneaza la randul ei un PROMISE
+    */
+    mocked(fetch).mockImplementation((): Promise<any> => {
+      return Promise.resolve({
+        json() {
+          return Promise.resolve({data: ["Random fact about cat"]});
+        }
       });
+    });
+
+    const result = await getAnimalFact(ANIMAL_FACTS_APIS.CATS);
+
+    expect(mocked(fetch).mock.calls.length).toBe(1);
+    expect(result).toBeDefined();
+    expect(result).toContain("cat");
+  });
+
+  it("returns fact about dog from mocked fetch request module", async () => {
+    mocked(fetch).mockImplementation((): Promise<any> => {
+      return Promise.resolve({
+        json() {
+          return Promise.resolve({facts: ["Random fact about a dog"]});
+        }
+      });
+    });
+
+    const result = await getAnimalFact(ANIMAL_FACTS_APIS.DOGS);
+
+    expect(mocked(fetch).mock.calls.length).toBe(1);
+    expect(result).toBeDefined();
+    expect(result).toContain("dog");
+  });
+
+  it("returns an empty string if the fetch fails", async () => {
+    mocked(fetch).mockImplementation((): Promise<any> => {
+      return Promise.reject(new Error("plm"));
+    });
+
+    const result = await getAnimalFact(ANIMAL_FACTS_APIS.DOGS);
+
+    expect(mocked(fetch).mock.calls.length).toBe(1);
+    expect(result).toBeDefined();
+    expect(result).toContain("");
   });
 });
