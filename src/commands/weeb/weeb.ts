@@ -25,8 +25,7 @@ export function doesMessageContainWeebAndTag(splitMessage: string[]): IContainsT
       containsWeebAndTag.tagging = true;
       containsWeebAndTag.tag = splitMessage[i];
     }
-    // console.log(containsWeebAndTag);
-    
+
     if (containsWeebAndTag.tagging === true && containsWeebAndTag.weeb === true) return containsWeebAndTag;
   }
 
