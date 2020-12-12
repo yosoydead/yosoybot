@@ -36,13 +36,18 @@
 * [Discord.js Documentation](https://discord.js.org/#/docs/main/stable/general/welcome)
   * [Discord.js Collection Documentation](https://discord.js.org/#/docs/main/stable/class/Collection)
 
+* ## Folosit [asta]([https://github.com/discordjs/discord.js/issues/3576) ca sa repar o eroare cand faceam teste. Eroarea era ceva de genul *clasa din Discord is not a constructor*
+
 * Eu vreau sa il fac cu typescript
 * Imi trebuie niste comenzi de terminal ca sa pot avea **watch** pe typescript si sa compileze in js
 * Trebuie sa vad ce types am nevoie sa folosesc
 * Trebuie sa vad cum pot sa organizez codul mai ok
 * **Poate scriu teste**????
+  * **12.12.2020** am inceput sa scriu teste si vreau sa am un coverage cat mai pare chiar daca, poate, nu am cele mai bune metode de testare sau de mocking pentru obiecte
+    - o chestie interesanta/importanta cand testez cu typescript e ca nu prea ar trebui sa mai verific daca parametrul unei functii e undefined sau null pentru ca ar fi urlat la compilare
+    - de exemplu, in teste, daca invoc o functie cu parametru de tip **string** si ii dau null sau undefined, nu o sa ruleze testul pentru ca functia nu accepta parametrul ala in compiler
   * nu stiu daca ar avea rost sau cum ar trebui sa testez conexiunea botului. Poate asta o sa fie **tema** pentru mai tarziu!!
-  * o idee ar fi sa testez restul chestiilor pe care le scriu eu
+  * ~~o idee ar fi sa testez restul chestiilor pe care le scriu eu~~
 * Comenzi:
   1. pt local: **npm run local**
   2. pt build: **npm run build**

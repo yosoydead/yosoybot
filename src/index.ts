@@ -6,7 +6,7 @@ import Discord, { Client, Message, Guild, PartialMessage, Channel } from "discor
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
 import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
-import { SendLogs } from "./utils/logJoinOrLeaveServer";
+import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 
 dotenv.config();
@@ -36,7 +36,7 @@ client.once("ready", async () => {
 client.on("guildCreate", async (guild: Guild) => {
   const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
   const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-  const message = SendLogs(guild, SERVER_ACTION.JOIN);
+  const message = sendLogs(guild, SERVER_ACTION.JOIN);
 
   channelEntry.send(message);
 });
@@ -44,7 +44,7 @@ client.on("guildCreate", async (guild: Guild) => {
 client.on("guildDelete", async (guild: Guild) => {
   const myChannel: Guild = await client.guilds.fetch(MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
   const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-  const message = SendLogs(guild, SERVER_ACTION.KICK);
+  const message = sendLogs(guild, SERVER_ACTION.KICK);
 
   channelEntry.send(message);
 });
