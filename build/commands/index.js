@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.commandHandler = void 0;
 var eightBall_1 = __importDefault(require("./eightBall/eightBall"));
 var ping_1 = require("./ping/ping");
 var constants_1 = require("../constants");
@@ -67,7 +68,7 @@ function commandHandler(message) {
                 case 1: return [2 /*return*/, _b.sent()];
                 case 2:
                     //daca mesajul nu incepe cu !, o sa ignor comanda
-                    if (splitMessage[0].charAt(0) !== "!")
+                    if (splitMessage[0].charAt(0) !== "%")
                         return [2 /*return*/];
                     _a = splitMessage[0].substring(1);
                     switch (_a) {

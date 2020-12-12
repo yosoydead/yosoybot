@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.REPLY_MESSAGES = void 0;
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
     CHANNEL_ENTRY_LOG: "Canal pe care am intrat",

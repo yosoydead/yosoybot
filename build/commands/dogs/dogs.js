@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dogs = void 0;
 var get_1 = require("../../services/animals/get");
 var constants_1 = require("../../constants");
 function dogs() {

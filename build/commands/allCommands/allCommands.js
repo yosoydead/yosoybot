@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.displayCommands = void 0;
 var CommandNames_1 = require("../CommandNames");
 var createEmbedFields_1 = require("../../utils/createEmbedFields");
 var createMessageEmbed_1 = require("../../utils/createMessageEmbed");

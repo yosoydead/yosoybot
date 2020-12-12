@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.reactionHandler = void 0;
 var rublerts_1 = require("./rubl/rublerts");
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
