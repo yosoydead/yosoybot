@@ -26,10 +26,10 @@ export const MY_CHANNEL_IDS = {
 };
 
 //colorez MessageEmbed
-export const MESSAGE_COLORS = {
-  DEFAULT: "#3f51b5",
-  CHANNEL_LEFT: "#dd2c00",
-  CHANNEL_JOIN: "#00c853"
+export enum MESSAGE_COLORS {
+  DEFAULT = "#3f51b5",
+  CHANNEL_LEFT = "#dd2c00",
+  CHANNEL_JOIN = "#00c853"
 };
 
 // folosita pentru guildAdd/guildRemove

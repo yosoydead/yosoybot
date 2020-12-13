@@ -57,3 +57,4 @@
     "local": "concurrently npm:start:*",
     "start:ts:watch": "tsc -w",
     "start:nodemon": "nodemon build/index.js",
+* ## O sa dispara candva folderul *build* (asta daca o sa fac un container pentru bot si o sa ii dau deploy ca si container)
