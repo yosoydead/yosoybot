@@ -1,6 +1,6 @@
 {
   "name": "yosoybot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "tentativa de bot pt discord",
   "main": "index.js",
   "scripts": {
