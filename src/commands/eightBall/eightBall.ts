@@ -1,6 +1,6 @@
 import getRandomString from "../../utils/getRandomStringFromArray";
 
-const eightBall: string[] = [
+export const eightBall: string[] = [
   "As i see it, yes",
   "Ask again later",
   "Better not tell you now",
