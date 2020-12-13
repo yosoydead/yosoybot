@@ -68,8 +68,10 @@ var commands_1 = require("./commands");
 var constants_1 = require("./constants");
 var logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 var reacting_1 = require("./reacting");
+var FetchClient_1 = require("./services/FetchClient");
 dotenv.config();
 var client = new discord_js_1.default.Client();
+var fetchClient = new FetchClient_1.FetchClient();
 client.once("ready", function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         console.log("my body is ready");
@@ -84,7 +86,7 @@ client.on("guildCreate", function (guild) { return __awaiter(void 0, void 0, voi
             case 1:
                 myChannel = _a.sent();
                 channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-                message = logJoinOrLeaveServer_1.SendLogs(guild, constants_1.SERVER_ACTION.JOIN);
+                message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.JOIN);
                 channelEntry.send(message);
                 return [2 /*return*/];
         }
@@ -98,13 +100,13 @@ client.on("guildDelete", function (guild) { return __awaiter(void 0, void 0, voi
             case 1:
                 myChannel = _a.sent();
                 channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-                message = logJoinOrLeaveServer_1.SendLogs(guild, constants_1.SERVER_ACTION.KICK);
+                message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.KICK);
                 channelEntry.send(message);
                 return [2 /*return*/];
         }
     });
 }); });
-client.on("message", commands_1.commandHandler);
+client.on("message", function (message) { return commands_1.commandHandler(message, fetchClient); });
 client.on("messageDelete", function (message) {
     console.log("am sters:", message.content);
 });

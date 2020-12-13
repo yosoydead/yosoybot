@@ -51,7 +51,7 @@ var weeb_1 = require("./weeb/weeb");
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
-function commandHandler(message) {
+function commandHandler(message, client) {
     return __awaiter(this, void 0, void 0, function () {
         var splitMessage, containsWeebAndTag, _a, catFact, dogFacts;
         return __generator(this, function (_b) {
@@ -90,7 +90,7 @@ function commandHandler(message) {
                 case 8: return [2 /*return*/, _b.sent()];
                 case 9: return [4 /*yield*/, message.reply(ping_1.ping())];
                 case 10: return [2 /*return*/, _b.sent()];
-                case 11: return [4 /*yield*/, cats_1.cats()];
+                case 11: return [4 /*yield*/, cats_1.cats(client)];
                 case 12:
                     catFact = _b.sent();
                     if (!(catFact === "")) return [3 /*break*/, 14];
@@ -98,7 +98,7 @@ function commandHandler(message) {
                 case 13: return [2 /*return*/, _b.sent()];
                 case 14: return [4 /*yield*/, message.reply(catFact)];
                 case 15: return [2 /*return*/, _b.sent()];
-                case 16: return [4 /*yield*/, dogs_1.dogs()];
+                case 16: return [4 /*yield*/, dogs_1.dogs(client)];
                 case 17:
                     dogFacts = _b.sent();
                     if (!(dogFacts === "")) return [3 /*break*/, 19];

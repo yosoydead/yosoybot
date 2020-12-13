@@ -2,16 +2,19 @@
 // https://discord.com/developers/applications/784135061225734184/bot
 // https://discord.com/oauth2/authorize?client_id=<client id>&scope=bot accesezi asta ca sa dai invite la bot
 // https://discord.com/oauth2/authorize?client_id=784135061225734184&scope=bot
-import Discord, { Client, Message, Guild, PartialMessage, Channel } from "discord.js";
+import Discord, { Client, Message, Guild, PartialMessage } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
 import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
+import { FetchClient, IFetchClient } from "./services/FetchClient";
 
 dotenv.config();
 
 const client: Client = new Discord.Client();
+const fetchClient: IFetchClient = new FetchClient();
+
 client.once("ready", async () => {
   console.log("my body is ready");
   // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
@@ -49,7 +52,7 @@ client.on("guildDelete", async (guild: Guild) => {
   channelEntry.send(message);
 });
 
-client.on("message", commandHandler);
+client.on("message", (message: Message) => commandHandler(message, fetchClient));
 
 client.on("messageDelete", (message: Message | PartialMessage) => {
   console.log("am sters:",message.content);

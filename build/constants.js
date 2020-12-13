@@ -22,11 +22,13 @@ exports.MY_CHANNEL_IDS = {
     WAKEUP_CRONJOB: "785846537543876639"
 };
 //colorez MessageEmbed
-exports.MESSAGE_COLORS = {
-    DEFAULT: "#3f51b5",
-    CHANNEL_LEFT: "#dd2c00",
-    CHANNEL_JOIN: "#00c853"
-};
+var MESSAGE_COLORS;
+(function (MESSAGE_COLORS) {
+    MESSAGE_COLORS["DEFAULT"] = "#3f51b5";
+    MESSAGE_COLORS["CHANNEL_LEFT"] = "#dd2c00";
+    MESSAGE_COLORS["CHANNEL_JOIN"] = "#00c853";
+})(MESSAGE_COLORS = exports.MESSAGE_COLORS || (exports.MESSAGE_COLORS = {}));
+;
 // folosita pentru guildAdd/guildRemove
 var SERVER_ACTION;
 (function (SERVER_ACTION) {

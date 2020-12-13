@@ -39,11 +39,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dogs = void 0;
 var get_1 = require("../../services/animals/get");
 var constants_1 = require("../../constants");
-function dogs() {
+function dogs(client) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, get_1.getAnimalFact(constants_1.ANIMAL_FACTS_APIS.DOGS)];
+                case 0: return [4 /*yield*/, get_1.getAnimalFact(client, constants_1.ANIMAL_FACTS_APIS.DOGS)];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });

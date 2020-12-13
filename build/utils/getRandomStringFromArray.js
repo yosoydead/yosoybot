@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (function (array) {
-    if (array === null || array === undefined)
-        return "";
     if (array.length === 0)
         return "";
     // math.floor nu rotunjeste
