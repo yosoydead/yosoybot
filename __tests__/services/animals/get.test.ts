@@ -6,16 +6,16 @@ import { IFetchClient } from "../../../src/services/FetchClient";
 import { Rejecting, Resolving } from "../../../mocks/fetchClient/MockedFetchClient";
 
 // jest.mock("node-fetch");
-const resolveSpy = jest.fn(() => {
+const resolveSpy = jest.fn((param: string) => {
   return Promise.resolve({
     json() {
-      return Promise.resolve({data: ["random fact about a cat"]});
+      return Promise.resolve({data: [param]});
     }
   });
 });
 const rejectSpy = jest.fn();
 
-const resolve: IFetchClient = new Resolving(resolveSpy);
+const resolve: IFetchClient = new Resolving(resolveSpy, "random fact about cats");
 const reject: IFetchClient = new Rejecting(rejectSpy);
 
 describe("Get random facts about animal tested with mocked fetch module", () => {
