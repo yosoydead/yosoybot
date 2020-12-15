@@ -13,7 +13,7 @@ import { IFetchClient } from "../services/FetchClient";
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
-export async function commandHandler(message: Message, client: IFetchClient) {
+export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot

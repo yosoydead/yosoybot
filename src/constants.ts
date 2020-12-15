@@ -30,7 +30,7 @@ export enum MESSAGE_COLORS {
   DEFAULT = "#3f51b5",
   CHANNEL_LEFT = "#dd2c00",
   CHANNEL_JOIN = "#00c853"
-};
+}
 
 // folosita pentru guildAdd/guildRemove
 export enum SERVER_ACTION {
