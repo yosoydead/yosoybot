@@ -59,4 +59,21 @@ describe("Get random facts about animal tested with mocked fetch module", () => 
     expect(rejectSpy).toHaveBeenCalledTimes(1);
     expect(rejectSpy).toHaveBeenCalledWith("am crapat la request");
   });
+
+  it("should return a fact about dogs if i give it the right parameter", async () => {
+    //the dogs api returns an object with a FACTS array, not DATA
+    const spy = jest.fn((param: string) => {
+      return Promise.resolve({
+        json() {
+          return Promise.resolve({facts: [param]});
+        }
+      });
+    });
+    const dogs = new Resolving(spy, "random dog fact");
+    const result = await getAnimalFact(dogs, ANIMAL_FACTS_APIS.DOGS);
+
+    expect(result).toBeDefined();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith("random dog fact");
+  });
 });
