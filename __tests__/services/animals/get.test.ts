@@ -55,7 +55,7 @@ describe("Get random facts about animal tested with mocked fetch module", () => 
 
     const result = await getAnimalFact(reject, ANIMAL_FACTS_APIS.DOGS);
     expect(result).toBeDefined();
-    expect(result).toEqual("");
+    expect(result).toContain("request failed");
     expect(rejectSpy).toHaveBeenCalledTimes(1);
     expect(rejectSpy).toHaveBeenCalledWith("am crapat la request");
   });
@@ -73,7 +73,7 @@ describe("Get random facts about animal tested with mocked fetch module", () => 
     const result = await getAnimalFact(dogs, ANIMAL_FACTS_APIS.DOGS);
 
     expect(result).toBeDefined();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(dogs.spyFunction).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith("random dog fact");
   });
 });

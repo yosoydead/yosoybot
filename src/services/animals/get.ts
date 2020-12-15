@@ -1,4 +1,4 @@
-import { ANIMAL_FACTS_APIS } from "../../constants";
+import { ANIMAL_FACTS_APIS, REPLY_MESSAGES } from "../../constants";
 import { IFetchClient } from "../FetchClient";
 
 interface IRequestData {
@@ -17,6 +17,6 @@ export async function getAnimalFact(client: IFetchClient, animalUrl: ANIMAL_FACT
     if (animalUrl === ANIMAL_FACTS_APIS.CATS) return requestData.data[0];
     else return requestData.facts[0];
   } catch(err) {
-    return "";
+    return REPLY_MESSAGES.EMPTY_ANIMAL_FACT;
   }
 }

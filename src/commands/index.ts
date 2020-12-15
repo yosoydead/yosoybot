@@ -41,14 +41,10 @@ export async function commandHandler(message: Message, client: IFetchClient) {
     return await message.reply(ping());
   case CommandNames.CATS_FACT: {
     const catFact: string = await cats(client);
-    if (catFact === "") return await message.reply(REPLY_MESSAGES.EMPTY_ANIMAL_FACT);
-
     return await message.reply(catFact);
   }
   case CommandNames.DOGS_FACT: {
     const dogFacts: string = await dogs(client);
-    if (dogFacts === "") return await message.reply(REPLY_MESSAGES.EMPTY_ANIMAL_FACT);
-
     return await message.reply(dogFacts);
   }
   case CommandNames.COMMANDS:
