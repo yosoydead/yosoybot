@@ -14,6 +14,7 @@ import { IFetchClient } from "../services/FetchClient";
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient) {
+  
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
   if (message.author.username === "yosoybot") return;
@@ -29,6 +30,7 @@ export async function commandHandler(message: Message, client: IFetchClient) {
 
   //daca mesajul nu incepe cu !, o sa ignor comanda
   if (splitMessage[0].charAt(0) !== "%") return;
+  // console.log("mesaj",message);
   
   // trec prin fiecare tip de comanda si ii dau sa faca ceva
   switch (splitMessage[0].substring(1)) {
