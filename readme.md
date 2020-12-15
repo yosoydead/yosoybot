@@ -38,6 +38,14 @@
 
 * ## Folosit [asta]([https://github.com/discordjs/discord.js/issues/3576) ca sa repar o eroare cand faceam teste. Eroarea era ceva de genul *clasa din Discord is not a constructor*
 
+* ## Am schimbat versiunea de target din tsconfig pentru ca aveam eroare cand scriam un test: constructorcannot be invoked without new. Link-uri:
+  - https://stackoverflow.com/questions/50203369/class-constructor-cannot-be-invoked-without-new-typescript-with-commonjs
+  - https://stackoverflow.com/questions/30689817/es6-call-class-constructor-without-new-keyword
+  - https://github.com/RobinBuschmann/sequelize-typescript/issues/316
+  - https://github.com/RobinBuschmann/sequelize-typescript/issues/26
+  - https://github.com/sequelize/sequelize/issues/7840
+  - https://github.com/vercel/next.js/issues/8973
+
 * Eu vreau sa il fac cu typescript
 * Imi trebuie niste comenzi de terminal ca sa pot avea **watch** pe typescript si sa compileze in js
 * Trebuie sa vad ce types am nevoie sa folosesc
