@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.eightBall = void 0;
-var getRandomStringFromArray_1 = __importDefault(require("../../utils/getRandomStringFromArray"));
+const getRandomStringFromArray_1 = __importDefault(require("../../utils/getRandomStringFromArray"));
 exports.eightBall = [
     "As i see it, yes",
     "Ask again later",
@@ -15,6 +15,6 @@ exports.eightBall = [
     "It is certain",
     "It is decidedly so"
 ];
-exports.default = (function () {
+exports.default = () => {
     return getRandomStringFromArray_1.default(exports.eightBall);
-});
+};

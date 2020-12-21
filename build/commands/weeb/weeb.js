@@ -4,20 +4,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.doesMessageContainWeebAndTag = exports.weeb = void 0;
-var ascii_art_1 = require("./ascii_art");
-var getRandomStringFromArray_1 = __importDefault(require("../../utils/getRandomStringFromArray"));
+const ascii_art_1 = require("./ascii_art");
+const getRandomStringFromArray_1 = __importDefault(require("../../utils/getRandomStringFromArray"));
 function weeb() {
     return getRandomStringFromArray_1.default(ascii_art_1.ascii_art);
 }
 exports.weeb = weeb;
 function doesMessageContainWeebAndTag(splitMessage) {
-    var containsWeebAndTag = {
+    const containsWeebAndTag = {
         tagging: false,
         weeb: false,
         tag: ""
     };
-    for (var i = 0; i < splitMessage.length; i++) {
-        var currentValue = splitMessage[i];
+    for (let i = 0; i < splitMessage.length; i++) {
+        const currentValue = splitMessage[i];
         if (currentValue.toLowerCase().includes("weeb") && containsWeebAndTag.weeb === false)
             containsWeebAndTag.weeb = true;
         if ((currentValue.startsWith("<@") && currentValue.endsWith(">")) && containsWeebAndTag.tagging === false) {

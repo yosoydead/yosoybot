@@ -28,7 +28,6 @@ var MESSAGE_COLORS;
     MESSAGE_COLORS["CHANNEL_LEFT"] = "#dd2c00";
     MESSAGE_COLORS["CHANNEL_JOIN"] = "#00c853";
 })(MESSAGE_COLORS = exports.MESSAGE_COLORS || (exports.MESSAGE_COLORS = {}));
-;
 // folosita pentru guildAdd/guildRemove
 var SERVER_ACTION;
 (function (SERVER_ACTION) {
