@@ -20,6 +20,7 @@ const cats_1 = require("./cats/cats");
 const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
+const meteo_1 = require("./meteo/meteo");
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
@@ -62,6 +63,13 @@ function commandHandler(message, client) {
             }
             case "commands" /* COMMANDS */:
                 return yield message.reply(allCommands_1.displayCommands());
+            case "meteo" /* METEO */: {
+                //0: comanda meteo
+                //1: oras
+                const city = splitMessage[1];
+                const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
+                return;
+            }
             default:
                 return yield message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND);
         }
