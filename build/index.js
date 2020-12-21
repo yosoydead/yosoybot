@@ -27,33 +27,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -62,50 +35,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // https://discord.com/developers/applications/784135061225734184/bot
 // https://discord.com/oauth2/authorize?client_id=<client id>&scope=bot accesezi asta ca sa dai invite la bot
 // https://discord.com/oauth2/authorize?client_id=784135061225734184&scope=bot
-var discord_js_1 = __importDefault(require("discord.js"));
-var dotenv = __importStar(require("dotenv"));
-var commands_1 = require("./commands");
-var constants_1 = require("./constants");
-var logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
-var reacting_1 = require("./reacting");
+const discord_js_1 = __importDefault(require("discord.js"));
+const dotenv = __importStar(require("dotenv"));
+const commands_1 = require("./commands");
+const constants_1 = require("./constants");
+const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
+const reacting_1 = require("./reacting");
+const FetchClient_1 = require("./services/FetchClient");
 dotenv.config();
-var client = new discord_js_1.default.Client();
-client.once("ready", function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        console.log("my body is ready");
-        return [2 /*return*/];
-    });
-}); });
-client.on("guildCreate", function (guild) { return __awaiter(void 0, void 0, void 0, function () {
-    var myChannel, channelEntry, message;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER)];
-            case 1:
-                myChannel = _a.sent();
-                channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-                message = logJoinOrLeaveServer_1.SendLogs(guild, constants_1.SERVER_ACTION.JOIN);
-                channelEntry.send(message);
-                return [2 /*return*/];
-        }
-    });
-}); });
-client.on("guildDelete", function (guild) { return __awaiter(void 0, void 0, void 0, function () {
-    var myChannel, channelEntry, message;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER)];
-            case 1:
-                myChannel = _a.sent();
-                channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
-                message = logJoinOrLeaveServer_1.SendLogs(guild, constants_1.SERVER_ACTION.KICK);
-                channelEntry.send(message);
-                return [2 /*return*/];
-        }
-    });
-}); });
-client.on("message", commands_1.commandHandler);
-client.on("messageDelete", function (message) {
+const client = new discord_js_1.default.Client();
+const fetchClient = new FetchClient_1.FetchClient();
+client.once("ready", () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("my body is ready");
+    // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+    // console.log(channelEntry);
+    // console.log(client.guilds);
+    // console.log("---------------------------------------------------");
+    //aparent, channels.fetch iti returneaza un obiect de tipul Channel
+    //id ala e de pe serverul meu adica canalul general care e de tip TextChannel care are o functie de send
+    //cauta in documentatie
+    // client.channels.fetch("781108831421333538")
+    //   .then((channel) => {
+    //     // console.log(channel);
+    //     // channel.send("i live, dickheads");
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+}));
+client.on("guildCreate", (guild) => __awaiter(void 0, void 0, void 0, function* () {
+    const myChannel = yield client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
+    const channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+    const message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.JOIN);
+    channelEntry.send(message);
+}));
+client.on("guildDelete", (guild) => __awaiter(void 0, void 0, void 0, function* () {
+    const myChannel = yield client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
+    const channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
+    const message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.KICK);
+    channelEntry.send(message);
+}));
+client.on("message", (message) => commands_1.commandHandler(message, fetchClient));
+client.on("messageDelete", (message) => {
     console.log("am sters:", message.content);
 });
 client.on("messageReactionAdd", reacting_1.reactionHandler);
@@ -116,28 +87,21 @@ function cron(ms, fn) {
         timeout = setTimeout(cb, ms);
         fn();
     }
-    var timeout = setTimeout(cb, ms);
-    return function () { };
+    let timeout = setTimeout(cb, ms);
+    return () => { };
 }
 // setup cron job 1500000
-cron(1500000, function () { return __awaiter(void 0, void 0, void 0, function () {
-    var wakeupChannel;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, client.channels.fetch(constants_1.MY_CHANNEL_IDS.WAKEUP_CRONJOB)];
-            case 1:
-                wakeupChannel = _a.sent();
-                // console.log(wakeupChannel);
-                wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
-                return [2 /*return*/];
-        }
-    });
-}); });
+cron(1500000, () => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(client.channels);
+    const wakeupChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.WAKEUP_CRONJOB);
+    // console.log(wakeupChannel);
+    wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+}));
 client.login(process.env.BOT_TOKEN)
-    .then(function () {
+    .then(() => {
     var _a;
     (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("%commands");
 })
-    .catch(function (err) {
+    .catch(err => {
     console.log(err);
 });

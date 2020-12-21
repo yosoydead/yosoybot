@@ -1,5 +1,5 @@
-import { ANIMAL_FACTS_APIS } from "../../constants";
-import fetch, {Response} from "node-fetch";
+import { ANIMAL_FACTS_APIS, REPLY_MESSAGES } from "../../constants";
+import { IFetchClient } from "../FetchClient";
 
 interface IRequestData {
   // pentru cats api
@@ -9,14 +9,14 @@ interface IRequestData {
   facts: string[];
 }
 
-export async function getAnimalFact(animalUrl: ANIMAL_FACTS_APIS): Promise<string> {
+export async function getAnimalFact(client: IFetchClient, animalUrl: ANIMAL_FACTS_APIS): Promise<string> {
   try{
-    const request: Response = await fetch(animalUrl);
+    const request = await client.get(animalUrl);
     const requestData: IRequestData = await request.json();
 
     if (animalUrl === ANIMAL_FACTS_APIS.CATS) return requestData.data[0];
     else return requestData.facts[0];
   } catch(err) {
-    return "";
+    return REPLY_MESSAGES.EMPTY_ANIMAL_FACT;
   }
 }

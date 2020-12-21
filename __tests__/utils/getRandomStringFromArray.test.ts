@@ -14,12 +14,4 @@ describe("Testing getRandomStringFromArray", () => {
     expect(result).toEqual("");
     expect(result).not.toBe(undefined);
   });
-
-  it("should not shit itself when receiving null or undefined param", () => {
-    const undef = getRandom(undefined);
-    const nul = getRandom(null);
-
-    expect(undef).toEqual("");
-    expect(nul).toEqual("");
-  });
 });

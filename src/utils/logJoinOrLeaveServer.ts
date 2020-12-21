@@ -7,24 +7,25 @@ import { TypeCommandObject } from "../commands/CommandNames";
 import { createEmbedFields } from "./createEmbedFields";
 import { createMessageEmbed } from "./createMessageEmbed";
 
-export const colorSelect = (action: SERVER_ACTION): string => {
+export const colorSelect = (action: SERVER_ACTION): MESSAGE_COLORS => {
   return action === SERVER_ACTION.JOIN ? MESSAGE_COLORS.CHANNEL_JOIN : MESSAGE_COLORS.CHANNEL_LEFT;
 };
 
 export const whatHappened = (guildName: string, action: SERVER_ACTION): TypeCommandObject => {
+  const name = guildName === "" ? "<unknown server name>" : guildName;
   const join: TypeCommandObject = { 
-    "Numele serverului pe care am intrate: ": guildName
+    "Numele serverului pe care am intrate: ": name
   };
 
   const left: TypeCommandObject = {
-    "Numele serverului de pe care am fost dat afara": guildName
+    "Numele serverului de pe care am fost dat afara: ": name
   };
 
   return action === SERVER_ACTION.JOIN ? join : left;
 };
 
-export function SendLogs(guild: Guild, action: SERVER_ACTION): MessageEmbed {
-  const color: string = colorSelect(action);
+export function sendLogs(guild: Guild, action: SERVER_ACTION): MessageEmbed {
+  const color: MESSAGE_COLORS = colorSelect(action);
   const event = whatHappened(guild.name, action);
   const fields: EmbedField[] = createEmbedFields(event);
   const message: MessageEmbed = createMessageEmbed(
