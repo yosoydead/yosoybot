@@ -7,5 +7,6 @@ exports.CommandsObject = {
     "%pong": "The bot responds with ping.",
     "%cats": "Get a random fact about cats.",
     "%dogs": "Get a random fact about dogs.",
+    "%meteo or %weather <city name>": "Get weather data about a certain city.",
     "@<person> <anything you want> weeb": "Tags that person and sends an ascii weeb stuff."
 };

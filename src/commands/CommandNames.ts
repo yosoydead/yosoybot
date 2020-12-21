@@ -6,7 +6,9 @@ export const enum CommandNames {
   EIGHT_BALL =  "8ball",
   PING = "ping",
   PONG = "pong",
-  WEEB = "weeb"
+  WEEB = "weeb",
+  METEO = "meteo",
+  WEATHER = "weather",
 }
 
 export type TypeCommandObject = {[name: string]: string};
@@ -17,5 +19,6 @@ export const CommandsObject: TypeCommandObject = {
   "%pong": "The bot responds with ping.",
   "%cats": "Get a random fact about cats.",
   "%dogs": "Get a random fact about dogs.",
+  "%meteo or %weather <city name>": "Get weather data about a certain city.",
   "@<person> <anything you want> weeb": "Tags that person and sends an ascii weeb stuff." 
 };

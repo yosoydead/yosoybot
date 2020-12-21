@@ -8,6 +8,7 @@ import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
+import { meteo } from "./meteo/meteo";
 
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
@@ -51,6 +52,15 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
   }
   case CommandNames.COMMANDS:
     return await message.reply(displayCommands());
+  case CommandNames.METEO:
+  case CommandNames.WEATHER: {
+    //0: comanda meteo
+    //1: oras
+    const city: string = splitMessage.slice(1).join(" ");
+    const result = await meteo(client, process.env.OPEN_WEATHER_API!, city);
+
+    return await message.reply(result);
+  }
   default:
     return await message.reply(REPLY_MESSAGES.UNKNOWN_COMMAND);
   }
