@@ -13,7 +13,7 @@ exports.meteo = void 0;
 const get_1 = require("../../services/openWeather/get");
 function meteo(client, appKey, city) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield get_1.getMeteo(client, appKey, city);
+        return yield get_1.getOpenWeatherData(client, appKey, city);
     });
 }
 exports.meteo = meteo;

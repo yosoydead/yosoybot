@@ -17,6 +17,17 @@ export const enum REACT_EMOJI {
   STITCH = "stitch",
 }
 
+export const enum STANDARD_EMOJI {
+  BURNITA = ":cloud_rain:",
+  CEATA = ":foggy:",
+  CER_CURAT = ":sun_with_face:",
+  FURTUNA = ":thunder_cloud_rain:",
+  INNORAT = ":white_sun_cloud:",
+  NU_STIU = ":man_shrugging:",
+  PLOAIE = ":cloud_rain:",
+  ZAPADA = ":cloud_snow:",
+}
+
 export const MY_CHANNEL_IDS = {
   INTRAT_PE_SERVERE: "785131037139140641",
   GENERAL: "781108831421333538",

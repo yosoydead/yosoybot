@@ -52,13 +52,14 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
   }
   case CommandNames.COMMANDS:
     return await message.reply(displayCommands());
-  case CommandNames.METEO: {
+  case CommandNames.METEO:
+  case CommandNames.WEATHER: {
     //0: comanda meteo
     //1: oras
-    const city: string = splitMessage[1];
+    const city: string = splitMessage.slice(1).join(" ");
     const result = await meteo(client, process.env.OPEN_WEATHER_API!, city);
-    
-    return;
+
+    return await message.reply(result);
   }
   default:
     return await message.reply(REPLY_MESSAGES.UNKNOWN_COMMAND);

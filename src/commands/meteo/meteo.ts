@@ -1,6 +1,7 @@
-import { getMeteo } from "../../services/openWeather/get";
+import { getOpenWeatherData } from "../../services/openWeather/get";
 import { IFetchClient } from "../../services/FetchClient";
+import { MessageEmbed } from "discord.js";
 
-export async function meteo(client: IFetchClient, appKey: string, city: string): Promise<string> {
-  return await getMeteo(client, appKey, city);
+export async function meteo(client: IFetchClient, appKey: string, city: string): Promise<MessageEmbed> {
+  return await getOpenWeatherData(client, appKey, city);
 }

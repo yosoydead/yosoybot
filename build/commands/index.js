@@ -63,12 +63,13 @@ function commandHandler(message, client) {
             }
             case "commands" /* COMMANDS */:
                 return yield message.reply(allCommands_1.displayCommands());
-            case "meteo" /* METEO */: {
+            case "meteo" /* METEO */:
+            case "weather" /* WEATHER */: {
                 //0: comanda meteo
                 //1: oras
-                const city = splitMessage[1];
+                const city = splitMessage.slice(1).join(" ");
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
-                return;
+                return yield message.reply(result);
             }
             default:
                 return yield message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND);

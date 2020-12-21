@@ -9,18 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMeteo = void 0;
-function getMeteo(client, appKey, city) {
+exports.getOpenWeatherData = void 0;
+const createMessageEmbed_1 = require("../../utils/createMessageEmbed");
+const createEmbedFields_1 = require("../../utils/createEmbedFields");
+const constants_1 = require("../../constants");
+const determineIcon_1 = require("./determineIcon");
+function getOpenWeatherData(client, appKey, city) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const request = yield client.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appKey}&units=metric`);
-            const bla = yield request.json();
-            console.log(bla);
-            return "";
+            // weather o sa fie mereu un array
+            // pentru vremea curenta, cel mai simplu e sa iei index 0
+            const requestData = yield request.json();
+            const embedFields = createEmbedFields_1.createEmbedFields({
+                "Temperatura:": `${requestData.main.temp} Celsius`,
+                "Se simte": `${requestData.main.feels_like} Celsius`,
+                "Minima zilei": `${requestData.main.temp_min} Celsius`,
+                "Maxima zilei": `${requestData.main.temp_max} Celsius`
+            });
+            const icon = determineIcon_1.weatherIcon(requestData.weather[0].id);
+            const messageEmbed = createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_JOIN, `In orasul ${requestData.name}: ${icon}`, "Cateva detalii", embedFields, "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
+            return messageEmbed;
         }
         catch (error) {
-            return "";
+            return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Vremea :skull:", "Poate ai gresit numele orasului sau incearca mai tarziu.", [], "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
         }
     });
 }
-exports.getMeteo = getMeteo;
+exports.getOpenWeatherData = getOpenWeatherData;
