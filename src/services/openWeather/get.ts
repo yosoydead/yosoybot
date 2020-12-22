@@ -53,12 +53,17 @@ interface IOpenWeatherData {
   dt: number,
 }
 
-export async function getOpenWeatherData(client: IFetchClient, appKey: string, city: string): Promise<MessageEmbed> {
+export async function getOpenWeatherData(client: IFetchClient, appKey: string, city: string, countryCode: string = ""): Promise<MessageEmbed> {
+  const url = countryCode === "" 
+    ? `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appKey}&units=metric`
+    : `http://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appKey}&units=metric`;
   try{
-    const request = await client.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appKey}&units=metric`);
+    const request = await client.get(url);
     // weather o sa fie mereu un array
-    // pentru vremea curenta, cel mai simplu e sa iei index 0
+    // pentru vremea curenta, cel mai simplu e sa iei index 
+    // cred ca returneaza mereu un singur element in weather/main pentru ca am free tier
     const requestData: IOpenWeatherData = await request.json();
+    
     const embedFields: EmbedField[] = createEmbedFields({
       "Temperatura:": `${requestData.main.temp} Celsius`,
       "Se simte": `${requestData.main.feels_like} Celsius`,
@@ -68,7 +73,7 @@ export async function getOpenWeatherData(client: IFetchClient, appKey: string, c
     const icon: string = weatherIcon(requestData.weather[0].id);
     const messageEmbed: MessageEmbed = createMessageEmbed(
       MESSAGE_COLORS.CHANNEL_JOIN,
-      `In orasul ${requestData.name}: ${icon}`,
+      `In orasul ${requestData.name} (${requestData.sys.country}): ${icon}`,
       "Cateva detalii",
       embedFields,
       "Yosoybot",
@@ -76,11 +81,11 @@ export async function getOpenWeatherData(client: IFetchClient, appKey: string, c
     );
 
     return messageEmbed;
-  }catch(error) {
+  } catch(error) {
     return createMessageEmbed(
       MESSAGE_COLORS.CHANNEL_LEFT,
       "Vremea :skull:",
-      "Poate ai gresit numele orasului sau incearca mai tarziu.",
+      "Poate ai gresit numele orasului, codul tarii sau incearca mai tarziu.",
       [],
       "Yosoybot",
       REPLY_MESSAGES.COMMANDS_FOOTER

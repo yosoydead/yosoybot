@@ -65,8 +65,18 @@ function commandHandler(message, client) {
                 return yield message.reply(allCommands_1.displayCommands());
             case "meteo" /* METEO */:
             case "weather" /* WEATHER */: {
+                if (splitMessage.length === 1)
+                    return yield message.reply("Comanda accepta 2 parametri: **obligatoriu** - *numele orasului* si **optional** - *codul tarii*. Daca nu pui codul tarii, o sa returneze primul oras pe care il gaseste chiar daca sunt mai multe cu acelasi nume in lume. Exemplu: %meteo **hell** **--no**. Pentru codul unei tari poti folosi: https://www.iban.com/country-codes");
+                const messageLength = splitMessage.length - 1;
+                // daca ultimul element din arrayul de mesaj contine --<codul unei tari>, caut meteo despre orasul in tara respectiva
+                if (splitMessage[messageLength].includes("--")) {
+                    const _countryCode = splitMessage[messageLength].substring(2);
+                    const _city = splitMessage.slice(1, messageLength).join(" ");
+                    const weather = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, _city, _countryCode);
+                    return yield message.reply(weather);
+                }
                 //0: comanda meteo
-                //1: oras
+                //1: oras - exista orase cu spatiu in nume (ex: New York, Drobeta-Turnu Severin, Piatra Neamt, etc)
                 const city = splitMessage.slice(1).join(" ");
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
                 return yield message.reply(result);

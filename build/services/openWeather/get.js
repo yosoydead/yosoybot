@@ -14,12 +14,16 @@ const createMessageEmbed_1 = require("../../utils/createMessageEmbed");
 const createEmbedFields_1 = require("../../utils/createEmbedFields");
 const constants_1 = require("../../constants");
 const determineIcon_1 = require("./determineIcon");
-function getOpenWeatherData(client, appKey, city) {
+function getOpenWeatherData(client, appKey, city, countryCode = "") {
     return __awaiter(this, void 0, void 0, function* () {
+        const url = countryCode === ""
+            ? `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appKey}&units=metric`
+            : `http://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appKey}&units=metric`;
         try {
-            const request = yield client.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appKey}&units=metric`);
+            const request = yield client.get(url);
             // weather o sa fie mereu un array
-            // pentru vremea curenta, cel mai simplu e sa iei index 0
+            // pentru vremea curenta, cel mai simplu e sa iei index 
+            // cred ca returneaza mereu un singur element in weather/main pentru ca am free tier
             const requestData = yield request.json();
             const embedFields = createEmbedFields_1.createEmbedFields({
                 "Temperatura:": `${requestData.main.temp} Celsius`,
@@ -28,11 +32,11 @@ function getOpenWeatherData(client, appKey, city) {
                 "Maxima zilei": `${requestData.main.temp_max} Celsius`
             });
             const icon = determineIcon_1.weatherIcon(requestData.weather[0].id);
-            const messageEmbed = createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_JOIN, `In orasul ${requestData.name}: ${icon}`, "Cateva detalii", embedFields, "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
+            const messageEmbed = createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_JOIN, `In orasul ${requestData.name} (${requestData.sys.country}): ${icon}`, "Cateva detalii", embedFields, "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
             return messageEmbed;
         }
         catch (error) {
-            return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Vremea :skull:", "Poate ai gresit numele orasului sau incearca mai tarziu.", [], "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
+            return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Vremea :skull:", "Poate ai gresit numele orasului, codul tarii sau incearca mai tarziu.", [], "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
         }
     });
 }
