@@ -39,7 +39,7 @@ type Sys = {
   sunset: number
 }
 
-interface IOpenWeatherData {
+export interface IOpenWeatherData {
   coord: Coords,
   weather: [Weather],
   base: string,
