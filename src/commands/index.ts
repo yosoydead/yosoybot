@@ -9,6 +9,15 @@ import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
+import fetch from "node-fetch";
+
+//originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
+interface IGuildBackendModel {
+  discordGuildID: string,
+  guildAdminID: string,
+  originalAdminUsername: string | undefined,
+  membersIdList: string[]
+}
 
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
@@ -72,6 +81,51 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     const result = await meteo(client, process.env.OPEN_WEATHER_API!, city);
 
     return await message.reply(result);
+  }
+  case "update": {
+    const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+    
+    const guilds: IGuildBackendModel[] = [];
+    new Promise((resolve, reject) => {
+      _undeSuntFolosit.map(id => {
+        message.client.guilds.fetch(id)
+          .then(async guild => {
+            const membersList = await guild.members.fetch();
+
+            return {
+              guild,
+              membersList
+            };
+          })
+          .then(({ guild, membersList}) => {
+            const membersIds: string[] = membersList.map((el: any) => el.id);
+            guilds.push({
+              discordGuildID: guild.id,
+              guildAdminID: guild.ownerID,
+              originalAdminUsername: guild.owner?.user.username,
+              membersIdList: membersIds
+            });
+
+            resolve(undefined);
+          })
+          .catch(er => {
+            console.log(er);
+          });
+          
+      });
+    }).then(async () => {
+      const res = await fetch("http://localhost:3000/guilds", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Sender": "yosoybot"
+        },
+        body: JSON.stringify(guilds)
+      });
+      console.log(await res.json());
+    });
+
+    break;
   }
   default:
     return await message.reply(REPLY_MESSAGES.UNKNOWN_COMMAND);

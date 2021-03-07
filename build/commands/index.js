@@ -21,6 +21,7 @@ const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
+const node_fetch_1 = __importDefault(require("node-fetch"));
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
@@ -80,6 +81,47 @@ function commandHandler(message, client) {
                 const city = splitMessage.slice(1).join(" ");
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
                 return yield message.reply(result);
+            }
+            case "update": {
+                const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+                const guilds = [];
+                new Promise((resolve, reject) => {
+                    _undeSuntFolosit.map(id => {
+                        message.client.guilds.fetch(id)
+                            .then((guild) => __awaiter(this, void 0, void 0, function* () {
+                            const membersList = yield guild.members.fetch();
+                            return {
+                                guild,
+                                membersList
+                            };
+                        }))
+                            .then(({ guild, membersList }) => {
+                            var _a;
+                            const membersIds = membersList.map((el) => el.id);
+                            guilds.push({
+                                discordGuildID: guild.id,
+                                guildAdminID: guild.ownerID,
+                                originalAdminUsername: (_a = guild.owner) === null || _a === void 0 ? void 0 : _a.user.username,
+                                membersIdList: membersIds
+                            });
+                            resolve(undefined);
+                        })
+                            .catch(er => {
+                            console.log(er);
+                        });
+                    });
+                }).then(() => __awaiter(this, void 0, void 0, function* () {
+                    const res = yield node_fetch_1.default("http://localhost:3000/guilds", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Sender": "yosoybot"
+                        },
+                        body: JSON.stringify(guilds)
+                    });
+                    console.log(yield res.json());
+                }));
+                break;
             }
             default:
                 return yield message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND);
