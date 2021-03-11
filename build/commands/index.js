@@ -27,6 +27,7 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 function commandHandler(message, client) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
@@ -83,44 +84,86 @@ function commandHandler(message, client) {
                 return yield message.reply(result);
             }
             case "update": {
-                const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
-                const guilds = [];
-                new Promise((resolve, reject) => {
-                    _undeSuntFolosit.map(id => {
-                        message.client.guilds.fetch(id)
-                            .then((guild) => __awaiter(this, void 0, void 0, function* () {
-                            const membersList = yield guild.members.fetch();
-                            return {
-                                guild,
-                                membersList
-                            };
-                        }))
-                            .then(({ guild, membersList }) => {
-                            var _a;
-                            const membersIds = membersList.map((el) => el.id);
-                            guilds.push({
-                                discordGuildID: guild.id,
-                                guildAdminID: guild.ownerID,
-                                originalAdminUsername: (_a = guild.owner) === null || _a === void 0 ? void 0 : _a.user.username,
-                                membersIdList: membersIds
-                            });
-                            resolve(undefined);
-                        })
-                            .catch(er => {
-                            console.log(er);
-                        });
+                if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
+                }
+                // console.log(message);
+                const guildId = (_a = message.guild) === null || _a === void 0 ? void 0 : _a.id;
+                message.client.guilds.fetch(guildId)
+                    .then((guild) => {
+                    // console.log("res", res);
+                    // const membersList = res.members.fetch();
+                    return guild.members.fetch();
+                })
+                    .then((members) => {
+                    // console.log(members);
+                    const usersData = members.map((member) => {
+                        return {
+                            discordServerId: guildId,
+                            discordUserId: member.user.id,
+                            discordUsername: member.user.username
+                        };
                     });
-                }).then(() => __awaiter(this, void 0, void 0, function* () {
-                    const res = yield node_fetch_1.default("http://localhost:3000/guilds", {
+                    // const res = await fetch("http://localhost:3000/guilds", {
+                    //   method: "POST",
+                    //   headers: {
+                    //     "Content-Type": "application/json",
+                    //     "Sender": "yosoybot"
+                    //   },
+                    //   body: JSON.stringify(guilds)
+                    // });
+                    return node_fetch_1.default("http://localhost:3000/test/users", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                             "Sender": "yosoybot"
                         },
-                        body: JSON.stringify(guilds)
+                        body: JSON.stringify(usersData)
                     });
+                })
+                    .then((res) => __awaiter(this, void 0, void 0, function* () {
                     console.log(yield res.json());
-                }));
+                }))
+                    .catch((err) => {
+                    console.log("err", err);
+                });
+                // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+                // const guilds: IGuildBackendModel[] = [];
+                // new Promise((resolve, reject) => {
+                //   _undeSuntFolosit.map(id => {
+                //     message.client.guilds.fetch(id)
+                //       .then(async guild => {
+                //         const membersList = await guild.members.fetch();
+                //         return {
+                //           guild,
+                //           membersList
+                //         };
+                //       })
+                //       .then(({ guild, membersList}) => {
+                //         const membersIds: string[] = membersList.map((el: any) => el.id);
+                //         guilds.push({
+                //           discordGuildID: guild.id,
+                //           guildAdminID: guild.ownerID,
+                //           originalAdminUsername: guild.owner?.user.username,
+                //           membersIdList: membersIds
+                //         });
+                //         resolve(undefined);
+                //       })
+                //       .catch(er => {
+                //         console.log(er);
+                //       });
+                //   });
+                // }).then(async () => {
+                //   const res = await fetch("http://localhost:3000/guilds", {
+                //     method: "POST",
+                //     headers: {
+                //       "Content-Type": "application/json",
+                //       "Sender": "yosoybot"
+                //     },
+                //     body: JSON.stringify(guilds)
+                //   });
+                //   console.log(await res.json());
+                // });
                 break;
             }
             default:

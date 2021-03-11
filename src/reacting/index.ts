@@ -1,4 +1,5 @@
 import { MessageReaction, User, PartialUser } from "discord.js";
+import fetch from "node-fetch";
 import { REACT_EMOJI } from "../constants";
 import { rublertReaction } from "./rubl/rublerts";
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
@@ -16,7 +17,16 @@ export async function reactionHandler(reaction: MessageReaction, user: User | Pa
     break;
   }
   case REACT_EMOJI.STITCH: {
-    console.log("am vazut ca ai reactionat cu stitch", username);
+    // console.log("am vazut ca ai reactionat cu stitch", username);
+    console.log(reaction);
+    const author = reaction.message.author.id;
+    fetch("http://localhost:3000/test/user/reward", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({author: author, howMuch: 50})
+    });
     break;
   }
 

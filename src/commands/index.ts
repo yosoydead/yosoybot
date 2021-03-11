@@ -1,8 +1,8 @@
-import { Message } from "discord.js";
+import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { REPLY_MESSAGES } from "../constants";
+import { MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
@@ -83,47 +83,92 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     return await message.reply(result);
   }
   case "update": {
-    const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+    if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+    // console.log(message);
+    const guildId = message.guild?.id;
+
+    message.client.guilds.fetch(guildId!)
+      .then((guild) => {
+        // console.log("res", res);
+        // const membersList = res.members.fetch();
+        return guild.members.fetch();
+      })
+      .then((members) => {
+        // console.log(members);
+        const usersData = members.map((member: GuildMember) => {
+          return {
+            discordServerId: guildId,
+            discordUserId: member.user.id,
+            discordUsername: member.user.username
+          };
+        });
+        // const res = await fetch("http://localhost:3000/guilds", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "Sender": "yosoybot"
+        //   },
+        //   body: JSON.stringify(guilds)
+        // });
+        return fetch("http://localhost:3000/test/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Sender": "yosoybot"
+          },
+          body: JSON.stringify(usersData)
+        });
+      })
+      .then(async (res) => {
+        console.log(await res.json());
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+
+    // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
     
-    const guilds: IGuildBackendModel[] = [];
-    new Promise((resolve, reject) => {
-      _undeSuntFolosit.map(id => {
-        message.client.guilds.fetch(id)
-          .then(async guild => {
-            const membersList = await guild.members.fetch();
+    // const guilds: IGuildBackendModel[] = [];
+    // new Promise((resolve, reject) => {
+    //   _undeSuntFolosit.map(id => {
+    //     message.client.guilds.fetch(id)
+    //       .then(async guild => {
+    //         const membersList = await guild.members.fetch();
 
-            return {
-              guild,
-              membersList
-            };
-          })
-          .then(({ guild, membersList}) => {
-            const membersIds: string[] = membersList.map((el: any) => el.id);
-            guilds.push({
-              discordGuildID: guild.id,
-              guildAdminID: guild.ownerID,
-              originalAdminUsername: guild.owner?.user.username,
-              membersIdList: membersIds
-            });
+    //         return {
+    //           guild,
+    //           membersList
+    //         };
+    //       })
+    //       .then(({ guild, membersList}) => {
+    //         const membersIds: string[] = membersList.map((el: any) => el.id);
+    //         guilds.push({
+    //           discordGuildID: guild.id,
+    //           guildAdminID: guild.ownerID,
+    //           originalAdminUsername: guild.owner?.user.username,
+    //           membersIdList: membersIds
+    //         });
 
-            resolve(undefined);
-          })
-          .catch(er => {
-            console.log(er);
-          });
+    //         resolve(undefined);
+    //       })
+    //       .catch(er => {
+    //         console.log(er);
+    //       });
           
-      });
-    }).then(async () => {
-      const res = await fetch("http://localhost:3000/guilds", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Sender": "yosoybot"
-        },
-        body: JSON.stringify(guilds)
-      });
-      console.log(await res.json());
-    });
+    //   });
+    // }).then(async () => {
+    //   const res = await fetch("http://localhost:3000/guilds", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Sender": "yosoybot"
+    //     },
+    //     body: JSON.stringify(guilds)
+    //   });
+    //   console.log(await res.json());
+    // });
 
     break;
   }

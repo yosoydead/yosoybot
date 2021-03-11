@@ -10,6 +10,7 @@ export const REPLY_MESSAGES = {
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
+  NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta"
 };
 
 export const enum REACT_EMOJI {
@@ -33,7 +34,8 @@ export const MY_CHANNEL_IDS = {
   GENERAL: "781108831421333538",
   LOG_ERORI: "785130953525559307",
   YOSOYDEAD_SERVER: "781108831421333535",
-  WAKEUP_CRONJOB: "785846537543876639"
+  WAKEUP_CRONJOB: "785846537543876639",
+  USER_ID: "405081094057099276"
 };
 
 //colorez MessageEmbed
