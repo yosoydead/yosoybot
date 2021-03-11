@@ -112,7 +112,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         //   },
         //   body: JSON.stringify(guilds)
         // });
-        return fetch("http://localhost:3000/test/users", {
+        return fetch("http://localhost:3000/goku/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -122,10 +122,12 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         });
       })
       .then(async (res) => {
-        console.log(await res.json());
+        // console.log(await res.json());
+        await message.reply(REPLY_MESSAGES.USERS_ADDED);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         console.log("err", err);
+        await message.reply("Ceva rau s-o intamplat");
       });
 
     // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);

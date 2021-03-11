@@ -112,7 +112,7 @@ function commandHandler(message, client) {
                     //   },
                     //   body: JSON.stringify(guilds)
                     // });
-                    return node_fetch_1.default("http://localhost:3000/test/users", {
+                    return node_fetch_1.default("http://localhost:3000/goku/users", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -122,11 +122,13 @@ function commandHandler(message, client) {
                     });
                 })
                     .then((res) => __awaiter(this, void 0, void 0, function* () {
-                    console.log(yield res.json());
+                    // console.log(await res.json());
+                    yield message.reply(constants_1.REPLY_MESSAGES.USERS_ADDED);
                 }))
-                    .catch((err) => {
+                    .catch((err) => __awaiter(this, void 0, void 0, function* () {
                     console.log("err", err);
-                });
+                    yield message.reply("Ceva rau s-o intamplat");
+                }));
                 // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
                 // const guilds: IGuildBackendModel[] = [];
                 // new Promise((resolve, reject) => {

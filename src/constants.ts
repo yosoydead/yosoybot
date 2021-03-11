@@ -10,7 +10,8 @@ export const REPLY_MESSAGES = {
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
-  NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta"
+  NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
+  USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
 };
 
 export const enum REACT_EMOJI {
@@ -53,5 +54,12 @@ export enum SERVER_ACTION {
 
 export enum ANIMAL_FACTS_APIS {
   CATS = "https://meowfacts.herokuapp.com/",
-  DOGS = "http://dog-api.kinduff.com/api/facts"
+  DOGS = "http://dog-api.kinduff.com/api/facts",
+  LOCAL = "http://localhost:3000/test",
+  LOCAL_GOKU = "http://localhost:3000/goku",
+  LOCAL_USERS = "users",
+  LOCAL_USER = "user",
+  LOCAL_USER_ADD_MONEY = "user/reward",
+  LOCAL_COMMENT = "comment",
+  LOCAL_COMMENTS = "comments"
 }
