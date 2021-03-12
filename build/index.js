@@ -43,7 +43,9 @@ const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 const reacting_1 = require("./reacting");
 const FetchClient_1 = require("./services/FetchClient");
 dotenv.config();
-const client = new discord_js_1.default.Client();
+const client = new discord_js_1.default.Client({
+    partials: ["MESSAGE", "REACTION"]
+});
 const fetchClient = new FetchClient_1.FetchClient();
 client.once("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("my body is ready");
@@ -79,7 +81,8 @@ client.on("message", (message) => commands_1.commandHandler(message, fetchClient
 client.on("messageDelete", (message) => {
     console.log("am sters:", message.content);
 });
-client.on("messageReactionAdd", reacting_1.reactionHandler);
+client.on("messageReactionAdd", (reaction, user) => reacting_1.reactionHandler(reaction, user, fetchClient));
+client.on("messageReactionRemove", (reaction, user) => reacting_1.reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
     function cb() {

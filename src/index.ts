@@ -12,7 +12,9 @@ import { FetchClient, IFetchClient } from "./services/FetchClient";
 
 dotenv.config();
 
-const client: Client = new Discord.Client();
+const client: Client = new Discord.Client({
+  partials: ["MESSAGE", "REACTION"]
+});
 const fetchClient: IFetchClient = new FetchClient();
 
 client.once("ready", async () => {
@@ -58,8 +60,8 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
   console.log("am sters:",message.content);
 });
 
-client.on("messageReactionAdd", reactionHandler);
-
+client.on("messageReactionAdd", (reaction, user) => reactionHandler(reaction, user, fetchClient));
+client.on("messageReactionRemove", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
   function cb() {

@@ -1,32 +1,34 @@
 import { MessageReaction, User, PartialUser } from "discord.js";
-import fetch from "node-fetch";
 import { REACT_EMOJI } from "../constants";
 import { rublertReaction } from "./rubl/rublerts";
+import { addComment, addMoney } from "../services/reacting/reacting";
+import { IFetchClient } from "../services/FetchClient";
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
 // nu cred/nu stiu daca are acces la mesajele din istoric
-export async function reactionHandler(reaction: MessageReaction, user: User | PartialUser) {
+export async function reactionHandler(reaction: MessageReaction, user: User | PartialUser, client: IFetchClient) {
   const emojiName = reaction.emoji.name;
-  const username = user.username;
+  // const username = user.username;
+  //cine o scris aia -> ID
+  const author = reaction.message.author.id;
+  //canal pe care trebuie sa dea reply
+  const channel = reaction.message.channel;
 
 
   switch(emojiName) {
   case REACT_EMOJI.RUBLERT: {
     const message = await rublertReaction();
-    console.log(message, username);
+    // console.log(message, username);
+    console.log(reaction);
     break;
   }
   case REACT_EMOJI.STITCH: {
-    // console.log("am vazut ca ai reactionat cu stitch", username);
-    console.log(reaction);
-    const author = reaction.message.author.id;
-    fetch("http://localhost:3000/test/user/reward", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({author: author, howMuch: 50})
-    });
+    const msgContent = reaction.message.content;
+    // const author = reaction.message.author.id;
+    // const channel = reaction.message.channel;
+    // const res = await addComment(client, "http://localhost:3000/test/comment", { content: msgContent, author: author });
+    const res = await addMoney(client, "http://localhost:3000/test/user/reward", { author: author, howMuch: 50 });
+    await channel.send(res.message);
     break;
   }
 

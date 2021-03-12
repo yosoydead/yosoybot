@@ -9,5 +9,25 @@ class FetchClient {
     get(url) {
         return node_fetch_1.default(url);
     }
+    post(url, requestBody) {
+        return node_fetch_1.default(url, {
+            method: "POST",
+            body: JSON.stringify(requestBody),
+            headers: {
+                "Content-Type": "application/json",
+                "Sender": "yosoybot"
+            }
+        });
+    }
+    update(url, requestBody) {
+        return node_fetch_1.default(url, {
+            method: "PATCH",
+            body: JSON.stringify(requestBody),
+            headers: {
+                "Content-Type": "application/json",
+                "Sender": "yosoybot"
+            }
+        });
+    }
 }
 exports.FetchClient = FetchClient;

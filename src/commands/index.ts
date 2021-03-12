@@ -9,6 +9,7 @@ import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
+import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
@@ -81,6 +82,27 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     const result = await meteo(client, process.env.OPEN_WEATHER_API!, city);
 
     return await message.reply(result);
+  }
+  case "addQuote": {
+    console.log("add quote cica");
+    if (message.reference !== null) {
+      // const channel = message.channel.messages.fetch()
+      console.log("aici intru daca am reply @user");
+      const msgId = message.reference.messageID;
+      message.channel.messages.fetch(msgId!)
+        .then(res => {
+          console.log("msg search", res.content, res.author.username);
+          return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(er => {
+          console.log(er);
+        });
+    }
+
+    return;
   }
   case "update": {
     if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {

@@ -21,6 +21,7 @@ const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
+const reacting_1 = require("../services/reacting/reacting");
 const node_fetch_1 = __importDefault(require("node-fetch"));
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
@@ -82,6 +83,26 @@ function commandHandler(message, client) {
                 const city = splitMessage.slice(1).join(" ");
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
                 return yield message.reply(result);
+            }
+            case "addQuote": {
+                console.log("add quote cica");
+                if (message.reference !== null) {
+                    // const channel = message.channel.messages.fetch()
+                    console.log("aici intru daca am reply @user");
+                    const msgId = message.reference.messageID;
+                    message.channel.messages.fetch(msgId)
+                        .then(res => {
+                        console.log("msg search", res.content, res.author.username);
+                        return reacting_1.addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+                    })
+                        .then(res => {
+                        console.log(res);
+                    })
+                        .catch(er => {
+                        console.log(er);
+                    });
+                }
+                return;
             }
             case "update": {
                 if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {
