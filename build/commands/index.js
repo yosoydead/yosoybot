@@ -30,6 +30,7 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 function commandHandler(message, client) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(message);
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
         if (message.author.username === "yosoybot")
@@ -86,7 +87,7 @@ function commandHandler(message, client) {
             }
             case "addQuote": {
                 console.log("add quote cica");
-                if (message.reference !== null) {
+                if (message.reference !== null && message.content !== "") {
                     // const channel = message.channel.messages.fetch()
                     console.log("aici intru daca am reply @user");
                     const msgId = message.reference.messageID;
