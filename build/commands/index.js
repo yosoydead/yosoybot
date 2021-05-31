@@ -23,6 +23,7 @@ const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
 const reacting_1 = require("../services/reacting/reacting");
 const node_fetch_1 = __importDefault(require("node-fetch"));
+const get_1 = require("../services/reacting/get");
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
@@ -30,7 +31,7 @@ const node_fetch_1 = __importDefault(require("node-fetch"));
 function commandHandler(message, client) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(message);
+        // console.log(message);
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
         if (message.author.username === "yosoybot")
@@ -104,6 +105,10 @@ function commandHandler(message, client) {
                     });
                 }
                 return;
+            }
+            case "quote": {
+                const response = yield get_1.getData(client, "http://localhost:3000/goku/comment/random");
+                return yield message.channel.send(response.message);
             }
             case "update": {
                 if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {

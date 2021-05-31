@@ -9,13 +9,19 @@ import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
+import CacheClient from "./CacheClient";
 
 dotenv.config();
+
+if (process.env.NODE_ENV === "local") {
+  global.serverUrl = "http://localhost:3000/test";
+}
 
 const client: Client = new Discord.Client({
   partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient: IFetchClient = new FetchClient();
+const cache = new CacheClient();
 
 client.once("ready", async () => {
   console.log("my body is ready");
@@ -83,7 +89,13 @@ cron(1500000, async () => {
 client.login(process.env.BOT_TOKEN)
   .then(() => {
     client.user?.setActivity("%commands");
+
+    // return fetchClient.get("http://localhost:3000/test/users");
   })
+  // .then(async (res) => {
+  //   console.log(await res.json());
+  //   console.log(global.serverUrl);
+  // })
   .catch(err => {
     console.log(err);
   });

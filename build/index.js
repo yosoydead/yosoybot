@@ -42,11 +42,16 @@ const constants_1 = require("./constants");
 const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 const reacting_1 = require("./reacting");
 const FetchClient_1 = require("./services/FetchClient");
+const CacheClient_1 = __importDefault(require("./CacheClient"));
 dotenv.config();
+if (process.env.NODE_ENV === "local") {
+    global.serverUrl = "http://localhost:3000/test";
+}
 const client = new discord_js_1.default.Client({
     partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient = new FetchClient_1.FetchClient();
+const cache = new CacheClient_1.default();
 client.once("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("my body is ready");
     // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
@@ -104,7 +109,12 @@ client.login(process.env.BOT_TOKEN)
     .then(() => {
     var _a;
     (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("%commands");
+    // return fetchClient.get("http://localhost:3000/test/users");
 })
+    // .then(async (res) => {
+    //   console.log(await res.json());
+    //   console.log(global.serverUrl);
+    // })
     .catch(err => {
     console.log(err);
 });

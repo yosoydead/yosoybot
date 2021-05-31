@@ -11,6 +11,7 @@ import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
 import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
+import { getData } from "../services/reacting/get";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {
@@ -25,7 +26,7 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  console.log(message);
+  // console.log(message);
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
@@ -104,6 +105,11 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     }
 
     return;
+  }
+  case "quote": {
+    const response = await getData(client, "http://localhost:3000/goku/comment/random");
+
+    return await message.channel.send(response.message);
   }
   case "update": {
     if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {
