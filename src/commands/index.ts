@@ -1,20 +1,32 @@
-import { Message } from "discord.js";
+import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { REPLY_MESSAGES } from "../constants";
+import { MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
+import { addComment } from "../services/reacting/reacting";
+import fetch from "node-fetch";
+import { getData } from "../services/reacting/get";
+
+//originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
+interface IGuildBackendModel {
+  discordGuildID: string,
+  guildAdminID: string,
+  originalAdminUsername: string | undefined,
+  membersIdList: string[]
+}
 
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
+  // console.log(message);
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
@@ -72,6 +84,124 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     const result = await meteo(client, process.env.OPEN_WEATHER_API!, city);
 
     return await message.reply(result);
+  }
+  case "addQuote": {
+    console.log("add quote cica");
+    if (message.reference !== null && message.content !== "") {
+      // const channel = message.channel.messages.fetch()
+      console.log("aici intru daca am reply @user");
+      const msgId = message.reference.messageID;
+      message.channel.messages.fetch(msgId!)
+        .then(res => {
+          console.log("msg search", res.content, res.author.username);
+          return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(er => {
+          console.log(er);
+        });
+    }
+
+    return;
+  }
+  case "quote": {
+    const response = await getData(client, "http://localhost:3000/goku/comment/random");
+
+    return await message.channel.send(response.message);
+  }
+  case "update": {
+    if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+    // console.log(message);
+    const guildId = message.guild?.id;
+
+    message.client.guilds.fetch(guildId!)
+      .then((guild) => {
+        // console.log("res", res);
+        // const membersList = res.members.fetch();
+        return guild.members.fetch();
+      })
+      .then((members) => {
+        // console.log(members);
+        const usersData = members.map((member: GuildMember) => {
+          return {
+            discordServerId: guildId,
+            discordUserId: member.user.id,
+            discordUsername: member.user.username
+          };
+        });
+        // const res = await fetch("http://localhost:3000/guilds", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "Sender": "yosoybot"
+        //   },
+        //   body: JSON.stringify(guilds)
+        // });
+        return fetch("http://localhost:3000/goku/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Sender": "yosoybot"
+          },
+          body: JSON.stringify(usersData)
+        });
+      })
+      .then(async (res) => {
+        // console.log(await res.json());
+        await message.reply(REPLY_MESSAGES.USERS_ADDED);
+      })
+      .catch(async (err) => {
+        console.log("err", err);
+        await message.reply("Ceva rau s-o intamplat");
+      });
+
+    // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+    
+    // const guilds: IGuildBackendModel[] = [];
+    // new Promise((resolve, reject) => {
+    //   _undeSuntFolosit.map(id => {
+    //     message.client.guilds.fetch(id)
+    //       .then(async guild => {
+    //         const membersList = await guild.members.fetch();
+
+    //         return {
+    //           guild,
+    //           membersList
+    //         };
+    //       })
+    //       .then(({ guild, membersList}) => {
+    //         const membersIds: string[] = membersList.map((el: any) => el.id);
+    //         guilds.push({
+    //           discordGuildID: guild.id,
+    //           guildAdminID: guild.ownerID,
+    //           originalAdminUsername: guild.owner?.user.username,
+    //           membersIdList: membersIds
+    //         });
+
+    //         resolve(undefined);
+    //       })
+    //       .catch(er => {
+    //         console.log(er);
+    //       });
+          
+    //   });
+    // }).then(async () => {
+    //   const res = await fetch("http://localhost:3000/guilds", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Sender": "yosoybot"
+    //     },
+    //     body: JSON.stringify(guilds)
+    //   });
+    //   console.log(await res.json());
+    // });
+
+    break;
   }
   default:
     return await message.reply(REPLY_MESSAGES.UNKNOWN_COMMAND);

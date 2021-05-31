@@ -13,13 +13,16 @@ exports.REPLY_MESSAGES = {
     SERVER_ENTERED: "Salut",
     SERVER_KICKED: "Am fost dat afara",
     UNKNOWN_COMMAND: "Nu stiu comanda :(",
+    NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
+    USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
 };
 exports.MY_CHANNEL_IDS = {
     INTRAT_PE_SERVERE: "785131037139140641",
     GENERAL: "781108831421333538",
     LOG_ERORI: "785130953525559307",
     YOSOYDEAD_SERVER: "781108831421333535",
-    WAKEUP_CRONJOB: "785846537543876639"
+    WAKEUP_CRONJOB: "785846537543876639",
+    USER_ID: "405081094057099276"
 };
 //colorez MessageEmbed
 var MESSAGE_COLORS;
@@ -38,4 +41,6 @@ var ANIMAL_FACTS_APIS;
 (function (ANIMAL_FACTS_APIS) {
     ANIMAL_FACTS_APIS["CATS"] = "https://meowfacts.herokuapp.com/";
     ANIMAL_FACTS_APIS["DOGS"] = "http://dog-api.kinduff.com/api/facts";
+    ANIMAL_FACTS_APIS["LOCAL"] = "http://localhost:3000/test";
+    ANIMAL_FACTS_APIS["LOCAL_GOKU"] = "http://localhost:3000/goku";
 })(ANIMAL_FACTS_APIS = exports.ANIMAL_FACTS_APIS || (exports.ANIMAL_FACTS_APIS = {}));

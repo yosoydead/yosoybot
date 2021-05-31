@@ -21,12 +21,17 @@ const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
+const reacting_1 = require("../services/reacting/reacting");
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const get_1 = require("../services/reacting/get");
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 function commandHandler(message, client) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        // console.log(message);
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
         if (message.author.username === "yosoybot")
@@ -80,6 +85,115 @@ function commandHandler(message, client) {
                 const city = splitMessage.slice(1).join(" ");
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
                 return yield message.reply(result);
+            }
+            case "addQuote": {
+                console.log("add quote cica");
+                if (message.reference !== null && message.content !== "") {
+                    // const channel = message.channel.messages.fetch()
+                    console.log("aici intru daca am reply @user");
+                    const msgId = message.reference.messageID;
+                    message.channel.messages.fetch(msgId)
+                        .then(res => {
+                        console.log("msg search", res.content, res.author.username);
+                        return reacting_1.addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+                    })
+                        .then(res => {
+                        console.log(res);
+                    })
+                        .catch(er => {
+                        console.log(er);
+                    });
+                }
+                return;
+            }
+            case "quote": {
+                const response = yield get_1.getData(client, "http://localhost:3000/goku/comment/random");
+                return yield message.channel.send(response.message);
+            }
+            case "update": {
+                if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
+                }
+                // console.log(message);
+                const guildId = (_a = message.guild) === null || _a === void 0 ? void 0 : _a.id;
+                message.client.guilds.fetch(guildId)
+                    .then((guild) => {
+                    // console.log("res", res);
+                    // const membersList = res.members.fetch();
+                    return guild.members.fetch();
+                })
+                    .then((members) => {
+                    // console.log(members);
+                    const usersData = members.map((member) => {
+                        return {
+                            discordServerId: guildId,
+                            discordUserId: member.user.id,
+                            discordUsername: member.user.username
+                        };
+                    });
+                    // const res = await fetch("http://localhost:3000/guilds", {
+                    //   method: "POST",
+                    //   headers: {
+                    //     "Content-Type": "application/json",
+                    //     "Sender": "yosoybot"
+                    //   },
+                    //   body: JSON.stringify(guilds)
+                    // });
+                    return node_fetch_1.default("http://localhost:3000/goku/users", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Sender": "yosoybot"
+                        },
+                        body: JSON.stringify(usersData)
+                    });
+                })
+                    .then((res) => __awaiter(this, void 0, void 0, function* () {
+                    // console.log(await res.json());
+                    yield message.reply(constants_1.REPLY_MESSAGES.USERS_ADDED);
+                }))
+                    .catch((err) => __awaiter(this, void 0, void 0, function* () {
+                    console.log("err", err);
+                    yield message.reply("Ceva rau s-o intamplat");
+                }));
+                // const _undeSuntFolosit = message.client.guilds.cache.map(el => el.id);
+                // const guilds: IGuildBackendModel[] = [];
+                // new Promise((resolve, reject) => {
+                //   _undeSuntFolosit.map(id => {
+                //     message.client.guilds.fetch(id)
+                //       .then(async guild => {
+                //         const membersList = await guild.members.fetch();
+                //         return {
+                //           guild,
+                //           membersList
+                //         };
+                //       })
+                //       .then(({ guild, membersList}) => {
+                //         const membersIds: string[] = membersList.map((el: any) => el.id);
+                //         guilds.push({
+                //           discordGuildID: guild.id,
+                //           guildAdminID: guild.ownerID,
+                //           originalAdminUsername: guild.owner?.user.username,
+                //           membersIdList: membersIds
+                //         });
+                //         resolve(undefined);
+                //       })
+                //       .catch(er => {
+                //         console.log(er);
+                //       });
+                //   });
+                // }).then(async () => {
+                //   const res = await fetch("http://localhost:3000/guilds", {
+                //     method: "POST",
+                //     headers: {
+                //       "Content-Type": "application/json",
+                //       "Sender": "yosoybot"
+                //     },
+                //     body: JSON.stringify(guilds)
+                //   });
+                //   console.log(await res.json());
+                // });
+                break;
             }
             default:
                 return yield message.reply(constants_1.REPLY_MESSAGES.UNKNOWN_COMMAND);
