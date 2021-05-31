@@ -9,6 +9,6 @@ export async function getData(client: IFetchClient, url: string) {
 
     return requestData;
   } catch(err) {
-    return REPLY_MESSAGES.EMPTY_ANIMAL_FACT;
+    return REPLY_MESSAGES.BACKEND_REQUEST_FAIL;
   }
 }

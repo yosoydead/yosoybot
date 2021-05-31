@@ -1,16 +1,17 @@
 export const REPLY_MESSAGES = {
   ALO: "Aaalo",
+  BACKEND_REQUEST_FAIL: "Request-ul catre backend a esuat.",
   CHANNEL_ENTRY_LOG: "Canal pe care am intrat",
   COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
   COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
   COMMANDS_TITLE: "Hi. I am yosoybot!",
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+  NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   PONG: "PONG",
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
-  NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
 };
 
