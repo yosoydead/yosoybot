@@ -1,7 +1,8 @@
 import { IFetchClient } from "../FetchClient";
 import { REPLY_MESSAGES, BACKEND_ROUTES } from "../../constants";
+import { BackendComment, IBackendClient } from "../../types";
 
-export default class BackendClient {
+export default class BackendClient implements IBackendClient {
   private _baseUrl: string;
   private _client: IFetchClient;
 

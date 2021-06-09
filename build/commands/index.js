@@ -21,9 +21,9 @@ const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
-const reacting_1 = require("../services/reacting/reacting");
+// import { addComment } from "../services/reacting/reacting";
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const get_1 = require("../services/reacting/get");
+const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
@@ -31,7 +31,7 @@ const get_1 = require("../services/reacting/get");
 function commandHandler(message, client) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        // console.log(message);
+        const BackendClient = dbFactory_1.default.getInstance();
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
         if (message.author.username === "yosoybot")
@@ -95,7 +95,8 @@ function commandHandler(message, client) {
                     message.channel.messages.fetch(msgId)
                         .then(res => {
                         console.log("msg search", res.content, res.author.username);
-                        return reacting_1.addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+                        BackendClient.addQuote({ author: "a", content: "b" });
+                        // return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
                     })
                         .then(res => {
                         console.log(res);
@@ -105,9 +106,10 @@ function commandHandler(message, client) {
                     });
                 }
                 return;
+                // break;
             }
             case "quote": {
-                const response = yield get_1.getData(client, "http://localhost:3000/goku/comment/random");
+                const response = yield getData(client, "http://localhost:3000/goku/comment/random");
                 return yield message.channel.send(response.message);
             }
             case "update": {

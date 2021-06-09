@@ -43,10 +43,8 @@ const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 const reacting_1 = require("./reacting");
 const FetchClient_1 = require("./services/FetchClient");
 const CacheClient_1 = __importDefault(require("./CacheClient"));
+const dbFactory_1 = __importDefault(require("./utils/dbFactory"));
 dotenv.config();
-if (process.env.NODE_ENV === "local") {
-    global.serverUrl = "http://localhost:3000/test";
-}
 const client = new discord_js_1.default.Client({
     partials: ["MESSAGE", "REACTION"]
 });
@@ -108,6 +106,8 @@ cron(1500000, () => __awaiter(void 0, void 0, void 0, function* () {
 client.login(process.env.BOT_TOKEN)
     .then(() => {
     var _a;
+    console.log("login");
+    dbFactory_1.default.createInstance(process.env.NODE_ENV, fetchClient);
     (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("%commands");
     // return fetchClient.get("http://localhost:3000/test/users");
 })

@@ -18,7 +18,6 @@ const client: Client = new Discord.Client({
   partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient: IFetchClient = new FetchClient();
-dbFactory.createInstance(process.env.NODE_ENV, fetchClient);
 const cache = new CacheClient();
 
 
@@ -87,6 +86,9 @@ cron(1500000, async () => {
 
 client.login(process.env.BOT_TOKEN)
   .then(() => {
+    console.log("login");
+    dbFactory.createInstance(process.env.NODE_ENV, fetchClient);
+    
     client.user?.setActivity("%commands");
 
     // return fetchClient.get("http://localhost:3000/test/users");

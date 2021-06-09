@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.REPLY_MESSAGES = void 0;
+exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.REPLY_MESSAGES = void 0;
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
+    BACKEND_REQUEST_FAIL: "Request-ul catre backend a esuat.",
     CHANNEL_ENTRY_LOG: "Canal pe care am intrat",
     COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
     COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
     COMMANDS_TITLE: "Hi. I am yosoybot!",
     EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
     EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+    NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
     PONG: "PONG",
     SERVER_ENTERED: "Salut",
     SERVER_KICKED: "Am fost dat afara",
     UNKNOWN_COMMAND: "Nu stiu comanda :(",
-    NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
     USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
 };
 exports.MY_CHANNEL_IDS = {
@@ -41,6 +42,36 @@ var ANIMAL_FACTS_APIS;
 (function (ANIMAL_FACTS_APIS) {
     ANIMAL_FACTS_APIS["CATS"] = "https://meowfacts.herokuapp.com/";
     ANIMAL_FACTS_APIS["DOGS"] = "http://dog-api.kinduff.com/api/facts";
-    ANIMAL_FACTS_APIS["LOCAL"] = "http://localhost:3000/test";
-    ANIMAL_FACTS_APIS["LOCAL_GOKU"] = "http://localhost:3000/goku";
 })(ANIMAL_FACTS_APIS = exports.ANIMAL_FACTS_APIS || (exports.ANIMAL_FACTS_APIS = {}));
+var BACKEND_BASE_URLS;
+(function (BACKEND_BASE_URLS) {
+    BACKEND_BASE_URLS["LOCAL"] = "http://localhost:3000/test";
+    BACKEND_BASE_URLS["LOCAL_GOKU"] = "http://localhost:3000/goku";
+    BACKEND_BASE_URLS["PRODUCTION"] = "";
+})(BACKEND_BASE_URLS = exports.BACKEND_BASE_URLS || (exports.BACKEND_BASE_URLS = {}));
+exports.BACKEND_ROUTES = {
+    "DELETE": {},
+    "GET": {
+        // comments
+        randomQuote: "/comment/random",
+        // users
+        userData: "/user/get/",
+        allUsersData: "/users"
+    },
+    "PATCH": {
+        //comments
+        //users
+        rewardUser: "/user/reward",
+        rewardMultipleUsers: "/users/reward"
+    },
+    "POST": {
+        // comments
+        addComment: "/comment",
+        addMultipleComments: "/comments",
+        // users
+        addUser: "/user/add",
+        addMultipleUsers: "/users"
+    },
+    "PUT": {},
+    "UPDATE": {},
+};
