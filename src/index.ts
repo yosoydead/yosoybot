@@ -10,18 +10,17 @@ import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
 import CacheClient from "./CacheClient";
+import dbFactory from "./utils/dbFactory";
 
 dotenv.config();
-
-if (process.env.NODE_ENV === "local") {
-  global.serverUrl = "http://localhost:3000/test";
-}
 
 const client: Client = new Discord.Client({
   partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient: IFetchClient = new FetchClient();
+dbFactory.createInstance(process.env.NODE_ENV, fetchClient);
 const cache = new CacheClient();
+
 
 client.once("ready", async () => {
   console.log("my body is ready");
