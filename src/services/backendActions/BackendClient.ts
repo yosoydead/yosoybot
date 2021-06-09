@@ -15,6 +15,8 @@ export default class BackendClient implements IBackendClient {
     return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.randomQuote}`)
       .then(response => response.json())
       .then(json => {
+        console.log(json);
+        
         return json;
       })
       .catch(err => {
@@ -22,11 +24,14 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
-  addQuote(comment: BackendComment) {
-    console.log("trimit comment la backend", {...comment});
-    
-    // return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addComment}`, {...comment})
-    //   .then()
-    //   .catch();
+  async addQuote(comment: BackendComment) {
+    return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addComment}`, {...comment})
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+
+        return json;
+      })
+      .catch();
   }
 }

@@ -95,7 +95,8 @@ function commandHandler(message, client) {
                     message.channel.messages.fetch(msgId)
                         .then(res => {
                         console.log("msg search", res.content, res.author.username);
-                        BackendClient.addQuote({ author: "a", content: "b" });
+                        // BackendClient.addQuote({ author: "a", content: "b" });
+                        BackendClient.addQuote({ content: res.content, author: res.author.id });
                         // return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
                     })
                         .then(res => {
@@ -109,8 +110,10 @@ function commandHandler(message, client) {
                 // break;
             }
             case "quote": {
-                const response = yield getData(client, "http://localhost:3000/goku/comment/random");
-                return yield message.channel.send(response.message);
+                BackendClient.getRandomQuote();
+                // const response = await getData(client, "http://localhost:3000/goku/comment/random");
+                // return await message.channel.send(response.message);
+                break;
             }
             case "update": {
                 if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {
