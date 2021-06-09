@@ -56,6 +56,40 @@ export enum SERVER_ACTION {
 export enum ANIMAL_FACTS_APIS {
   CATS = "https://meowfacts.herokuapp.com/",
   DOGS = "http://dog-api.kinduff.com/api/facts",
+}
+
+export enum BACKEND_BASE_URLS {
   LOCAL = "http://localhost:3000/test",
   LOCAL_GOKU = "http://localhost:3000/goku",
+  PRODUCTION = ""
 }
+
+export const BACKEND_ROUTES = {
+  "DELETE": {},
+  "GET": {
+    // comments
+    randomQuote: "/comment/random",
+
+    // users
+    userData: "/user/get/", // needs an ID
+    allUsersData: "/users"
+  },
+  "PATCH": {
+    //comments
+
+    //users
+    rewardUser: "/user/reward",
+    rewardMultipleUsers: "/users/reward"
+  },
+  "POST": {
+    // comments
+    addComment: "/comment",
+    addMultipleComments: "/comments",
+
+    // users
+    addUser: "/user/add",
+    addMultipleUsers: "/users"
+  },
+  "PUT": {},
+  "UPDATE": {},
+};

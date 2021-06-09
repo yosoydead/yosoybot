@@ -9,9 +9,9 @@ import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
-import { addComment } from "../services/reacting/reacting";
+// import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
-import { getData } from "../services/reacting/get";
+// import { getData } from "../services";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {
@@ -94,7 +94,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
       message.channel.messages.fetch(msgId!)
         .then(res => {
           console.log("msg search", res.content, res.author.username);
-          return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+          // return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
         })
         .then(res => {
           console.log(res);
@@ -105,6 +105,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     }
 
     return;
+    // break;
   }
   case "quote": {
     const response = await getData(client, "http://localhost:3000/goku/comment/random");
