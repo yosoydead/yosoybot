@@ -7,12 +7,18 @@ export const REPLY_MESSAGES = {
   COMMANDS_TITLE: "Hi. I am yosoybot!",
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+  MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
   NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   PONG: "PONG",
   SERVER_ENTERED: "Salut",
   SERVER_KICKED: "Am fost dat afara",
   UNKNOWN_COMMAND: "Nu stiu comanda :(",
   USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
+};
+
+export const YOSOYDB_ERROR_MESSAGES = {
+  RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
+  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote."
 };
 
 export const enum REACT_EMOJI {
@@ -59,7 +65,7 @@ export enum ANIMAL_FACTS_APIS {
 }
 
 export enum BACKEND_BASE_URLS {
-  LOCAL = "http://localhost:3000/test",
+  LOCAL = "http://192.168.100.4:3000/test",
   LOCAL_GOKU = "http://localhost:3000/goku",
   PRODUCTION = ""
 }

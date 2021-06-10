@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.REPLY_MESSAGES = void 0;
+exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = void 0;
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
     BACKEND_REQUEST_FAIL: "Request-ul catre backend a esuat.",
@@ -10,12 +10,17 @@ exports.REPLY_MESSAGES = {
     COMMANDS_TITLE: "Hi. I am yosoybot!",
     EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
     EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+    MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
     NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
     PONG: "PONG",
     SERVER_ENTERED: "Salut",
     SERVER_KICKED: "Am fost dat afara",
     UNKNOWN_COMMAND: "Nu stiu comanda :(",
     USERS_ADDED: "Am reusit sa adaug userii curenti si am adaugat tuturor 10 rublerts din partea casei.",
+};
+exports.YOSOYDB_ERROR_MESSAGES = {
+    RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
+    ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote."
 };
 exports.MY_CHANNEL_IDS = {
     INTRAT_PE_SERVERE: "785131037139140641",
@@ -45,7 +50,7 @@ var ANIMAL_FACTS_APIS;
 })(ANIMAL_FACTS_APIS = exports.ANIMAL_FACTS_APIS || (exports.ANIMAL_FACTS_APIS = {}));
 var BACKEND_BASE_URLS;
 (function (BACKEND_BASE_URLS) {
-    BACKEND_BASE_URLS["LOCAL"] = "http://localhost:3000/test";
+    BACKEND_BASE_URLS["LOCAL"] = "http://192.168.100.4:3000/test";
     BACKEND_BASE_URLS["LOCAL_GOKU"] = "http://localhost:3000/goku";
     BACKEND_BASE_URLS["PRODUCTION"] = "";
 })(BACKEND_BASE_URLS = exports.BACKEND_BASE_URLS || (exports.BACKEND_BASE_URLS = {}));

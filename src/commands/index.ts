@@ -86,30 +86,24 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
     return await message.reply(result);
   }
-  case "addQuote": {
-    console.log("add quote cica");
+  case CommandNames.ADD_QUOTE: {
     if (message.reference !== null && message.content !== "") {
-      // const channel = message.channel.messages.fetch()
-      console.log("aici intru daca am reply @user");
       const msgId = message.reference.messageID;
       message.channel.messages.fetch(msgId!)
         .then(res => {
-          console.log("msg search", res.content, res.author.username);
-          // BackendClient.addQuote({ author: "a", content: "b" });
-          BackendClient.addQuote({ content: res.content, author: res.author.id });
-          // return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+          return BackendClient.addQuote({ content: res.content, author: res.author.id });
         })
-        .then(res => {
-          console.log(res);
+        .then(async res => {
+          return await message.channel.send(res);
         })
-        .catch(er => {
-          console.log(er);
+        .catch(async er => {
+          return await message.channel.send(REPLY_MESSAGES.MESSAGE_NOT_FOUND);
         });
     }
 
     return;
   }
-  case "quote": {
+  case CommandNames.RANDOM_QUOTE: {
     const response = await BackendClient.getRandomQuote();
 
     return await message.channel.send(response);

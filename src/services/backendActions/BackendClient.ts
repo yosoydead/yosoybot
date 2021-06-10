@@ -1,5 +1,5 @@
 import { IFetchClient } from "../FetchClient";
-import { REPLY_MESSAGES, BACKEND_ROUTES } from "../../constants";
+import { BACKEND_ROUTES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
 import { BackendComment, IBackendClient, IBackendResponse } from "../../types";
 
 export default class BackendClient implements IBackendClient {
@@ -11,30 +11,25 @@ export default class BackendClient implements IBackendClient {
     this._client = client;
   }
 
-  getRandomQuote() {
+  getRandomQuote(): Promise<string> {
     return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.randomQuote}`)
       .then(response => response.json())
       .then((json: IBackendResponse) => {
-        console.log(json);
-        
         return json.message;
       })
       .catch(err => {
-        return REPLY_MESSAGES.BACKEND_REQUEST_FAIL;
+        return YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE;
       });
   }
 
-  async addQuote(comment: BackendComment) {
+  addQuote(comment: BackendComment): Promise<string> {
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addComment}`, {...comment})
       .then(response => response.json())
       .then((json: IBackendResponse) => {
-        console.log(json);
-
         return json.message;
       })
       .catch(err => {
-        console.log();
-        return REPLY_MESSAGES.BACKEND_REQUEST_FAIL;
+        return YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
       });
   }
 }

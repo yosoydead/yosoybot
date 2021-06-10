@@ -86,32 +86,24 @@ function commandHandler(message, client) {
                 const result = yield meteo_1.meteo(client, process.env.OPEN_WEATHER_API, city);
                 return yield message.reply(result);
             }
-            case "addQuote": {
-                console.log("add quote cica");
+            case "addQuote" /* ADD_QUOTE */: {
                 if (message.reference !== null && message.content !== "") {
-                    // const channel = message.channel.messages.fetch()
-                    console.log("aici intru daca am reply @user");
                     const msgId = message.reference.messageID;
                     message.channel.messages.fetch(msgId)
                         .then(res => {
-                        console.log("msg search", res.content, res.author.username);
-                        // BackendClient.addQuote({ author: "a", content: "b" });
-                        BackendClient.addQuote({ content: res.content, author: res.author.id });
-                        // return addComment(client, "http://localhost:3000/goku/comment", { content: res.content, author: res.author.id });
+                        return BackendClient.addQuote({ content: res.content, author: res.author.id });
                     })
-                        .then(res => {
-                        console.log(res);
-                    })
-                        .catch(er => {
-                        console.log(er);
-                    });
+                        .then((res) => __awaiter(this, void 0, void 0, function* () {
+                        return yield message.channel.send(res);
+                    }))
+                        .catch((er) => __awaiter(this, void 0, void 0, function* () {
+                        return yield message.channel.send(constants_1.REPLY_MESSAGES.MESSAGE_NOT_FOUND);
+                    }));
                 }
                 return;
-                // break;
             }
-            case "quote": {
+            case "quote" /* RANDOM_QUOTE */: {
                 const response = yield BackendClient.getRandomQuote();
-                // const response = await getData(client, "http://localhost:3000/goku/comment/random");
                 return yield message.channel.send(response);
             }
             case "update": {
