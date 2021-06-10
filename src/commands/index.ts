@@ -108,14 +108,11 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     }
 
     return;
-    // break;
   }
   case "quote": {
-    BackendClient.getRandomQuote();
-    // const response = await getData(client, "http://localhost:3000/goku/comment/random");
+    const response = await BackendClient.getRandomQuote();
 
-    // return await message.channel.send(response.message);
-    break;
+    return await message.channel.send(response);
   }
   case "update": {
     if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {

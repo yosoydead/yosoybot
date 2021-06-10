@@ -18,9 +18,9 @@ class BackendClient {
     getRandomQuote() {
         return this._client.get(`${this._baseUrl}${constants_1.BACKEND_ROUTES.GET.randomQuote}`)
             .then(response => response.json())
-            .then(json => {
+            .then((json) => {
             console.log(json);
-            return json;
+            return json.message;
         })
             .catch(err => {
             return constants_1.REPLY_MESSAGES.BACKEND_REQUEST_FAIL;
@@ -30,11 +30,14 @@ class BackendClient {
         return __awaiter(this, void 0, void 0, function* () {
             return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addComment}`, Object.assign({}, comment))
                 .then(response => response.json())
-                .then(json => {
+                .then((json) => {
                 console.log(json);
-                return json;
+                return json.message;
             })
-                .catch();
+                .catch(err => {
+                console.log();
+                return constants_1.REPLY_MESSAGES.BACKEND_REQUEST_FAIL;
+            });
         });
     }
 }
