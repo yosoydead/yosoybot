@@ -1,6 +1,9 @@
 import { IFetchClient } from "../FetchClient";
-import { BACKEND_ROUTES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
+import { BACKEND_ROUTES, MESSAGE_COLORS, REPLY_MESSAGES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
 import { BackendComment, IBackendClient, IBackendResponse } from "../../types";
+import { EmbedField, MessageEmbed } from "discord.js";
+import { createEmbedFields } from "../../utils/createEmbedFields";
+import { createMessageEmbed } from "../../utils/createMessageEmbed";
 
 export default class BackendClient implements IBackendClient {
   private _baseUrl: string;
@@ -11,14 +14,34 @@ export default class BackendClient implements IBackendClient {
     this._client = client;
   }
 
-  getRandomQuote(): Promise<string> {
+  getRandomQuote(): Promise<MessageEmbed> {
     return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.randomQuote}`)
       .then(response => response.json())
       .then((json: IBackendResponse) => {
-        return json.message;
+        const embedFields: EmbedField[] = createEmbedFields({
+          "O veche zicala:": `${json.message}`
+        });
+        const color = json.status === "success" ? MESSAGE_COLORS.CHANNEL_JOIN : MESSAGE_COLORS.CHANNEL_LEFT;
+        const messageEmbed: MessageEmbed = createMessageEmbed(
+          color,
+          " ",
+          " ",
+          embedFields,
+          "Yosoybot",
+          REPLY_MESSAGES.COMMANDS_FOOTER
+        );
+
+        return messageEmbed;
       })
       .catch(err => {
-        return YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE;
+        return createMessageEmbed(
+          MESSAGE_COLORS.CHANNEL_LEFT,
+          "Error",
+          YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE,
+          [],
+          "Yosoybot",
+          REPLY_MESSAGES.COMMANDS_FOOTER
+        );
       });
   }
 
