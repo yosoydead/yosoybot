@@ -1,4 +1,5 @@
 export const enum CommandNames {
+  ADD_QUOTE = "addQuote",
   CATS_FACT = "cats",
   COMMANDS = "commands",
   DEPRESIE = "depresie",
@@ -6,6 +7,7 @@ export const enum CommandNames {
   EIGHT_BALL =  "8ball",
   PING = "ping",
   PONG = "pong",
+  RANDOM_QUOTE = "quote",
   WEEB = "weeb",
   METEO = "meteo",
   WEATHER = "weather",

@@ -23,7 +23,7 @@ function sendLogs(guild, action) {
     const color = exports.colorSelect(action);
     const event = exports.whatHappened(guild.name, action);
     const fields = createEmbedFields_1.createEmbedFields(event);
-    const message = createMessageEmbed_1.createMessageEmbed(color, action === constants_1.SERVER_ACTION.JOIN ? "Yosoybot o intrat pe un server" : "Yosoybot o fost dat afara de pe un server", action === constants_1.SERVER_ACTION.JOIN ? "Boss, am intrat pe un server" : "Boss, vezi ca am fost dat afara de pe un server", fields, "Yosoybot", "Ne miscam");
+    const message = createMessageEmbed_1.createMessageEmbed(color, action === constants_1.SERVER_ACTION.JOIN ? "Yosoybot o intrat pe un server" : "Yosoybot o fost dat afara de pe un server", action === constants_1.SERVER_ACTION.JOIN ? "Boss, am intrat pe un server" : "Boss, vezi ca am fost dat afara de pe un server", fields, constants_1.BOT_NAME, "Ne miscam");
     return message;
 }
 exports.sendLogs = sendLogs;

@@ -9,11 +9,17 @@ import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
+import CacheClient from "./CacheClient";
+import dbFactory from "./utils/dbFactory";
 
 dotenv.config();
 
-const client: Client = new Discord.Client();
+const client: Client = new Discord.Client({
+  partials: ["MESSAGE", "REACTION"]
+});
 const fetchClient: IFetchClient = new FetchClient();
+const cache = new CacheClient();
+
 
 client.once("ready", async () => {
   console.log("my body is ready");
@@ -58,8 +64,8 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
   console.log("am sters:",message.content);
 });
 
-client.on("messageReactionAdd", reactionHandler);
-
+client.on("messageReactionAdd", (reaction, user) => reactionHandler(reaction, user, fetchClient));
+client.on("messageReactionRemove", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
   function cb() {
@@ -80,6 +86,9 @@ cron(1500000, async () => {
 
 client.login(process.env.BOT_TOKEN)
   .then(() => {
+    console.log("login");
+    dbFactory.createInstance(process.env.NODE_ENV, fetchClient);
+    
     client.user?.setActivity("%commands");
   })
   .catch(err => {

@@ -2,7 +2,7 @@ import { IFetchClient } from "../FetchClient";
 import { MessageEmbed, EmbedField } from "discord.js";
 import { createMessageEmbed } from "../../utils/createMessageEmbed";
 import { createEmbedFields } from "../../utils/createEmbedFields";
-import { MESSAGE_COLORS, REPLY_MESSAGES } from "../../constants";
+import { BOT_NAME, MESSAGE_COLORS, REPLY_MESSAGES } from "../../constants";
 import { weatherIcon } from "./determineIcon";
 
 type Coords = {
@@ -39,7 +39,7 @@ type Sys = {
   sunset: number
 }
 
-interface IOpenWeatherData {
+export interface IOpenWeatherData {
   coord: Coords,
   weather: [Weather],
   base: string,
@@ -76,7 +76,7 @@ export async function getOpenWeatherData(client: IFetchClient, appKey: string, c
       `In orasul ${requestData.name} (${requestData.sys.country}): ${icon}`,
       "Cateva detalii",
       embedFields,
-      "Yosoybot",
+      BOT_NAME,
       REPLY_MESSAGES.COMMANDS_FOOTER
     );
 
@@ -87,7 +87,7 @@ export async function getOpenWeatherData(client: IFetchClient, appKey: string, c
       "Vremea :skull:",
       "Poate ai gresit numele orasului, codul tarii sau incearca mai tarziu.",
       [],
-      "Yosoybot",
+      BOT_NAME,
       REPLY_MESSAGES.COMMANDS_FOOTER
     );
   }

@@ -2,7 +2,7 @@
 // o sa caute in tot ala, serverul meu, Yosoydead, si o sa se duca pe canalul de intrat-pe-canale
 // acolo, o sa faca log pentru fiecare server pe care o intrat sau o iesit
 import { Guild, EmbedField, MessageEmbed } from "discord.js";
-import { SERVER_ACTION, MESSAGE_COLORS } from "../constants";
+import { SERVER_ACTION, MESSAGE_COLORS, BOT_NAME } from "../constants";
 import { TypeCommandObject } from "../commands/CommandNames";
 import { createEmbedFields } from "./createEmbedFields";
 import { createMessageEmbed } from "./createMessageEmbed";
@@ -33,7 +33,7 @@ export function sendLogs(guild: Guild, action: SERVER_ACTION): MessageEmbed {
     action === SERVER_ACTION.JOIN ? "Yosoybot o intrat pe un server" : "Yosoybot o fost dat afara de pe un server",
     action === SERVER_ACTION.JOIN ? "Boss, am intrat pe un server" : "Boss, vezi ca am fost dat afara de pe un server",
     fields,
-    "Yosoybot",
+    BOT_NAME,
     "Ne miscam"
   );
 
