@@ -13,9 +13,10 @@ const dbFactory = {
     createInstance: (appMode, fetchClient) => {
         if (appMode === "local") {
             instance = new BackendClient_1.default(fetchClient, constants_1.BACKEND_BASE_URLS.LOCAL);
+            // instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.LOCAL_GOKU);
         }
         else if (appMode === "production") {
-            instance = new BackendClient_1.default(fetchClient, constants_1.BACKEND_BASE_URLS.LOCAL_GOKU);
+            instance = new BackendClient_1.default(fetchClient, constants_1.BACKEND_BASE_URLS.PRODUCTION);
         }
         else {
             throw new Error("App mode necunoscut");

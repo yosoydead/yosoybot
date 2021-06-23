@@ -2,7 +2,7 @@ import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
+import { BOT_NAME, MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
@@ -142,7 +142,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Sender": "yosoybot"
+            "Sender": BOT_NAME
           },
           body: JSON.stringify(usersData)
         });

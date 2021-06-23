@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FetchClient = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
+const constants_1 = require("../constants");
 class FetchClient {
     get(url) {
         return node_fetch_1.default(url);
@@ -15,7 +16,7 @@ class FetchClient {
             body: JSON.stringify(requestBody),
             headers: {
                 "Content-Type": "application/json",
-                "Sender": "yosoybot"
+                "Sender": constants_1.BOT_NAME
             }
         });
     }
@@ -25,7 +26,7 @@ class FetchClient {
             body: JSON.stringify(requestBody),
             headers: {
                 "Content-Type": "application/json",
-                "Sender": "yosoybot"
+                "Sender": constants_1.BOT_NAME
             }
         });
     }

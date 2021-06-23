@@ -16,11 +16,11 @@ class BackendClient {
                 "O veche zicala:": `${json.message}`
             });
             const color = json.status === "success" ? constants_1.MESSAGE_COLORS.CHANNEL_JOIN : constants_1.MESSAGE_COLORS.CHANNEL_LEFT;
-            const messageEmbed = createMessageEmbed_1.createMessageEmbed(color, " ", " ", embedFields, "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
+            const messageEmbed = createMessageEmbed_1.createMessageEmbed(color, " ", " ", embedFields, constants_1.BOT_NAME, constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
             return messageEmbed;
         })
             .catch(err => {
-            return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Error", constants_1.YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE, [], "Yosoybot", constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
+            return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Error", constants_1.YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE, [], constants_1.BOT_NAME, constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
         });
     }
     addQuote(comment) {

@@ -1,7 +1,7 @@
 import { MessageReaction, User, PartialUser } from "discord.js";
 import { REACT_EMOJI } from "../constants";
 import { rublertReaction } from "./rubl/rublerts";
-import { addComment, addMoney } from "../services/reacting/reacting";
+// import { addComment, addMoney } from "../services/reacting/reacting";
 import { IFetchClient } from "../services/FetchClient";
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
@@ -27,8 +27,9 @@ export async function reactionHandler(reaction: MessageReaction, user: User | Pa
     // const author = reaction.message.author.id;
     // const channel = reaction.message.channel;
     // const res = await addComment(client, "http://localhost:3000/test/comment", { content: msgContent, author: author });
-    const res = await addMoney(client, "http://localhost:3000/test/user/reward", { author: author, howMuch: 50 });
-    await channel.send(res.message);
+    // const res = await addMoney(client, "http://localhost:3000/test/user/reward", { author: author, howMuch: 50 });
+    // await channel.send(res.message);
+    await channel.send("Inca nu se pot da bani. Comming soon.");
     break;
   }
 

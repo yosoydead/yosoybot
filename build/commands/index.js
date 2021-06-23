@@ -139,7 +139,7 @@ function commandHandler(message, client) {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "Sender": "yosoybot"
+                            "Sender": constants_1.BOT_NAME
                         },
                         body: JSON.stringify(usersData)
                     });

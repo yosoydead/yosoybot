@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = void 0;
+exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = exports.BOT_NAME = void 0;
+exports.BOT_NAME = "Yosoybot";
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
     BACKEND_REQUEST_FAIL: "Request-ul catre backend a esuat.",
     CHANNEL_ENTRY_LOG: "Canal pe care am intrat",
     COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
     COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
-    COMMANDS_TITLE: "Hi. I am yosoybot!",
+    COMMANDS_TITLE: `Hi. I am ${exports.BOT_NAME}!`,
     EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
     EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
     MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
@@ -52,7 +53,7 @@ var BACKEND_BASE_URLS;
 (function (BACKEND_BASE_URLS) {
     BACKEND_BASE_URLS["LOCAL"] = "http://192.168.100.4:3000/test";
     BACKEND_BASE_URLS["LOCAL_GOKU"] = "http://localhost:3000/goku";
-    BACKEND_BASE_URLS["PRODUCTION"] = "";
+    BACKEND_BASE_URLS["PRODUCTION"] = "http://157.230.99.199:3000/goku";
 })(BACKEND_BASE_URLS = exports.BACKEND_BASE_URLS || (exports.BACKEND_BASE_URLS = {}));
 exports.BACKEND_ROUTES = {
     "DELETE": {},

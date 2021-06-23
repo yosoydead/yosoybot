@@ -109,12 +109,7 @@ client.login(process.env.BOT_TOKEN)
     console.log("login");
     dbFactory_1.default.createInstance(process.env.NODE_ENV, fetchClient);
     (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("%commands");
-    // return fetchClient.get("http://localhost:3000/test/users");
 })
-    // .then(async (res) => {
-    //   console.log(await res.json());
-    //   console.log(global.serverUrl);
-    // })
     .catch(err => {
     console.log(err);
 });

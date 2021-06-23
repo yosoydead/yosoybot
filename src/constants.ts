@@ -1,10 +1,12 @@
+export const BOT_NAME = "Yosoybot";
+
 export const REPLY_MESSAGES = {
   ALO: "Aaalo",
   BACKEND_REQUEST_FAIL: "Request-ul catre backend a esuat.",
   CHANNEL_ENTRY_LOG: "Canal pe care am intrat",
   COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
   COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
-  COMMANDS_TITLE: "Hi. I am yosoybot!",
+  COMMANDS_TITLE: `Hi. I am ${BOT_NAME}!`,
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
   MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
@@ -67,7 +69,7 @@ export enum ANIMAL_FACTS_APIS {
 export enum BACKEND_BASE_URLS {
   LOCAL = "http://192.168.100.4:3000/test",
   LOCAL_GOKU = "http://localhost:3000/goku",
-  PRODUCTION = ""
+  PRODUCTION = "http://157.230.99.199:3000/goku"
 }
 
 export const BACKEND_ROUTES = {

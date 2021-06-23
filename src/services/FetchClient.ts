@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { BOT_NAME } from "../constants";
 
 export interface IFetchClient {
   get(url: string): Promise<any>;
@@ -17,7 +18,7 @@ export class FetchClient implements IFetchClient {
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json",
-        "Sender": "yosoybot"
+        "Sender": BOT_NAME
       }
     });
   }
@@ -28,7 +29,7 @@ export class FetchClient implements IFetchClient {
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json",
-        "Sender": "yosoybot"
+        "Sender": BOT_NAME
       }
     });
   }

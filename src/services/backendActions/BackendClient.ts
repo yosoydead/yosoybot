@@ -1,5 +1,5 @@
 import { IFetchClient } from "../FetchClient";
-import { BACKEND_ROUTES, MESSAGE_COLORS, REPLY_MESSAGES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
+import { BACKEND_ROUTES, BOT_NAME, MESSAGE_COLORS, REPLY_MESSAGES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
 import { BackendComment, IBackendClient, IBackendResponse } from "../../types";
 import { EmbedField, MessageEmbed } from "discord.js";
 import { createEmbedFields } from "../../utils/createEmbedFields";
@@ -27,7 +27,7 @@ export default class BackendClient implements IBackendClient {
           " ",
           " ",
           embedFields,
-          "Yosoybot",
+          BOT_NAME,
           REPLY_MESSAGES.COMMANDS_FOOTER
         );
 
@@ -39,7 +39,7 @@ export default class BackendClient implements IBackendClient {
           "Error",
           YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE,
           [],
-          "Yosoybot",
+          BOT_NAME,
           REPLY_MESSAGES.COMMANDS_FOOTER
         );
       });

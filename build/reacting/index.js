@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.reactionHandler = void 0;
 const rublerts_1 = require("./rubl/rublerts");
-const reacting_1 = require("../services/reacting/reacting");
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
 // nu cred/nu stiu daca are acces la mesajele din istoric
@@ -35,8 +34,9 @@ function reactionHandler(reaction, user, client) {
                 // const author = reaction.message.author.id;
                 // const channel = reaction.message.channel;
                 // const res = await addComment(client, "http://localhost:3000/test/comment", { content: msgContent, author: author });
-                const res = yield reacting_1.addMoney(client, "http://localhost:3000/test/user/reward", { author: author, howMuch: 50 });
-                yield channel.send(res.message);
+                // const res = await addMoney(client, "http://localhost:3000/test/user/reward", { author: author, howMuch: 50 });
+                // await channel.send(res.message);
+                yield channel.send("Inca nu se pot da bani. Comming soon.");
                 break;
             }
             default:
