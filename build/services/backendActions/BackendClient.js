@@ -4,9 +4,13 @@ const constants_1 = require("../../constants");
 const createEmbedFields_1 = require("../../utils/createEmbedFields");
 const createMessageEmbed_1 = require("../../utils/createMessageEmbed");
 class BackendClient {
-    constructor(client, requestBaseUrl) {
+    constructor(client, requestBaseUrl, appMode) {
         this._baseUrl = requestBaseUrl;
         this._client = client;
+        this._appMode = appMode;
+    }
+    getAppMode() {
+        return this._appMode;
     }
     getRandomQuote() {
         return this._client.get(`${this._baseUrl}${constants_1.BACKEND_ROUTES.GET.randomQuote}`)

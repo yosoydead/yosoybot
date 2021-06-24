@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = exports.BOT_NAME = void 0;
+exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.GUILD_IDS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = exports.BOT_NAME = void 0;
 exports.BOT_NAME = "Yosoybot";
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
@@ -30,6 +30,10 @@ exports.MY_CHANNEL_IDS = {
     YOSOYDEAD_SERVER: "781108831421333535",
     WAKEUP_CRONJOB: "785846537543876639",
     USER_ID: "405081094057099276"
+};
+exports.GUILD_IDS = {
+    YOSOYDEAD_SERVER: "781108831421333535",
+    GOKU_SERVER: "672558611037159442"
 };
 //colorez MessageEmbed
 var MESSAGE_COLORS;

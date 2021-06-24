@@ -48,6 +48,11 @@ export const MY_CHANNEL_IDS = {
   USER_ID: "405081094057099276"
 };
 
+export const GUILD_IDS = {
+  YOSOYDEAD_SERVER: "781108831421333535",
+  GOKU_SERVER: "672558611037159442"
+};
+
 //colorez MessageEmbed
 export enum MESSAGE_COLORS {
   DEFAULT = "#3f51b5",

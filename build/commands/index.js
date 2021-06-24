@@ -24,14 +24,21 @@ const meteo_1 = require("./meteo/meteo");
 // import { addComment } from "../services/reacting/reacting";
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
+const types_1 = require("../types");
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 function commandHandler(message, client) {
-    var _a;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         const BackendClient = dbFactory_1.default.getInstance();
+        // nu da mesaj pe prod cand esti pe local
+        if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
+            return;
+        // nu da mesaj pe local cand esti pe prod
+        if (BackendClient.getAppMode() === types_1.APP_MODES.PROD && ((_b = message.guild) === null || _b === void 0 ? void 0 : _b.id) === constants_1.GUILD_IDS.YOSOYDEAD_SERVER)
+            return;
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
         if (message.author.username === "yosoybot")
@@ -111,7 +118,7 @@ function commandHandler(message, client) {
                     return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
                 }
                 // console.log(message);
-                const guildId = (_a = message.guild) === null || _a === void 0 ? void 0 : _a.id;
+                const guildId = (_c = message.guild) === null || _c === void 0 ? void 0 : _c.id;
                 message.client.guilds.fetch(guildId)
                     .then((guild) => {
                     // console.log("res", res);

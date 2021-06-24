@@ -6,11 +6,16 @@ export type BackendComment = {
 }
 
 export interface IBackendClient {
+  getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
 }
 
 export type RESPONSE_TYPE = "success" | "error";
+export enum APP_MODES {
+  LOCAL = "local",
+  PROD = "production"
+}
 export interface IBackendResponse {
   message: string;
   statusCode: number;

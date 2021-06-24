@@ -2,7 +2,7 @@ import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { BOT_NAME, MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
+import { BOT_NAME, GUILD_IDS, MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
@@ -12,6 +12,7 @@ import { meteo } from "./meteo/meteo";
 // import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
 import dbFactory from "../utils/dbFactory";
+import { APP_MODES } from "../types";
 // import { getData } from "../services";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
@@ -27,7 +28,11 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  const BackendClient = dbFactory.getInstance();  
+  const BackendClient = dbFactory.getInstance();
+  // nu da mesaj pe prod cand esti pe local
+  if (BackendClient.getAppMode() === APP_MODES.LOCAL && message.guild?.id === GUILD_IDS.GOKU_SERVER) return;
+  // nu da mesaj pe local cand esti pe prod
+  if (BackendClient.getAppMode() === APP_MODES.PROD && message.guild?.id === GUILD_IDS.YOSOYDEAD_SERVER) return;
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot

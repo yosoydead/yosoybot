@@ -1,6 +1,6 @@
 import { IFetchClient } from "../FetchClient";
 import { BACKEND_ROUTES, BOT_NAME, MESSAGE_COLORS, REPLY_MESSAGES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
-import { BackendComment, IBackendClient, IBackendResponse } from "../../types";
+import { APP_MODES, BackendComment, IBackendClient, IBackendResponse } from "../../types";
 import { EmbedField, MessageEmbed } from "discord.js";
 import { createEmbedFields } from "../../utils/createEmbedFields";
 import { createMessageEmbed } from "../../utils/createMessageEmbed";
@@ -8,10 +8,16 @@ import { createMessageEmbed } from "../../utils/createMessageEmbed";
 export default class BackendClient implements IBackendClient {
   private _baseUrl: string;
   private _client: IFetchClient;
+  private _appMode: APP_MODES;
 
-  constructor(client: IFetchClient, requestBaseUrl: string) {
+  constructor(client: IFetchClient, requestBaseUrl: string, appMode: APP_MODES) {
     this._baseUrl = requestBaseUrl;
     this._client = client;
+    this._appMode = appMode;
+  }
+
+  getAppMode (): string {
+    return this._appMode;
   }
 
   getRandomQuote(): Promise<MessageEmbed> {
