@@ -61,4 +61,17 @@ export default class BackendClient implements IBackendClient {
         return YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
       });
   }
+
+  addTransactions() {
+    // throw new Error("Method not implemented.");
+    return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addTransactions}`, {})
+      .then((res) => {
+        console.log(res);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        
+      });
+  }
 }

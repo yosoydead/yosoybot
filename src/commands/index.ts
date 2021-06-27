@@ -9,11 +9,9 @@ import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
-// import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
 import dbFactory from "../utils/dbFactory";
 import { APP_MODES } from "../types";
-// import { getData } from "../services";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {

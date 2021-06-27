@@ -55,7 +55,7 @@ var ANIMAL_FACTS_APIS;
 })(ANIMAL_FACTS_APIS = exports.ANIMAL_FACTS_APIS || (exports.ANIMAL_FACTS_APIS = {}));
 var BACKEND_BASE_URLS;
 (function (BACKEND_BASE_URLS) {
-    BACKEND_BASE_URLS["LOCAL"] = "http://192.168.100.4:3000/test";
+    BACKEND_BASE_URLS["LOCAL"] = "http://localhost:3000/test";
     BACKEND_BASE_URLS["LOCAL_GOKU"] = "http://localhost:3000/goku";
     BACKEND_BASE_URLS["PRODUCTION"] = "http://157.230.99.199:3000/goku";
 })(BACKEND_BASE_URLS = exports.BACKEND_BASE_URLS || (exports.BACKEND_BASE_URLS = {}));
@@ -80,7 +80,8 @@ exports.BACKEND_ROUTES = {
         addMultipleComments: "/comments",
         // users
         addUser: "/user/add",
-        addMultipleUsers: "/users"
+        addMultipleUsers: "/users",
+        addTransactions: "/transactions/add"
     },
     "PUT": {},
     "UPDATE": {},

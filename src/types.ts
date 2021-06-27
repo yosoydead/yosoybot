@@ -9,6 +9,7 @@ export interface IBackendClient {
   getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
+  addTransactions(): any;
 }
 
 export type RESPONSE_TYPE = "success" | "error";

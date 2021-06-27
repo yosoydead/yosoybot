@@ -72,7 +72,7 @@ export enum ANIMAL_FACTS_APIS {
 }
 
 export enum BACKEND_BASE_URLS {
-  LOCAL = "http://192.168.100.4:3000/test",
+  LOCAL = "http://localhost:3000/test",
   LOCAL_GOKU = "http://localhost:3000/goku",
   PRODUCTION = "http://157.230.99.199:3000/goku"
 }
@@ -101,7 +101,8 @@ export const BACKEND_ROUTES = {
 
     // users
     addUser: "/user/add",
-    addMultipleUsers: "/users"
+    addMultipleUsers: "/users",
+    addTransactions: "/transactions/add"
   },
   "PUT": {},
   "UPDATE": {},

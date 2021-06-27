@@ -21,7 +21,6 @@ const dogs_1 = require("./dogs/dogs");
 const allCommands_1 = require("./allCommands/allCommands");
 const weeb_1 = require("./weeb/weeb");
 const meteo_1 = require("./meteo/meteo");
-// import { addComment } from "../services/reacting/reacting";
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
 const types_1 = require("../types");
