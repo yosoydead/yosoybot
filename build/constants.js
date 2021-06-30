@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.GUILD_IDS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = exports.BOT_NAME = void 0;
+exports.BACKEND_ROUTES = exports.BACKEND_BASE_URLS = exports.ANIMAL_FACTS_APIS = exports.SERVER_ACTION = exports.MESSAGE_COLORS = exports.USER_IDS = exports.GUILD_IDS = exports.MY_CHANNEL_IDS = exports.YOSOYDB_ERROR_MESSAGES = exports.REPLY_MESSAGES = exports.BOT_NAME = void 0;
 exports.BOT_NAME = "Yosoybot";
 exports.REPLY_MESSAGES = {
     ALO: "Aaalo",
@@ -11,6 +11,7 @@ exports.REPLY_MESSAGES = {
     COMMANDS_TITLE: `Hi. I am ${exports.BOT_NAME}!`,
     EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
     EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+    GIVE_MONEY_FORMAT: "Comanda trebuie sa fie de formatul: %give @user 50",
     MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
     NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
     PONG: "PONG",
@@ -30,11 +31,14 @@ exports.MY_CHANNEL_IDS = {
     LOG_ERORI: "785130953525559307",
     YOSOYDEAD_SERVER: "781108831421333535",
     WAKEUP_CRONJOB: "785846537543876639",
-    USER_ID: "405081094057099276"
 };
 exports.GUILD_IDS = {
     YOSOYDEAD_SERVER: "781108831421333535",
     GOKU_SERVER: "672558611037159442"
+};
+exports.USER_IDS = {
+    YOSOYDEAD: "405081094057099276",
+    GOKU: "291235021367279617"
 };
 //colorez MessageEmbed
 var MESSAGE_COLORS;

@@ -31,7 +31,6 @@ const types_1 = require("../types");
 function commandHandler(message, client) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("mesaj", message);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
@@ -112,8 +111,29 @@ function commandHandler(message, client) {
                 const response = yield BackendClient.getRandomQuote();
                 return yield message.channel.send(response);
             }
+            case "give" /* GIVE_MONEY */: {
+                if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD && message.author.id !== constants_1.USER_IDS.GOKU) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
+                }
+                const splitMessage = message.content.split(" ");
+                const sum = splitMessage.pop();
+                if (isNaN(parseInt(sum))) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.GIVE_MONEY_FORMAT);
+                }
+                const transactions = [];
+                const mentions = message.mentions.users.array();
+                mentions.map((user) => {
+                    transactions.push({
+                        cost: parseInt(sum),
+                        discordUserId: user.id,
+                        reason: `Fonduri adaugate de catre ${message.author.username}`
+                    });
+                });
+                const response = yield BackendClient.addTransactions(transactions);
+                return yield message.channel.send(response);
+            }
             case "update": {
-                if (message.author.id !== constants_1.MY_CHANNEL_IDS.USER_ID) {
+                if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD) {
                     return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
                 }
                 // console.log(message);

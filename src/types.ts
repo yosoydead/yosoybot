@@ -20,7 +20,7 @@ export interface IBackendClient {
   getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
-  addTransactions(transactions: BackendTransaction[]): any;
+  addTransactions(transactions: BackendTransaction[]): Promise<string>;
 }
 
 export type RESPONSE_TYPE = "success" | "error";

@@ -9,6 +9,7 @@ export const REPLY_MESSAGES = {
   COMMANDS_TITLE: `Hi. I am ${BOT_NAME}!`,
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+  GIVE_MONEY_FORMAT: "Comanda trebuie sa fie de formatul: %give @user 50",
   MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
   NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   PONG: "PONG",
@@ -46,12 +47,16 @@ export const MY_CHANNEL_IDS = {
   LOG_ERORI: "785130953525559307",
   YOSOYDEAD_SERVER: "781108831421333535",
   WAKEUP_CRONJOB: "785846537543876639",
-  USER_ID: "405081094057099276"
 };
 
 export const GUILD_IDS = {
   YOSOYDEAD_SERVER: "781108831421333535",
   GOKU_SERVER: "672558611037159442"
+};
+
+export const USER_IDS = {
+  YOSOYDEAD: "405081094057099276",
+  GOKU: "291235021367279617"
 };
 
 //colorez MessageEmbed

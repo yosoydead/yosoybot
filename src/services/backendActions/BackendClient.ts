@@ -62,14 +62,14 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
-  addTransactions(transactions: BackendTransaction[]) {
+  addTransactions(transactions: BackendTransaction[]): Promise<string> {
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addTransactions}`, {transactions})
       .then(res => res.json())
       .then((json: IBackendResponse) => {
-        console.log(json);
+        return json.message;
       })
       .catch((err) => {
-        return YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
+        return YOSOYDB_ERROR_MESSAGES.ADD_TRANSACTIONS;
       });
   }
 }

@@ -2,7 +2,7 @@ import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { BOT_NAME, GUILD_IDS, MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
+import { BOT_NAME, GUILD_IDS, REPLY_MESSAGES, USER_IDS } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
@@ -11,7 +11,7 @@ import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
 import fetch from "node-fetch";
 import dbFactory from "../utils/dbFactory";
-import { APP_MODES } from "../types";
+import { APP_MODES, BackendTransaction } from "../types";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {
@@ -35,7 +35,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
   if (message.author.username === "yosoybot") return;
-  
+
   //sparg mesajul in bucati si vreau sa vad care e primul cuvant din mesaj
   const splitMessage: string[] = message.content.split(" ");
   
@@ -110,8 +110,32 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
     return await message.channel.send(response);
   }
+  case CommandNames.GIVE_MONEY : {
+    if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+
+    const splitMessage: string[] = message.content.split(" ");
+    const sum = splitMessage.pop()!;
+    if (isNaN(parseInt(sum))) {
+      return await message.reply(REPLY_MESSAGES.GIVE_MONEY_FORMAT);
+    }
+
+    const transactions: BackendTransaction[] = [];
+    const mentions = message.mentions.users.array();  
+    mentions.map((user) => {
+      transactions.push({
+        cost: parseInt(sum),
+        discordUserId: user.id,
+        reason: `Fonduri adaugate de catre ${message.author.username}`
+      });
+    });
+
+    const response = await BackendClient.addTransactions(transactions);
+    return await message.channel.send(response);
+  }
   case "update": {
-    if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {
+    if (message.author.id !== USER_IDS.YOSOYDEAD) {
       return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
     }
     // console.log(message);

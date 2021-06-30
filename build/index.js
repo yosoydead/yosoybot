@@ -85,7 +85,6 @@ client.on("messageDelete", (message) => {
     console.log("am sters:", message.content);
 });
 client.on("messageReactionAdd", (reaction, user) => reacting_1.reactionHandler(reaction, user, fetchClient));
-// client.on("messageReactionRemove", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
     function cb() {

@@ -5,6 +5,7 @@ export const enum CommandNames {
   DEPRESIE = "depresie",
   DOGS_FACT = "dogs",
   EIGHT_BALL =  "8ball",
+  GIVE_MONEY = "give",
   PING = "ping",
   PONG = "pong",
   RANDOM_QUOTE = "quote",

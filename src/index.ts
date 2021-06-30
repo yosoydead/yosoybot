@@ -65,7 +65,6 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
 });
 
 client.on("messageReactionAdd", (reaction, user) => reactionHandler(reaction, user, fetchClient));
-// client.on("messageReactionRemove", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
   function cb() {
