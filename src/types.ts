@@ -1,15 +1,26 @@
-import { MessageEmbed } from "discord.js";
+import { MessageAttachment, MessageEmbed } from "discord.js";
 
 export type BackendComment = {
   content: string;
   author: string;
 }
 
+export type MessageContentAndAttachment = {
+  content: string;
+  attachments: MessageAttachment[];
+  authorUsername: string;
+}
+export interface BackendTransaction {
+  reason: string;
+  cost: number;
+  discordUserId: string;
+}
+
 export interface IBackendClient {
   getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
-  addTransactions(): any;
+  addTransactions(transactions: BackendTransaction[]): any;
 }
 
 export type RESPONSE_TYPE = "success" | "error";

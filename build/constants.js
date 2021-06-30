@@ -21,7 +21,8 @@ exports.REPLY_MESSAGES = {
 };
 exports.YOSOYDB_ERROR_MESSAGES = {
     RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
-    ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote."
+    ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote.",
+    ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum."
 };
 exports.MY_CHANNEL_IDS = {
     INTRAT_PE_SERVERE: "785131037139140641",

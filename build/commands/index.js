@@ -31,6 +31,7 @@ const types_1 = require("../types");
 function commandHandler(message, client) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("mesaj", message);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
@@ -53,7 +54,6 @@ function commandHandler(message, client) {
         //daca mesajul nu incepe cu !, o sa ignor comanda
         if (splitMessage[0].charAt(0) !== "%")
             return;
-        // console.log("mesaj",message);
         // trec prin fiecare tip de comanda si ii dau sa faca ceva
         switch (splitMessage[0].substring(1)) {
             case "8ball" /* EIGHT_BALL */:

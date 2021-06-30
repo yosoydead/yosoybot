@@ -47,7 +47,6 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
   //daca mesajul nu incepe cu !, o sa ignor comanda
   if (splitMessage[0].charAt(0) !== "%") return;
-  // console.log("mesaj",message);
   
   // trec prin fiecare tip de comanda si ii dau sa faca ceva
   switch (splitMessage[0].substring(1)) {

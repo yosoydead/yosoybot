@@ -20,7 +20,8 @@ export const REPLY_MESSAGES = {
 
 export const YOSOYDB_ERROR_MESSAGES = {
   RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
-  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote."
+  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote.",
+  ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum."
 };
 
 export const enum REACT_EMOJI {
