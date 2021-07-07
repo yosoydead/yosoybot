@@ -1,5 +1,5 @@
 import { MessageReaction, User, PartialUser, Message, MessageAttachment } from "discord.js";
-import { GUILD_IDS, REACT_EMOJI } from "../constants";
+import { GUILD_IDS, REACT_EMOJI, USER_IDS } from "../constants";
 import { rublertReaction } from "./rubl/rublerts";
 import { IFetchClient } from "../services/FetchClient";
 import dbFactory from "../utils/dbFactory";
@@ -40,6 +40,8 @@ export async function reactionHandler(reaction: MessageReaction, user: User | Pa
     console.log("stitch");
     reaction.message.channel.messages.fetch(messageID)
       .then((foundMessage: Message) => {
+        if (foundMessage.author.id === USER_IDS.YOSOYBOT) return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
+
         const contents = msgContentAndAttachment(foundMessage);
         let reason;
         if (contents.content === "" && contents.attachments.length > 0) {

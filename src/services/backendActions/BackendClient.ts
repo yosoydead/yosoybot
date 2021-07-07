@@ -4,6 +4,7 @@ import { APP_MODES, BackendComment, BackendTransaction, IBackendClient, IBackend
 import { EmbedField, MessageEmbed } from "discord.js";
 import { createEmbedFields } from "../../utils/createEmbedFields";
 import { createMessageEmbed } from "../../utils/createMessageEmbed";
+import cacheFactory from "../../utils/cacheFactory";
 
 export default class BackendClient implements IBackendClient {
   private _baseUrl: string;
@@ -58,6 +59,7 @@ export default class BackendClient implements IBackendClient {
         return json.message;
       })
       .catch(err => {
+        cacheFactory.getInstance().updateStore("comments", comment);
         return YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
       });
   }

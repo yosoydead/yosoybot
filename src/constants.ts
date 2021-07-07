@@ -9,6 +9,7 @@ export const REPLY_MESSAGES = {
   COMMANDS_TITLE: `Hi. I am ${BOT_NAME}!`,
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+  GIVE_EVERYONE_MONEY_ERROR: "Ceva nu e ok. Nu am reusit sa culeg toti userii. Incearca mai tarziu sau da bani doar catorva.",
   GIVE_MONEY_FORMAT: "Comanda trebuie sa fie de formatul: %give @user 50",
   MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
   NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
@@ -21,7 +22,7 @@ export const REPLY_MESSAGES = {
 
 export const YOSOYDB_ERROR_MESSAGES = {
   RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
-  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote.",
+  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote. Mesajul a fost adaugat in cache si o sa fie trimis spre backend mai tarziu.",
   ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum."
 };
 
@@ -56,7 +57,8 @@ export const GUILD_IDS = {
 
 export const USER_IDS = {
   YOSOYDEAD: "405081094057099276",
-  GOKU: "291235021367279617"
+  GOKU: "291235021367279617",
+  YOSOYBOT: "784135061225734184",
 };
 
 //colorez MessageEmbed

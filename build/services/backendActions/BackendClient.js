@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../../constants");
 const createEmbedFields_1 = require("../../utils/createEmbedFields");
 const createMessageEmbed_1 = require("../../utils/createMessageEmbed");
+const cacheFactory_1 = __importDefault(require("../../utils/cacheFactory"));
 class BackendClient {
     constructor(client, requestBaseUrl, appMode) {
         this._baseUrl = requestBaseUrl;
@@ -34,6 +38,7 @@ class BackendClient {
             return json.message;
         })
             .catch(err => {
+            cacheFactory_1.default.getInstance().updateStore("comments", comment);
             return constants_1.YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
         });
     }

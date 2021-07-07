@@ -26,6 +26,8 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
+  console.log("message", message);
+  
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local
   if (BackendClient.getAppMode() === APP_MODES.LOCAL && message.guild?.id === GUILD_IDS.GOKU_SERVER) return;
@@ -34,7 +36,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
-  if (message.author.username === "yosoybot") return;
+  if (message.author.id === USER_IDS.YOSOYBOT) return;
 
   //sparg mesajul in bucati si vreau sa vad care e primul cuvant din mesaj
   const splitMessage: string[] = message.content.split(" ");
@@ -122,14 +124,30 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     }
 
     const transactions: BackendTransaction[] = [];
-    const mentions = message.mentions.users.array();  
-    mentions.map((user) => {
-      transactions.push({
-        cost: parseInt(sum),
-        discordUserId: user.id,
-        reason: `Fonduri adaugate de catre ${message.author.username}`
+
+    if (message.mentions.everyone === true) {
+      try {
+        const users = await message.guild?.members.fetch();
+        users?.map((user) => {
+          transactions.push({
+            cost: parseInt(sum),
+            discordUserId: user.id,
+            reason: `Fonduri adaugate de catre ${message.author.username}`
+          });
+        });
+      } catch {
+        return await message.channel.send(REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
+      }
+    } else {
+      const mentions = message.mentions.users.array();  
+      mentions.map((user) => {
+        transactions.push({
+          cost: parseInt(sum),
+          discordUserId: user.id,
+          reason: `Fonduri adaugate de catre ${message.author.username}`
+        });
       });
-    });
+    }
 
     const response = await BackendClient.addTransactions(transactions);
     return await message.channel.send(response);

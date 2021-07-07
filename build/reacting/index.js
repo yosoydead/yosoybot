@@ -53,6 +53,8 @@ function reactionHandler(reaction, user, client) {
                 console.log("stitch");
                 reaction.message.channel.messages.fetch(messageID)
                     .then((foundMessage) => {
+                    if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
+                        return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
                     const contents = msgContentAndAttachment(foundMessage);
                     let reason;
                     if (contents.content === "" && contents.attachments.length > 0) {

@@ -10,6 +10,7 @@ export type MessageContentAndAttachment = {
   attachments: MessageAttachment[];
   authorUsername: string;
 }
+
 export interface BackendTransaction {
   reason: string;
   cost: number;
@@ -34,3 +35,18 @@ export interface IBackendResponse {
   status: RESPONSE_TYPE;
   arrayOfStuff: [];
 }
+
+export interface ICacheClient {
+  isCacheEmpty: () => boolean;
+  updateCommentStore: (comment: BackendComment) => void;
+  updateTransactionStore: (transaction: BackendTransaction) => void;
+}
+export interface ICacheSchema {
+  // lista din care sa fac update la quotes
+  comments: BackendComment[];
+
+  // lista din care sa fac update la useri cu bani
+  // trebuie cumva indexata dupa discordUserId sau ceva unic
+  transactions: BackendTransaction[]
+}
+

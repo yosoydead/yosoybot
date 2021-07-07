@@ -29,8 +29,9 @@ const types_1 = require("../types");
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 function commandHandler(message, client) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("message", message);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
@@ -40,7 +41,7 @@ function commandHandler(message, client) {
             return;
         // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
         // ii dau short circuit direct cand vad ca mesajul e de la bot
-        if (message.author.username === "yosoybot")
+        if (message.author.id === constants_1.USER_IDS.YOSOYBOT)
             return;
         //sparg mesajul in bucati si vreau sa vad care e primul cuvant din mesaj
         const splitMessage = message.content.split(" ");
@@ -121,14 +122,31 @@ function commandHandler(message, client) {
                     return yield message.reply(constants_1.REPLY_MESSAGES.GIVE_MONEY_FORMAT);
                 }
                 const transactions = [];
-                const mentions = message.mentions.users.array();
-                mentions.map((user) => {
-                    transactions.push({
-                        cost: parseInt(sum),
-                        discordUserId: user.id,
-                        reason: `Fonduri adaugate de catre ${message.author.username}`
+                if (message.mentions.everyone === true) {
+                    try {
+                        const users = yield ((_c = message.guild) === null || _c === void 0 ? void 0 : _c.members.fetch());
+                        users === null || users === void 0 ? void 0 : users.map((user) => {
+                            transactions.push({
+                                cost: parseInt(sum),
+                                discordUserId: user.id,
+                                reason: `Fonduri adaugate de catre ${message.author.username}`
+                            });
+                        });
+                    }
+                    catch (_e) {
+                        return yield message.channel.send(constants_1.REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
+                    }
+                }
+                else {
+                    const mentions = message.mentions.users.array();
+                    mentions.map((user) => {
+                        transactions.push({
+                            cost: parseInt(sum),
+                            discordUserId: user.id,
+                            reason: `Fonduri adaugate de catre ${message.author.username}`
+                        });
                     });
-                });
+                }
                 const response = yield BackendClient.addTransactions(transactions);
                 return yield message.channel.send(response);
             }
@@ -137,7 +155,7 @@ function commandHandler(message, client) {
                     return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
                 }
                 // console.log(message);
-                const guildId = (_c = message.guild) === null || _c === void 0 ? void 0 : _c.id;
+                const guildId = (_d = message.guild) === null || _d === void 0 ? void 0 : _d.id;
                 message.client.guilds.fetch(guildId)
                     .then((guild) => {
                     // console.log("res", res);
