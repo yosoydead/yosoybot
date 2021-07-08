@@ -4,6 +4,7 @@ import { rublertReaction } from "./rubl/rublerts";
 import { IFetchClient } from "../services/FetchClient";
 import dbFactory from "../utils/dbFactory";
 import { APP_MODES, MessageContentAndAttachment } from "../types";
+import cacheFactory from "../utils/cacheFactory";
 
 export function msgContentAndAttachment(message: Message): MessageContentAndAttachment {
   const msgText: string = message.content;
@@ -20,6 +21,8 @@ export function msgContentAndAttachment(message: Message): MessageContentAndAtta
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
 // nu cred/nu stiu daca are acces la mesajele din istoric
 export async function reactionHandler(reaction: MessageReaction, user: User | PartialUser, client: IFetchClient) {
+  console.log(reaction.emoji.name, user);
+  
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local
   if (BackendClient.getAppMode() === APP_MODES.LOCAL && reaction.message.guild?.id === GUILD_IDS.GOKU_SERVER) return;
@@ -31,13 +34,15 @@ export async function reactionHandler(reaction: MessageReaction, user: User | Pa
 
   switch(emojiName) {
   case REACT_EMOJI.RUBLERT: {
-    const message = await rublertReaction();
-    // console.log(message, username);
-    console.log(reaction);
+    // console.log(reaction);
+    // cacheFactory.getInstance().updateTransactionStore({
+    //   cost: -1,
+    //   discordUserId: reaction.
+    // });
     break;
   }
   case REACT_EMOJI.STITCH: {
-    console.log("stitch");
+    // console.log("stitch reaction user", user);
     reaction.message.channel.messages.fetch(messageID)
       .then((foundMessage: Message) => {
         if (foundMessage.author.id === USER_IDS.YOSOYBOT) return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");

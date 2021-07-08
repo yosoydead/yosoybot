@@ -23,7 +23,9 @@ export const REPLY_MESSAGES = {
 export const YOSOYDB_ERROR_MESSAGES = {
   RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
   ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote. Mesajul a fost adaugat in cache si o sa fie trimis spre backend mai tarziu.",
-  ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum."
+  ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum.",
+  BULK_UPDATE_TRANSACTIONS: "Ceva nu e in regula. Nu am putut salva tranzactiile. Vor fi pastrate in cache si trimise urmatoarea data.",
+  BULK_UPDATE_COMMENTS: "Ceva nu e in regula. Nu am putut salva comentariile care o ajuns in cache. Vor fi pastrate in cache si trimise urmatoarea data."
 };
 
 export const enum REACT_EMOJI {

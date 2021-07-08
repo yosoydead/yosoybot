@@ -22,6 +22,7 @@ export interface IBackendClient {
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
   addTransactions(transactions: BackendTransaction[]): Promise<string>;
+  sendCacheDataOnDemand: (cacheClient: ICacheClient) => any;
 }
 
 export type RESPONSE_TYPE = "success" | "error";
@@ -37,7 +38,14 @@ export interface IBackendResponse {
 }
 
 export interface ICacheClient {
+  clearMainCache: () => void;
+  clearComments: () => void;
+  clearTransactions: () => void;
+  getCurrentCache: () => ICacheSchema;
   isCacheEmpty: () => boolean;
+  lockStore: () => void;
+  syncBetweenSecondaryAndMainStore: () => void;
+  unlockStore: () => void;
   updateCommentStore: (comment: BackendComment) => void;
   updateTransactionStore: (transaction: BackendTransaction) => void;
 }

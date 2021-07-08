@@ -38,7 +38,7 @@ class BackendClient {
             return json.message;
         })
             .catch(err => {
-            cacheFactory_1.default.getInstance().updateStore("comments", comment);
+            cacheFactory_1.default.getInstance().updateCommentStore(comment);
             return constants_1.YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
         });
     }
@@ -50,6 +50,34 @@ class BackendClient {
         })
             .catch((err) => {
             return constants_1.YOSOYDB_ERROR_MESSAGES.ADD_TRANSACTIONS;
+        });
+    }
+    sendCacheDataOnDemand(cacheClient) {
+        cacheClient.lockStore();
+        const cacheStore = cacheClient.getCurrentCache();
+        const transactions = cacheStore.transactions;
+        const comments = cacheStore.comments;
+        return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addTransactions}`, { transactions })
+            .then(res => res.json())
+            .then((transactionsRes) => {
+            if (transactionsRes.status === "error")
+                throw new Error(constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_TRANSACTIONS);
+            // daca ajung aici, inseamna ca toate tranzactiile au fost adaugate cu succes
+            // sterg tranzactiile din cache si trimit request pt quotes
+            return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addMultipleComments}`, { comments });
+        })
+            .then(res => res.json())
+            .then((commentsRes) => {
+            if (commentsRes.status === "error")
+                throw new Error(constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_COMMENTS);
+            // daca ajung aici, inseamna ca toate comentariile si tranzactiile au fost adaugate cu success
+            cacheClient.clearMainCache();
+            cacheClient.syncBetweenSecondaryAndMainStore();
+            cacheClient.unlockStore();
+        })
+            .catch(err => {
+            // aici ajunge daca dau cu throw din oricare then
+            console.log(err);
         });
     }
 }

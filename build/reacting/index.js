@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.reactionHandler = exports.msgContentAndAttachment = void 0;
 const constants_1 = require("../constants");
-const rublerts_1 = require("./rubl/rublerts");
 const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
 const types_1 = require("../types");
 function msgContentAndAttachment(message) {
@@ -33,6 +32,7 @@ exports.msgContentAndAttachment = msgContentAndAttachment;
 function reactionHandler(reaction, user, client) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(reaction.emoji.name, user);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = reaction.message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
@@ -44,13 +44,15 @@ function reactionHandler(reaction, user, client) {
         const messageID = reaction.message.id;
         switch (emojiName) {
             case "rubl" /* RUBLERT */: {
-                const message = yield rublerts_1.rublertReaction();
-                // console.log(message, username);
-                console.log(reaction);
+                // console.log(reaction);
+                // cacheFactory.getInstance().updateTransactionStore({
+                //   cost: -1,
+                //   discordUserId: reaction.
+                // });
                 break;
             }
             case "stitch" /* STITCH */: {
-                console.log("stitch");
+                // console.log("stitch reaction user", user);
                 reaction.message.channel.messages.fetch(messageID)
                     .then((foundMessage) => {
                     if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)

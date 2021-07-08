@@ -1,6 +1,6 @@
 import { IFetchClient } from "../FetchClient";
 import { BACKEND_ROUTES, BOT_NAME, MESSAGE_COLORS, REPLY_MESSAGES, YOSOYDB_ERROR_MESSAGES } from "../../constants";
-import { APP_MODES, BackendComment, BackendTransaction, IBackendClient, IBackendResponse } from "../../types";
+import { APP_MODES, BackendComment, BackendTransaction, IBackendClient, IBackendResponse, ICacheClient } from "../../types";
 import { EmbedField, MessageEmbed } from "discord.js";
 import { createEmbedFields } from "../../utils/createEmbedFields";
 import { createMessageEmbed } from "../../utils/createMessageEmbed";
@@ -59,7 +59,7 @@ export default class BackendClient implements IBackendClient {
         return json.message;
       })
       .catch(err => {
-        cacheFactory.getInstance().updateStore("comments", comment);
+        cacheFactory.getInstance().updateCommentStore(comment);
         return YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
       });
   }
@@ -72,6 +72,36 @@ export default class BackendClient implements IBackendClient {
       })
       .catch((err) => {
         return YOSOYDB_ERROR_MESSAGES.ADD_TRANSACTIONS;
+      });
+  }
+
+  sendCacheDataOnDemand(cacheClient: ICacheClient): any {
+    cacheClient.lockStore();
+    const cacheStore = cacheClient.getCurrentCache();
+    const transactions = cacheStore.transactions;
+    const comments = cacheStore.comments;
+
+    return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addTransactions}`, {transactions})
+      .then(res => res.json())
+      .then((transactionsRes: IBackendResponse) => {
+        if (transactionsRes.status === "error") throw new Error(YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_TRANSACTIONS);
+
+        // daca ajung aici, inseamna ca toate tranzactiile au fost adaugate cu succes
+        // sterg tranzactiile din cache si trimit request pt quotes
+        return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addMultipleComments}`, {comments});
+      })
+      .then(res => res.json())
+      .then((commentsRes: IBackendResponse) => {
+        if (commentsRes.status === "error") throw new Error(YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_COMMENTS);
+
+        // daca ajung aici, inseamna ca toate comentariile si tranzactiile au fost adaugate cu success
+        cacheClient.clearMainCache();
+        cacheClient.syncBetweenSecondaryAndMainStore();
+        cacheClient.unlockStore();
+      })
+      .catch(err => {
+        // aici ajunge daca dau cu throw din oricare then
+        console.log(err);
       });
   }
 }
