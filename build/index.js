@@ -97,11 +97,18 @@ function cron(ms, fn) {
     return () => { };
 }
 // setup cron job 1500000
-cron(1500000, () => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(client.channels);
-    const wakeupChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.WAKEUP_CRONJOB);
-    // console.log(wakeupChannel);
-    wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+cron(300000, () => __awaiter(void 0, void 0, void 0, function* () {
+    const cache = cacheFactory_1.default.getInstance();
+    if (cache.isCacheEmpty() === false) {
+        const result = yield dbFactory_1.default.getInstance().sendCacheDataOnDemand(cache);
+        if (result === constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+            const logChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.LOG_ERORI);
+            logChannel.send(result);
+        }
+    }
+    else {
+        console.log("Nu fac request la backend pentru ca nu am nimic in cache :)");
+    }
 }));
 client.login(process.env.BOT_TOKEN)
     .then(() => {

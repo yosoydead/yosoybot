@@ -104,7 +104,6 @@ export default class BackendClient implements IBackendClient {
       })
       .catch(err => {
         // aici ajunge daca dau cu throw din oricare then
-        console.log(err);
         return YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL;
       });
   }

@@ -80,7 +80,6 @@ class BackendClient {
         })
             .catch(err => {
             // aici ajunge daca dau cu throw din oricare then
-            console.log(err);
             return constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL;
         });
     }

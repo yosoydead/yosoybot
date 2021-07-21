@@ -5,7 +5,7 @@
 import Discord, { Client, Message, Guild, PartialMessage } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
-import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
+import { MY_CHANNEL_IDS, SERVER_ACTION, YOSOYDB_ERROR_MESSAGES } from "./constants";
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
@@ -77,11 +77,19 @@ function cron(ms, fn) {
   return () => {};
 }
 // setup cron job 1500000
-cron(1500000, async () => {
-  // console.log(client.channels);
-  const wakeupChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.WAKEUP_CRONJOB);
-  // console.log(wakeupChannel);
-  wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+cron(300000, async () => {
+  const cache = cacheFactory.getInstance();
+  if (cache.isCacheEmpty() === false) {
+    const result = await dbFactory.getInstance().sendCacheDataOnDemand(cache);
+
+    if (result === YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+      const logChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.LOG_ERORI);
+      logChannel.send(result);
+    }
+  } else {
+    console.log("Nu fac request la backend pentru ca nu am nimic in cache :)");
+    
+  }
 });
 
 client.login(process.env.BOT_TOKEN)
