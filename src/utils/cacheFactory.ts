@@ -4,10 +4,10 @@ import { ICacheClient } from "../types";
 let cacheInstance: ICacheClient;
 
 const cacheFactory = {
-  getInstance: () => {
+  getInstance: (): ICacheClient => {
     return cacheInstance;
   },
-  createInstance: () => {
+  createInstance: (): void => {
     cacheInstance = new CacheClient();
   }
 };
