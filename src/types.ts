@@ -39,8 +39,10 @@ export interface IBackendResponse {
 
 export interface ICacheClient {
   clearMainCache: () => void;
-  clearComments: () => void;
-  clearTransactions: () => void;
+  clearMainComments: () => void;
+  clearMainTransactions: () => void;
+  clearSecondaryComments: () => void;
+  clearSecondaryTransactions: () => void;
   getCurrentCache: () => ICacheSchema;
   isCacheEmpty: () => boolean;
   lockStore: () => void;

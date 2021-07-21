@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reactionHandler = exports.msgContentAndAttachment = void 0;
+exports.reactionHandler = exports.determineTransactionReason = exports.msgContentAndAttachment = void 0;
 const constants_1 = require("../constants");
 const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
 const types_1 = require("../types");
+const cacheFactory_1 = __importDefault(require("../utils/cacheFactory"));
 function msgContentAndAttachment(message) {
     const msgText = message.content;
     const msgAttachment = message.attachments.array();
@@ -26,6 +27,23 @@ function msgContentAndAttachment(message) {
     };
 }
 exports.msgContentAndAttachment = msgContentAndAttachment;
+function determineTransactionReason(msgContents) {
+    let reason;
+    if (msgContents.content === "" && msgContents.attachments.length > 0) {
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}`;
+    }
+    else if (msgContents.content !== "" && msgContents.attachments.length === 0) {
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}`;
+    }
+    else if (msgContents.content !== "" && msgContents.attachments.length > 0) {
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}`;
+    }
+    else {
+        reason = "Cred ca ceva s-o dus in cacat si nu am salvat ce trebuie?";
+    }
+    return reason;
+}
+exports.determineTransactionReason = determineTransactionReason;
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
 // nu cred/nu stiu daca are acces la mesajele din istoric
@@ -44,36 +62,52 @@ function reactionHandler(reaction, user, client) {
         const messageID = reaction.message.id;
         switch (emojiName) {
             case "rubl" /* RUBLERT */: {
-                // console.log(reaction);
-                // cacheFactory.getInstance().updateTransactionStore({
-                //   cost: -1,
-                //   discordUserId: reaction.
-                // });
-                break;
-            }
-            case "stitch" /* STITCH */: {
-                // console.log("stitch reaction user", user);
                 reaction.message.channel.messages.fetch(messageID)
                     .then((foundMessage) => {
                     if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
                         return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
                     const contents = msgContentAndAttachment(foundMessage);
-                    let reason;
-                    if (contents.content === "" && contents.attachments.length > 0) {
-                        reason = `Ai dat react lui ${contents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${contents.attachments[0].url}`;
-                    }
-                    else if (contents.content !== "" && contents.attachments.length === 0) {
-                        reason = `Ai dat react lui ${contents.authorUsername}. Mesajul a fost: ${contents.content}`;
-                    }
-                    else if (contents.content !== "" && contents.attachments.length > 0) {
-                        reason = `Ai dat react lui ${contents.authorUsername}. Text: ${contents.content}. Poza: ${contents.attachments[0].url}`;
-                    }
-                    else {
-                        reason = "Cred ca ceva s-o dus in cacat si nu am salvat ce trebuie?";
-                    }
+                    const reason = determineTransactionReason(contents);
+                    cacheFactory_1.default.getInstance().updateTransactionStore({
+                        cost: -1,
+                        discordUserId: user.id,
+                        reason: reason
+                    });
+                    return Promise.resolve("Trimis tranzactia in cache");
+                })
+                    .then((backendResult) => {
+                    console.log(backendResult);
+                })
+                    .catch(err => {
+                    console.log("mesaj cautat eroare", err);
+                });
+                break;
+            }
+            case "stitch" /* STITCH */: {
+                reaction.message.channel.messages.fetch(messageID)
+                    .then((foundMessage) => {
+                    if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
+                        return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
+                    const contents = msgContentAndAttachment(foundMessage);
+                    const reason = determineTransactionReason(contents);
                     return BackendClient.addTransactions([
                         {
                             cost: 10,
+                            discordUserId: "405081094057099276",
+                            reason: reason
+                        },
+                        {
+                            cost: -10,
+                            discordUserId: "405081094057099276",
+                            reason: reason
+                        },
+                        {
+                            cost: 20,
+                            discordUserId: "405081094057099276",
+                            reason: reason
+                        },
+                        {
+                            cost: -100,
                             discordUserId: "405081094057099276",
                             reason: reason
                         },

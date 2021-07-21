@@ -17,16 +17,24 @@ export default class CacheClient implements ICacheClient {
     console.log("cache client init successfully");
   }
 
+  clearSecondaryComments(): void {
+    this.secondaryStore.comments = [];
+  }
+
+  clearSecondaryTransactions(): void {
+    this.secondaryStore.transactions = [];
+  }
+
   clearMainCache(): void {
     this.store.comments = [];
     this.store.transactions = [];
   }
 
-  clearComments(): void {
+  clearMainComments(): void {
     this.store.comments = [];
   }
 
-  clearTransactions(): void {
+  clearMainTransactions(): void {
     this.store.transactions = [];
   }
 

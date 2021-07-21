@@ -13,14 +13,20 @@ class CacheClient {
         this.isUpdateOngoing = false;
         console.log("cache client init successfully");
     }
+    clearSecondaryComments() {
+        this.secondaryStore.comments = [];
+    }
+    clearSecondaryTransactions() {
+        this.secondaryStore.transactions = [];
+    }
     clearMainCache() {
         this.store.comments = [];
         this.store.transactions = [];
     }
-    clearComments() {
+    clearMainComments() {
         this.store.comments = [];
     }
-    clearTransactions() {
+    clearMainTransactions() {
         this.store.transactions = [];
     }
     getCurrentCache() {
