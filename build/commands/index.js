@@ -24,6 +24,7 @@ const meteo_1 = require("./meteo/meteo");
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const dbFactory_1 = __importDefault(require("../utils/dbFactory"));
 const types_1 = require("../types");
+const cacheFactory_1 = __importDefault(require("../utils/cacheFactory"));
 //command handler
 //aici o sa fac o functie care primeste ca parametru un argument de tipul Message pe care o sa il analizez
 //si o sa folosesc comanda care trebuie pentru asa ceva
@@ -149,6 +150,13 @@ function commandHandler(message, client) {
                 }
                 const response = yield BackendClient.addTransactions(transactions);
                 return yield message.channel.send(response);
+            }
+            case "forceUpdate" /* FORCE_UPDATE_DB */: {
+                if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD && message.author.id !== constants_1.USER_IDS.GOKU) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
+                }
+                const result = yield BackendClient.sendCacheDataOnDemand(cacheFactory_1.default.getInstance());
+                return yield message.reply(result);
             }
             case "update": {
                 if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD) {

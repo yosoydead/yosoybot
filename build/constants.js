@@ -9,6 +9,7 @@ exports.REPLY_MESSAGES = {
     COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
     COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
     COMMANDS_TITLE: `Hi. I am ${exports.BOT_NAME}!`,
+    DB_BULK_UPDATE: "Am reusit sa trimit tot ce era in cache spre baza de date si sa le inserez cu succes",
     EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
     EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
     GIVE_EVERYONE_MONEY_ERROR: "Ceva nu e ok. Nu am reusit sa culeg toti userii. Incearca mai tarziu sau da bani doar catorva.",
@@ -26,7 +27,8 @@ exports.YOSOYDB_ERROR_MESSAGES = {
     ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote. Mesajul a fost adaugat in cache si o sa fie trimis spre backend mai tarziu.",
     ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum.",
     BULK_UPDATE_TRANSACTIONS: "Ceva nu e in regula. Nu am putut salva tranzactiile. Vor fi pastrate in cache si trimise urmatoarea data.",
-    BULK_UPDATE_COMMENTS: "Ceva nu e in regula. Nu am putut salva comentariile care o ajuns in cache. Vor fi pastrate in cache si trimise urmatoarea data."
+    BULK_UPDATE_COMMENTS: "Ceva nu e in regula. Nu am putut salva comentariile care o ajuns in cache. Vor fi pastrate in cache si trimise urmatoarea data.",
+    BULK_UPDATE_FAIL: "Nu am putut adauga niste date in baza de date. O sa ramana in cache pana la urmatorul update."
 };
 exports.MY_CHANNEL_IDS = {
     INTRAT_PE_SERVERE: "785131037139140641",

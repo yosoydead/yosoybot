@@ -12,6 +12,7 @@ import { meteo } from "./meteo/meteo";
 import fetch from "node-fetch";
 import dbFactory from "../utils/dbFactory";
 import { APP_MODES, BackendTransaction } from "../types";
+import cacheFactory from "../utils/cacheFactory";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {
@@ -151,6 +152,15 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
     const response = await BackendClient.addTransactions(transactions);
     return await message.channel.send(response);
+  }
+  case CommandNames.FORCE_UPDATE_DB: {
+    if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+
+    const result: string = await BackendClient.sendCacheDataOnDemand(cacheFactory.getInstance());
+
+    return await message.reply(result);
   }
   case "update": {
     if (message.author.id !== USER_IDS.YOSOYDEAD) {

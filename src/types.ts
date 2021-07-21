@@ -22,7 +22,7 @@ export interface IBackendClient {
   getRandomQuote: () => Promise<MessageEmbed>;
   addQuote: (comment: BackendComment) => Promise<string>;
   addTransactions(transactions: BackendTransaction[]): Promise<string>;
-  sendCacheDataOnDemand: (cacheClient: ICacheClient) => any;
+  sendCacheDataOnDemand: (cacheClient: ICacheClient) => Promise<string>;
 }
 
 export type RESPONSE_TYPE = "success" | "error";

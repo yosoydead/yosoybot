@@ -53,6 +53,8 @@ class BackendClient {
         });
     }
     sendCacheDataOnDemand(cacheClient) {
+        if (cacheFactory_1.default.getInstance().isCacheEmpty())
+            return Promise.resolve("Nu am nimic in cache.");
         cacheClient.lockStore();
         const cacheStore = cacheClient.getCurrentCache();
         const transactions = cacheStore.transactions;
@@ -74,10 +76,12 @@ class BackendClient {
             cacheClient.clearMainCache();
             cacheClient.syncBetweenSecondaryAndMainStore();
             cacheClient.unlockStore();
+            return constants_1.REPLY_MESSAGES.DB_BULK_UPDATE;
         })
             .catch(err => {
             // aici ajunge daca dau cu throw din oricare then
             console.log(err);
+            return constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL;
         });
     }
 }

@@ -36,8 +36,6 @@ export function determineTransactionReason(msgContents: MessageContentAndAttachm
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
 // nu cred/nu stiu daca are acces la mesajele din istoric
 export async function reactionHandler(reaction: MessageReaction, user: User | PartialUser, client: IFetchClient) {
-  console.log(reaction.emoji.name, user);
-  
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local
   if (BackendClient.getAppMode() === APP_MODES.LOCAL && reaction.message.guild?.id === GUILD_IDS.GOKU_SERVER) return;

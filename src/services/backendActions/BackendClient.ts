@@ -75,7 +75,8 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
-  sendCacheDataOnDemand(cacheClient: ICacheClient): any {
+  sendCacheDataOnDemand(cacheClient: ICacheClient): Promise<string> {
+    if (cacheFactory.getInstance().isCacheEmpty()) return Promise.resolve("Nu am nimic in cache.");
     cacheClient.lockStore();
     const cacheStore = cacheClient.getCurrentCache();
     const transactions = cacheStore.transactions;
@@ -98,10 +99,13 @@ export default class BackendClient implements IBackendClient {
         cacheClient.clearMainCache();
         cacheClient.syncBetweenSecondaryAndMainStore();
         cacheClient.unlockStore();
+
+        return REPLY_MESSAGES.DB_BULK_UPDATE;
       })
       .catch(err => {
         // aici ajunge daca dau cu throw din oricare then
         console.log(err);
+        return YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL;
       });
   }
 }
