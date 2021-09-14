@@ -27,7 +27,7 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  console.log("message", message);
+  // console.log("message", message);
   
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local

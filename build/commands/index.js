@@ -32,7 +32,7 @@ const cacheFactory_1 = __importDefault(require("../utils/cacheFactory"));
 function commandHandler(message, client) {
     var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("message", message);
+        // console.log("message", message);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)

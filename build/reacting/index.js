@@ -46,7 +46,9 @@ function determineTransactionReason(msgContents) {
 exports.determineTransactionReason = determineTransactionReason;
 // functia asta o sa se ocupe de inregistrat fiecare react care are loc pentru un mesaj
 // ATENTIE! botul o sa ia in considerare doar reacturile din momentul in care intra pe server
-// nu cred/nu stiu daca are acces la mesajele din istoric
+// ----(nu cred/nu stiu daca are acces la mesajele din istoric)---- nu mai e valabil
+// practic, ce se intampla e ca poti sa faci rost de id-ul mesajului la care se da react
+// apoi, il cauti in istoric si vezi continutul. downside: probabil dureaza mult sau poate da fail
 function reactionHandler(reaction, user, client) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
@@ -70,7 +72,8 @@ function reactionHandler(reaction, user, client) {
                     cacheFactory_1.default.getInstance().updateTransactionStore({
                         cost: -1,
                         discordUserId: user.id,
-                        reason: reason
+                        reason: reason,
+                        status: "pending"
                     });
                     return Promise.resolve("Trimis tranzactia in cache");
                 })
@@ -93,22 +96,26 @@ function reactionHandler(reaction, user, client) {
                         {
                             cost: 10,
                             discordUserId: "405081094057099276",
-                            reason: reason
+                            reason: reason,
+                            status: "pending"
                         },
                         {
                             cost: -10,
                             discordUserId: "405081094057099276",
-                            reason: reason
+                            reason: reason,
+                            status: "pending"
                         },
                         {
                             cost: 20,
                             discordUserId: "405081094057099276",
-                            reason: reason
+                            reason: reason,
+                            status: "pending"
                         },
                         {
                             cost: -100,
                             discordUserId: "405081094057099276",
-                            reason: reason
+                            reason: reason,
+                            status: "pending"
                         },
                     ]);
                 })

@@ -15,6 +15,7 @@ export interface BackendTransaction {
   reason: string;
   cost: number;
   discordUserId: string;
+  status: TRANSACTION_STATUS;
 }
 
 export interface IBackendClient {
@@ -26,6 +27,8 @@ export interface IBackendClient {
 }
 
 export type RESPONSE_TYPE = "success" | "error";
+export type TRANSACTION_STATUS = "successul" | "pending" | "rejected";
+
 export enum APP_MODES {
   LOCAL = "local",
   PROD = "production"
