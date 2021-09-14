@@ -52,6 +52,20 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
+  getUsersBank(): Promise<IBackendResponse> {
+    return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.getUsersBank}`)
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        const res: IBackendResponse = {
+          status: "error",
+          statusCode: 500,
+          message: "Nu am putut sa fac request din varii motive pentru a lua users bank."
+        };
+      });
+  }
+
   addQuote(comment: BackendComment): Promise<string> {
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addComment}`, {...comment})
       .then(response => response.json())
@@ -75,12 +89,33 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
-  sendCacheDataOnDemand(cacheClient: ICacheClient): Promise<string> {
+  async sendCacheDataOnDemand(cacheClient: ICacheClient): Promise<string> {
     if (cacheFactory.getInstance().isCacheEmpty()) return Promise.resolve("Nu am nimic in cache.");
     cacheClient.lockStore();
     const cacheStore = cacheClient.getCurrentCache();
     const transactions = cacheStore.transactions;
     const comments = cacheStore.comments;
+    const usersBank = await this.getUsersBank();
+    
+    if (usersBank.status === "error") return Promise.resolve(usersBank.message);
+
+    transactions.map(t => {
+      const user: any = usersBank.arrayOfStuff?.find((u: any) => u.discordUserId === t.discordUserId);
+      /*
+        - tine minte ca pentru reactii cu rublerts trimiti -1, de aia verifici daca suma
+          totala e mai mica decat 1
+        - in backend, pur si simplu se face old sum + amount pentru ca sunt situatii in
+          care vreau sa si adaug fonduri, nu doar sa scad fonduri :). poate nu e ok dar
+          merge si asa
+      */
+      if (user.rublerts + t.cost < 0) {
+        t.status = "rejected";
+        t.cost = 0;
+        t.reason = `No more funds! ${t.reason}`;
+      } else {
+        t.status = "successful";
+      }
+    });
 
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addTransactions}`, {transactions})
       .then(res => res.json())

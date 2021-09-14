@@ -98,7 +98,8 @@ export const BACKEND_ROUTES = {
 
     // users
     userData: "/user/get/", // needs an ID
-    allUsersData: "/users"
+    allUsersData: "/users",
+    getUsersBank: "/transactions/getUsersBank"
   },
   "PATCH": {
     //comments

@@ -21,13 +21,14 @@ export interface BackendTransaction {
 export interface IBackendClient {
   getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
+  getUsersBank: () => Promise<IBackendResponse>;
   addQuote: (comment: BackendComment) => Promise<string>;
   addTransactions(transactions: BackendTransaction[]): Promise<string>;
   sendCacheDataOnDemand: (cacheClient: ICacheClient) => Promise<string>;
 }
 
 export type RESPONSE_TYPE = "success" | "error";
-export type TRANSACTION_STATUS = "successul" | "pending" | "rejected";
+export type TRANSACTION_STATUS = "successful" | "pending" | "rejected";
 
 export enum APP_MODES {
   LOCAL = "local",
@@ -37,7 +38,7 @@ export interface IBackendResponse {
   message: string;
   statusCode: number;
   status: RESPONSE_TYPE;
-  arrayOfStuff: [];
+  arrayOfStuff?: [];
 }
 
 export interface ICacheClient {

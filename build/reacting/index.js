@@ -30,13 +30,13 @@ exports.msgContentAndAttachment = msgContentAndAttachment;
 function determineTransactionReason(msgContents) {
     let reason;
     if (msgContents.content === "" && msgContents.attachments.length > 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}`;
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length === 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}`;
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length > 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}`;
+        reason = `Ai dat react lui ${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
     }
     else {
         reason = "Cred ca ceva s-o dus in cacat si nu am salvat ce trebuie?";

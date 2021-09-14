@@ -12,6 +12,7 @@ import { FetchClient, IFetchClient } from "./services/FetchClient";
 // import CacheClient from "./CacheClient";
 import dbFactory from "./utils/dbFactory";
 import cacheFactory from "./utils/cacheFactory";
+import { BackendTransaction } from "./types";
 
 dotenv.config();
 

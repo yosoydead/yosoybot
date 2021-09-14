@@ -78,7 +78,8 @@ exports.BACKEND_ROUTES = {
         randomQuote: "/comment/random",
         // users
         userData: "/user/get/",
-        allUsersData: "/users"
+        allUsersData: "/users",
+        getUsersBank: "/transactions/getUsersBank"
     },
     "PATCH": {
         //comments
