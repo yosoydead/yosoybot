@@ -42,7 +42,6 @@ const constants_1 = require("./constants");
 const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 const reacting_1 = require("./reacting");
 const FetchClient_1 = require("./services/FetchClient");
-// import CacheClient from "./CacheClient";
 const dbFactory_1 = __importDefault(require("./utils/dbFactory"));
 const cacheFactory_1 = __importDefault(require("./utils/cacheFactory"));
 dotenv.config();
@@ -50,7 +49,6 @@ const client = new discord_js_1.default.Client({
     partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient = new FetchClient_1.FetchClient();
-// const cache = new CacheClient();
 client.once("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("my body is ready");
     // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);

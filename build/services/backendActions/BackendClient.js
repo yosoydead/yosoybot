@@ -102,6 +102,7 @@ class BackendClient {
                 }
                 else {
                     t.status = "successful";
+                    user.rublerts -= t.cost;
                 }
             });
             return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addTransactions}`, { transactions })

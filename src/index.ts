@@ -9,10 +9,8 @@ import { MY_CHANNEL_IDS, SERVER_ACTION, YOSOYDB_ERROR_MESSAGES } from "./constan
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
-// import CacheClient from "./CacheClient";
 import dbFactory from "./utils/dbFactory";
 import cacheFactory from "./utils/cacheFactory";
-import { BackendTransaction } from "./types";
 
 dotenv.config();
 
@@ -20,8 +18,6 @@ const client: Client = new Discord.Client({
   partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient: IFetchClient = new FetchClient();
-// const cache = new CacheClient();
-
 
 client.once("ready", async () => {
   console.log("my body is ready");
