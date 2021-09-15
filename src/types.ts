@@ -22,6 +22,7 @@ export interface IBackendClient {
   getAppMode(): string;
   getRandomQuote: () => Promise<MessageEmbed>;
   getUsersBank: () => Promise<IBackendResponse>;
+  getUserTransactions: (userId: string, numberOfTransactions: number) => Promise<string>
   addQuote: (comment: BackendComment) => Promise<string>;
   addTransactions(transactions: BackendTransaction[]): Promise<string>;
   sendCacheDataOnDemand: (cacheClient: ICacheClient) => Promise<string>;

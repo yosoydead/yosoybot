@@ -133,7 +133,8 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
           transactions.push({
             cost: parseInt(sum),
             discordUserId: user.id,
-            reason: `Fonduri adaugate de catre ${message.author.username}`
+            reason: `Fonduri adaugate de catre ${message.author.username}`,
+            status: "successful"
           });
         });
       } catch {
@@ -145,7 +146,8 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         transactions.push({
           cost: parseInt(sum),
           discordUserId: user.id,
-          reason: `Fonduri adaugate de catre ${message.author.username}`
+          reason: `Fonduri adaugate de catre ${message.author.username}`,
+          status: "successful"
         });
       });
     }
@@ -161,6 +163,21 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     const result: string = await BackendClient.sendCacheDataOnDemand(cacheFactory.getInstance());
 
     return await message.reply(result);
+  }
+  case CommandNames.TRANSACTION_HISTORY: {
+    let number: number = 0;
+    const userId = message.author.id;
+    
+    if (splitMessage.length === 2) {
+      if (splitMessage[1] === "all") { number = 999999; }
+      else if (isNaN(Number.parseInt(splitMessage[1]))) {
+        return await message.reply("Argument invalid.");
+      } else {
+        number = Number.parseInt(splitMessage[1]);
+      }
+    }
+    const userBank = await BackendClient.getUserTransactions(userId, number);
+    return await message.reply(userBank);
   }
   case "update": {
     if (message.author.id !== USER_IDS.YOSOYDEAD) {

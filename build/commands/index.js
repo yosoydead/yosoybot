@@ -130,7 +130,8 @@ function commandHandler(message, client) {
                             transactions.push({
                                 cost: parseInt(sum),
                                 discordUserId: user.id,
-                                reason: `Fonduri adaugate de catre ${message.author.username}`
+                                reason: `Fonduri adaugate de catre ${message.author.username}`,
+                                status: "successful"
                             });
                         });
                     }
@@ -144,7 +145,8 @@ function commandHandler(message, client) {
                         transactions.push({
                             cost: parseInt(sum),
                             discordUserId: user.id,
-                            reason: `Fonduri adaugate de catre ${message.author.username}`
+                            reason: `Fonduri adaugate de catre ${message.author.username}`,
+                            status: "successful"
                         });
                     });
                 }
@@ -157,6 +159,23 @@ function commandHandler(message, client) {
                 }
                 const result = yield BackendClient.sendCacheDataOnDemand(cacheFactory_1.default.getInstance());
                 return yield message.reply(result);
+            }
+            case "transactions" /* TRANSACTION_HISTORY */: {
+                let number = 0;
+                const userId = message.author.id;
+                if (splitMessage.length === 2) {
+                    if (splitMessage[1] === "all") {
+                        number = 999999;
+                    }
+                    else if (isNaN(Number.parseInt(splitMessage[1]))) {
+                        return yield message.reply("Argument invalid.");
+                    }
+                    else {
+                        number = Number.parseInt(splitMessage[1]);
+                    }
+                }
+                const userBank = yield BackendClient.getUserTransactions(userId, number);
+                return yield message.reply(userBank);
             }
             case "update": {
                 if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD) {

@@ -79,7 +79,8 @@ exports.BACKEND_ROUTES = {
         // users
         userData: "/user/get/",
         allUsersData: "/users",
-        getUsersBank: "/transactions/getUsersBank"
+        getUsersBank: "/transactions/getUsersBank",
+        getUserTransactions: "/transactions/getUserTransactions/" // needs an id
     },
     "PATCH": {
         //comments

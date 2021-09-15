@@ -53,6 +53,19 @@ class BackendClient {
             };
         });
     }
+    getUserTransactions(userId, numberOfTransactions) {
+        return this._client.get(`${this._baseUrl}${constants_1.BACKEND_ROUTES.GET.getUserTransactions}${userId}/${numberOfTransactions}`)
+            .then((res) => {
+            return res.json();
+        })
+            .then((r) => {
+            // console.log("succes", r);
+            return r.message;
+        })
+            .catch(() => {
+            return "error";
+        });
+    }
     addQuote(comment) {
         return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addComment}`, Object.assign({}, comment))
             .then(response => response.json())

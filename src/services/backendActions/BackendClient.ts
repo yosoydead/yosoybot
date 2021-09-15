@@ -66,6 +66,20 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
+  getUserTransactions(userId: string, numberOfTransactions: number): Promise<string> {
+    return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.getUserTransactions}${userId}/${numberOfTransactions}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((r: IBackendResponse) => {
+        // console.log("succes", r);
+        return r.message;
+      })
+      .catch(() => {
+        return "error";
+      });
+  }
+
   addQuote(comment: BackendComment): Promise<string> {
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addComment}`, {...comment})
       .then(response => response.json())
