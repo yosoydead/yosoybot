@@ -42,14 +42,13 @@ const constants_1 = require("./constants");
 const logJoinOrLeaveServer_1 = require("./utils/logJoinOrLeaveServer");
 const reacting_1 = require("./reacting");
 const FetchClient_1 = require("./services/FetchClient");
-const CacheClient_1 = __importDefault(require("./CacheClient"));
 const dbFactory_1 = __importDefault(require("./utils/dbFactory"));
+const cacheFactory_1 = __importDefault(require("./utils/cacheFactory"));
 dotenv.config();
 const client = new discord_js_1.default.Client({
     partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient = new FetchClient_1.FetchClient();
-const cache = new CacheClient_1.default();
 client.once("ready", () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("my body is ready");
     // const channelEntry = await client.channels.fetch(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
@@ -85,7 +84,6 @@ client.on("messageDelete", (message) => {
     console.log("am sters:", message.content);
 });
 client.on("messageReactionAdd", (reaction, user) => reacting_1.reactionHandler(reaction, user, fetchClient));
-client.on("messageReactionRemove", (reaction, user) => reacting_1.reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
     function cb() {
@@ -97,16 +95,25 @@ function cron(ms, fn) {
     return () => { };
 }
 // setup cron job 1500000
-cron(1500000, () => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(client.channels);
-    const wakeupChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.WAKEUP_CRONJOB);
-    // console.log(wakeupChannel);
-    wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+cron(300000, () => __awaiter(void 0, void 0, void 0, function* () {
+    const cache = cacheFactory_1.default.getInstance();
+    if (cache.isCacheEmpty() === false) {
+        const result = yield dbFactory_1.default.getInstance().sendCacheDataOnDemand(cache);
+        if (result === constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+            console.log('intru sa fac update');
+            const logChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.LOG_ERORI);
+            logChannel.send(result);
+        }
+    }
+    else {
+        console.log("Nu fac request la backend pentru ca nu am nimic in cache :)");
+    }
 }));
 client.login(process.env.BOT_TOKEN)
     .then(() => {
     var _a;
     console.log("login");
+    cacheFactory_1.default.createInstance();
     dbFactory_1.default.createInstance(process.env.NODE_ENV, fetchClient);
     (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("%commands");
 })

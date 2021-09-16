@@ -5,12 +5,12 @@
 import Discord, { Client, Message, Guild, PartialMessage } from "discord.js";
 import * as dotenv from "dotenv";
 import { commandHandler } from "./commands";
-import { MY_CHANNEL_IDS, SERVER_ACTION } from "./constants";
+import { MY_CHANNEL_IDS, SERVER_ACTION, YOSOYDB_ERROR_MESSAGES } from "./constants";
 import { sendLogs } from "./utils/logJoinOrLeaveServer";
 import { reactionHandler } from "./reacting";
 import { FetchClient, IFetchClient } from "./services/FetchClient";
-import CacheClient from "./CacheClient";
 import dbFactory from "./utils/dbFactory";
+import cacheFactory from "./utils/cacheFactory";
 
 dotenv.config();
 
@@ -18,8 +18,6 @@ const client: Client = new Discord.Client({
   partials: ["MESSAGE", "REACTION"]
 });
 const fetchClient: IFetchClient = new FetchClient();
-const cache = new CacheClient();
-
 
 client.once("ready", async () => {
   console.log("my body is ready");
@@ -65,7 +63,6 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
 });
 
 client.on("messageReactionAdd", (reaction, user) => reactionHandler(reaction, user, fetchClient));
-client.on("messageReactionRemove", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
 function cron(ms, fn) {
   function cb() {
@@ -77,18 +74,26 @@ function cron(ms, fn) {
   return () => {};
 }
 // setup cron job 1500000
-cron(1500000, async () => {
-  // console.log(client.channels);
-  const wakeupChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.WAKEUP_CRONJOB);
-  // console.log(wakeupChannel);
-  wakeupChannel.send("Mesaj ca sa nu se duca botul la somn");
+cron(300000, async () => {
+  const cache = cacheFactory.getInstance();
+  if (cache.isCacheEmpty() === false) {
+    const result = await dbFactory.getInstance().sendCacheDataOnDemand(cache);
+
+    if (result === YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+      console.log('intru sa fac update');
+      const logChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.LOG_ERORI);
+      logChannel.send(result);
+    }
+  } else {
+    console.log("Nu fac request la backend pentru ca nu am nimic in cache :)");
+  }
 });
 
 client.login(process.env.BOT_TOKEN)
   .then(() => {
     console.log("login");
+    cacheFactory.createInstance();
     dbFactory.createInstance(process.env.NODE_ENV, fetchClient);
-    
     client.user?.setActivity("%commands");
   })
   .catch(err => {

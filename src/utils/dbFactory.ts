@@ -1,7 +1,7 @@
 import BackendClient from "../services/backendActions/BackendClient";
 import { BACKEND_BASE_URLS } from "../constants";
 import { IFetchClient } from "../services/FetchClient";
-import { IBackendClient } from "../types";
+import { APP_MODES, IBackendClient } from "../types";
 
 let instance: IBackendClient;
 const dbFactory = {
@@ -10,10 +10,10 @@ const dbFactory = {
   },
   createInstance: (appMode: string | undefined, fetchClient: IFetchClient): void | IBackendClient => {
     if (appMode === "local") {
-      instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.LOCAL);
+      instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.LOCAL, APP_MODES.LOCAL);
       // instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.LOCAL_GOKU);
     } else if (appMode === "production") {
-      instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.PRODUCTION);
+      instance = new BackendClient(fetchClient, BACKEND_BASE_URLS.PRODUCTION, APP_MODES.PROD);
     } else {
       throw new Error("App mode necunoscut");
     }

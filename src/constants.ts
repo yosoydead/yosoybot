@@ -7,8 +7,11 @@ export const REPLY_MESSAGES = {
   COMMANDS_DESCRIPTION: "Here is a list of all my current commands:",
   COMMANDS_FOOTER: "Much love. @yosoydead#9299 for other questions.",
   COMMANDS_TITLE: `Hi. I am ${BOT_NAME}!`,
+  DB_BULK_UPDATE: "Am reusit sa trimit tot ce era in cache spre baza de date si sa le inserez cu succes",
   EMPTY_EIGHT_BALL: "Nu fi nesi si adauga o intrebare ;)",
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
+  GIVE_EVERYONE_MONEY_ERROR: "Ceva nu e ok. Nu am reusit sa culeg toti userii. Incearca mai tarziu sau da bani doar catorva.",
+  GIVE_MONEY_FORMAT: "Comanda trebuie sa fie de formatul: %give @user 50",
   MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
   NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   PONG: "PONG",
@@ -20,7 +23,11 @@ export const REPLY_MESSAGES = {
 
 export const YOSOYDB_ERROR_MESSAGES = {
   RANDOM_QUOTE: "Nu am putut apela baza de date pentru un random quote.",
-  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote."
+  ADD_QUOTE: "Nu am putut apela baza de date pentru a insera quote. Mesajul a fost adaugat in cache si o sa fie trimis spre backend mai tarziu.",
+  ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum.",
+  BULK_UPDATE_TRANSACTIONS: "Ceva nu e in regula. Nu am putut salva tranzactiile. Vor fi pastrate in cache si trimise urmatoarea data.",
+  BULK_UPDATE_COMMENTS: "Ceva nu e in regula. Nu am putut salva comentariile care o ajuns in cache. Vor fi pastrate in cache si trimise urmatoarea data.",
+  BULK_UPDATE_FAIL: "Nu am putut adauga niste date in baza de date. O sa ramana in cache pana la urmatorul update."
 };
 
 export const enum REACT_EMOJI {
@@ -45,7 +52,18 @@ export const MY_CHANNEL_IDS = {
   LOG_ERORI: "785130953525559307",
   YOSOYDEAD_SERVER: "781108831421333535",
   WAKEUP_CRONJOB: "785846537543876639",
-  USER_ID: "405081094057099276"
+  ERROR_LOGS: "785130953525559307"
+};
+
+export const GUILD_IDS = {
+  YOSOYDEAD_SERVER: "781108831421333535",
+  GOKU_SERVER: "672558611037159442"
+};
+
+export const USER_IDS = {
+  YOSOYDEAD: "405081094057099276",
+  GOKU: "291235021367279617",
+  YOSOYBOT: "784135061225734184",
 };
 
 //colorez MessageEmbed
@@ -67,7 +85,7 @@ export enum ANIMAL_FACTS_APIS {
 }
 
 export enum BACKEND_BASE_URLS {
-  LOCAL = "http://192.168.100.4:3000/test",
+  LOCAL = "http://localhost:3000/test",
   LOCAL_GOKU = "http://localhost:3000/goku",
   PRODUCTION = "http://157.230.99.199:3000/goku"
 }
@@ -80,7 +98,9 @@ export const BACKEND_ROUTES = {
 
     // users
     userData: "/user/get/", // needs an ID
-    allUsersData: "/users"
+    allUsersData: "/users",
+    getUsersBank: "/transactions/getUsersBank",
+    getUserTransactions: "/transactions/getUserTransactions/" // needs an id
   },
   "PATCH": {
     //comments
@@ -96,7 +116,8 @@ export const BACKEND_ROUTES = {
 
     // users
     addUser: "/user/add",
-    addMultipleUsers: "/users"
+    addMultipleUsers: "/users",
+    addTransactions: "/transactions/add"
   },
   "PUT": {},
   "UPDATE": {},

@@ -2,17 +2,17 @@ import { GuildMember, Message } from "discord.js";
 import { CommandNames } from "./CommandNames";
 import eightBall from "./eightBall/eightBall";
 import { ping, pong} from "./ping/ping";
-import { BOT_NAME, MY_CHANNEL_IDS, REPLY_MESSAGES } from "../constants";
+import { BOT_NAME, GUILD_IDS, REPLY_MESSAGES, USER_IDS } from "../constants";
 import { cats} from "./cats/cats";
 import { dogs } from "./dogs/dogs";
 import { displayCommands } from "./allCommands/allCommands";
 import { doesMessageContainWeebAndTag, weeb } from "./weeb/weeb";
 import { IFetchClient } from "../services/FetchClient";
 import { meteo } from "./meteo/meteo";
-// import { addComment } from "../services/reacting/reacting";
 import fetch from "node-fetch";
 import dbFactory from "../utils/dbFactory";
-// import { getData } from "../services";
+import { APP_MODES, BackendTransaction } from "../types";
+import cacheFactory from "../utils/cacheFactory";
 
 //originalAdminUsername e username-ul pe care il inregistreaza prima data cand intra intr-o guilda
 interface IGuildBackendModel {
@@ -27,12 +27,18 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  const BackendClient = dbFactory.getInstance();  
+  // console.log("message", message);
+  
+  const BackendClient = dbFactory.getInstance();
+  // nu da mesaj pe prod cand esti pe local
+  if (BackendClient.getAppMode() === APP_MODES.LOCAL && message.guild?.id === GUILD_IDS.GOKU_SERVER) return;
+  // nu da mesaj pe local cand esti pe prod
+  if (BackendClient.getAppMode() === APP_MODES.PROD && message.guild?.id === GUILD_IDS.YOSOYDEAD_SERVER) return;
   
   // apare scenariul in care botul o sa isi raspunda la propriile mesaje, adica face o bucla infinita
   // ii dau short circuit direct cand vad ca mesajul e de la bot
-  if (message.author.username === "yosoybot") return;
-  
+  if (message.author.id === USER_IDS.YOSOYBOT) return;
+
   //sparg mesajul in bucati si vreau sa vad care e primul cuvant din mesaj
   const splitMessage: string[] = message.content.split(" ");
   
@@ -44,7 +50,6 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
   //daca mesajul nu incepe cu !, o sa ignor comanda
   if (splitMessage[0].charAt(0) !== "%") return;
-  // console.log("mesaj",message);
   
   // trec prin fiecare tip de comanda si ii dau sa faca ceva
   switch (splitMessage[0].substring(1)) {
@@ -108,8 +113,74 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
     return await message.channel.send(response);
   }
+  case CommandNames.GIVE_MONEY : {
+    if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+
+    const splitMessage: string[] = message.content.split(" ");
+    const sum = splitMessage.pop()!;
+    if (isNaN(parseInt(sum))) {
+      return await message.reply(REPLY_MESSAGES.GIVE_MONEY_FORMAT);
+    }
+
+    const transactions: BackendTransaction[] = [];
+
+    if (message.mentions.everyone === true) {
+      try {
+        const users = await message.guild?.members.fetch();
+        users?.map((user) => {
+          transactions.push({
+            cost: parseInt(sum),
+            discordUserId: user.id,
+            reason: `Fonduri adaugate de catre ${message.author.username}`,
+            status: "successful"
+          });
+        });
+      } catch {
+        return await message.channel.send(REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
+      }
+    } else {
+      const mentions = message.mentions.users.array();  
+      mentions.map((user) => {
+        transactions.push({
+          cost: parseInt(sum),
+          discordUserId: user.id,
+          reason: `Fonduri adaugate de catre ${message.author.username}`,
+          status: "successful"
+        });
+      });
+    }
+
+    const response = await BackendClient.addTransactions(transactions);
+    return await message.channel.send(response);
+  }
+  case CommandNames.FORCE_UPDATE_DB: {
+    if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+
+    const result: string = await BackendClient.sendCacheDataOnDemand(cacheFactory.getInstance());
+
+    return await message.reply(result);
+  }
+  case CommandNames.TRANSACTION_HISTORY: {
+    let number: number = 0;
+    const userId = message.author.id;
+    
+    if (splitMessage.length === 2) {
+      if (splitMessage[1] === "all") { number = 999999; }
+      else if (isNaN(Number.parseInt(splitMessage[1]))) {
+        return await message.reply("Argument invalid.");
+      } else {
+        number = Number.parseInt(splitMessage[1]);
+      }
+    }
+    const userBank = await BackendClient.getUserTransactions(userId, number);
+    return await message.reply(userBank);
+  }
   case "update": {
-    if (message.author.id !== MY_CHANNEL_IDS.USER_ID) {
+    if (message.author.id !== USER_IDS.YOSOYDEAD) {
       return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
     }
     // console.log(message);
