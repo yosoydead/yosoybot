@@ -124,7 +124,7 @@ export default class BackendClient implements IBackendClient {
       */
       if (user.rublerts + t.cost < 0) {
         t.status = "rejected";
-        t.cost = 0;
+//         t.cost = 0;
         t.reason = `No more funds! ${t.reason}`;
       } else {
         t.status = "successful";
