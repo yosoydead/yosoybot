@@ -100,6 +100,7 @@ cron(300000, () => __awaiter(void 0, void 0, void 0, function* () {
     if (cache.isCacheEmpty() === false) {
         const result = yield dbFactory_1.default.getInstance().sendCacheDataOnDemand(cache);
         if (result === constants_1.YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+            console.log('intru sa fac update');
             const logChannel = yield client.channels.fetch(constants_1.MY_CHANNEL_IDS.LOG_ERORI);
             logChannel.send(result);
         }

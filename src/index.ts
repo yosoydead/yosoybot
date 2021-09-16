@@ -80,12 +80,12 @@ cron(300000, async () => {
     const result = await dbFactory.getInstance().sendCacheDataOnDemand(cache);
 
     if (result === YOSOYDB_ERROR_MESSAGES.BULK_UPDATE_FAIL) {
+      console.log('intru sa fac update');
       const logChannel: any = await client.channels.fetch(MY_CHANNEL_IDS.LOG_ERORI);
       logChannel.send(result);
     }
   } else {
     console.log("Nu fac request la backend pentru ca nu am nimic in cache :)");
-    
   }
 });
 
