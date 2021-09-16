@@ -26,7 +26,7 @@ export function determineTransactionReason(msgContents: MessageContentAndAttachm
   } else if (msgContents.content !== "" && msgContents.attachments.length > 0) {
     reason = `Ai dat react lui ${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
   } else {
-    reason = "Cred ca ceva s-o dus in cacat si nu am salvat ce trebuie?";
+    reason = "Continut necunoscut.";
   }
 
   return reason;
