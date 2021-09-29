@@ -83,7 +83,7 @@ export default class CacheClient implements ICacheClient {
 
   // asta e ca sa adun tranzactii mai multe, in loc sa fac un request pentru fiecare in parte
   // in cazul in care o sa crape iar requestul, tranzactiile o sa ramana aici
-  updateTransactionStore(transaction: BackendTransaction): void {
+  updateTransactionStore(transaction: BackendTransaction[]): void {
     if (this.isUpdateOngoing === false) {
       this.store.transactions.push(transaction);
     } else {

@@ -15,7 +15,10 @@ export interface BackendTransaction {
   reason: string;
   cost: number;
   discordUserId: string;
+  fromDiscordUserId?: string,
+  fromDiscordUsername?: string,
   status: TRANSACTION_STATUS;
+  type: TRANSACTION_TYPE;
 }
 
 export interface IBackendClient {
@@ -30,6 +33,7 @@ export interface IBackendClient {
 
 export type RESPONSE_TYPE = "success" | "error";
 export type TRANSACTION_STATUS = "successful" | "pending" | "rejected";
+export type TRANSACTION_TYPE = "give" | "receive";
 
 export enum APP_MODES {
   LOCAL = "local",
@@ -54,7 +58,9 @@ export interface ICacheClient {
   syncBetweenSecondaryAndMainStore: () => void;
   unlockStore: () => void;
   updateCommentStore: (comment: BackendComment) => void;
-  updateTransactionStore: (transaction: BackendTransaction) => void;
+
+  //o sa primeasca un array de 2 elemente: 1. cine initiaza tranzactia, 2. cui ii e adresata tranzactia 
+  updateTransactionStore: (transactionSet: BackendTransaction[]) => void;
 }
 export interface ICacheSchema {
   // lista din care sa fac update la quotes
@@ -62,6 +68,6 @@ export interface ICacheSchema {
 
   // lista din care sa fac update la useri cu bani
   // trebuie cumva indexata dupa discordUserId sau ceva unic
-  transactions: BackendTransaction[]
+  transactions: BackendTransaction[][];
 }
 

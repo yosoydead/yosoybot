@@ -93,14 +93,17 @@ class BackendClient {
                 return Promise.resolve("Nu am nimic in cache.");
             cacheClient.lockStore();
             const cacheStore = cacheClient.getCurrentCache();
-            const transactions = cacheStore.transactions;
+            const transactions = [];
             const comments = cacheStore.comments;
             const usersBank = yield this.getUsersBank();
             if (usersBank.status === "error")
                 return Promise.resolve(usersBank.message);
-            transactions.map(t => {
-                var _a;
-                const user = (_a = usersBank.arrayOfStuff) === null || _a === void 0 ? void 0 : _a.find((u) => u.discordUserId === t.discordUserId);
+            cacheStore.transactions.map(t => {
+                var _a, _b;
+                const from = t[0];
+                const to = t[1];
+                const fromUser = (_a = usersBank.arrayOfStuff) === null || _a === void 0 ? void 0 : _a.find((u) => u.discordUserId === from.discordUserId);
+                const toUser = (_b = usersBank.arrayOfStuff) === null || _b === void 0 ? void 0 : _b.find((u) => u.discordUserId === to.discordUserId);
                 /*
                   - tine minte ca pentru reactii cu rublerts trimiti -1, de aia verifici daca suma
                     totala e mai mica decat 1
@@ -108,15 +111,17 @@ class BackendClient {
                     care vreau sa si adaug fonduri, nu doar sa scad fonduri :). poate nu e ok dar
                     merge si asa
                 */
-                if (user.rublerts + t.cost < 0) {
-                    t.status = "rejected";
-                    t.cost = 0;
-                    t.reason = `No more funds! ${t.reason}`;
+                if (fromUser.rublerts + fromUser.cost < 0) {
+                    from.status = "rejected";
+                    from.reason = `Nu prea mai ai bani. ${fromUser.reason}`;
+                    to.status = "rejected";
                 }
                 else {
-                    t.status = "successful";
-                    user.rublerts -= t.cost;
+                    from.status = "successful";
+                    fromUser.rublerts -= fromUser.cost;
+                    to.status = "successful";
                 }
+                transactions.push(from, to);
             });
             return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addTransactions}`, { transactions })
                 .then(res => res.json())

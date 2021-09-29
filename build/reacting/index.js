@@ -30,16 +30,16 @@ exports.msgContentAndAttachment = msgContentAndAttachment;
 function determineTransactionReason(msgContents) {
     let reason;
     if (msgContents.content === "" && msgContents.attachments.length > 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}.`;
+        reason = `${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length === 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}.`;
+        reason = `${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length > 0) {
-        reason = `Ai dat react lui ${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
+        reason = `${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
     }
     else {
-        reason = "Cred ca ceva s-o dus in cacat si nu am salvat ce trebuie?";
+        reason = `${msgContents.authorUsername} pentru ceva necunoscut. Probabil un sticker sau ceva atasament dubios.`;
     }
     return reason;
 }
@@ -67,14 +67,29 @@ function reactionHandler(reaction, user, client) {
                     .then((foundMessage) => {
                     if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
                         return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
+                    if (foundMessage.author.id === user.id)
+                        return Promise.resolve("Cum ar fi sa iti dai singur bani :kekw:");
                     const contents = msgContentAndAttachment(foundMessage);
                     const reason = determineTransactionReason(contents);
-                    cacheFactory_1.default.getInstance().updateTransactionStore({
-                        cost: -1,
-                        discordUserId: user.id,
-                        reason: reason,
-                        status: "pending"
-                    });
+                    const transactionsSet = [
+                        {
+                            reason: `Ai dat react lui ${reason}`,
+                            discordUserId: user.id,
+                            cost: -1,
+                            status: "pending",
+                            type: "give"
+                        },
+                        {
+                            cost: 1,
+                            discordUserId: foundMessage.author.id,
+                            status: "pending",
+                            fromDiscordUserId: user.id,
+                            fromDiscordUsername: user.username,
+                            reason: `Ai primit 1 ban din partea lui ${reason}`,
+                            type: "receive"
+                        }
+                    ];
+                    cacheFactory_1.default.getInstance().updateTransactionStore(transactionsSet);
                     return Promise.resolve("Trimis tranzactia in cache");
                 })
                     .then((backendResult) => {
@@ -88,34 +103,57 @@ function reactionHandler(reaction, user, client) {
             case "stitch" /* STITCH */: {
                 reaction.message.channel.messages.fetch(messageID)
                     .then((foundMessage) => {
-                    if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
-                        return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
+                    // if (foundMessage.author.id === USER_IDS.YOSOYBOT) return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
                     const contents = msgContentAndAttachment(foundMessage);
                     const reason = determineTransactionReason(contents);
+                    const transactionsSet = [
+                        {
+                            reason: `Ai dat react lui ${reason}`,
+                            discordUserId: user.id,
+                            cost: -1,
+                            status: "pending",
+                            type: "give"
+                        },
+                        {
+                            cost: 1,
+                            discordUserId: foundMessage.author.id,
+                            status: "pending",
+                            fromDiscordUserId: user.id,
+                            fromDiscordUsername: user.username,
+                            reason: `Ai primit 1 ban din partea lui ${reason}`,
+                            type: "receive"
+                        }
+                    ];
+                    cacheFactory_1.default.getInstance().updateTransactionStore(transactionsSet);
+                    return Promise.resolve("Trimis tranzactia in cache");
                     return BackendClient.addTransactions([
                         {
                             cost: 10,
                             discordUserId: "405081094057099276",
                             reason: reason,
-                            status: "pending"
+                            status: "pending",
+                            type: "give"
                         },
                         {
                             cost: -10,
                             discordUserId: "405081094057099276",
                             reason: reason,
-                            status: "pending"
+                            status: "pending",
+                            type: "give"
                         },
                         {
                             cost: 20,
                             discordUserId: "405081094057099276",
                             reason: reason,
-                            status: "pending"
+                            status: "pending",
+                            type: "receive"
                         },
                         {
                             cost: -100,
                             discordUserId: "405081094057099276",
                             reason: reason,
-                            status: "pending"
+                            status: "pending",
+                            type: "receive"
                         },
                     ]);
                 })
@@ -128,7 +166,7 @@ function reactionHandler(reaction, user, client) {
                 break;
             }
             default:
-                console.log("am vazut ca ai reactionat la un emoji necunoscut");
+                console.log("am vazut ca ai reactionat la un emoji necunoscut", reaction.emoji.name);
                 break;
         }
     });
