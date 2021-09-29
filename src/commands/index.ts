@@ -27,7 +27,7 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  // console.log("message", message);
+  console.log("message", message);
   
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local
@@ -184,7 +184,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
       return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
     }
     // console.log(message);
-    const guildId = message.guild?.id;
+    const guildId = message.guild?.id;    
 
     message.client.guilds.fetch(guildId!)
       .then((guild) => {
@@ -193,7 +193,6 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         return guild.members.fetch();
       })
       .then((members) => {
-        // console.log(members);
         const usersData = members.map((member: GuildMember) => {
           return {
             discordServerId: guildId,
@@ -201,6 +200,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
             discordUsername: member.user.username
           };
         });
+        console.log(usersData);
         // const res = await fetch("http://localhost:3000/guilds", {
         //   method: "POST",
         //   headers: {
@@ -209,7 +209,7 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         //   },
         //   body: JSON.stringify(guilds)
         // });
-        return fetch("http://localhost:3000/goku/users", {
+        return fetch("http://localhost:3000/test/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
