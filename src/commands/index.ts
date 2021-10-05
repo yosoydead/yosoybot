@@ -133,8 +133,9 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
           transactions.push({
             cost: parseInt(sum),
             discordUserId: user.id,
-            reason: `Fonduri adaugate de catre ${message.author.username}`,
-            status: "successful"
+            reason: `Fonduri adaugate de catre ${message.author.username}.`,
+            status: "successful",
+            type: "receive"
           });
         });
       } catch {
@@ -146,8 +147,9 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
         transactions.push({
           cost: parseInt(sum),
           discordUserId: user.id,
-          reason: `Fonduri adaugate de catre ${message.author.username}`,
-          status: "successful"
+          reason: `Fonduri adaugate de catre ${message.author.username}.`,
+          status: "successful",
+          type: "receive"
         });
       });
     }
@@ -178,6 +180,10 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
     }
     const userBank = await BackendClient.getUserTransactions(userId, number);
     return await message.reply(userBank);
+  }
+  case CommandNames.BANK: {
+    const response: string = await BackendClient.getUserBank(message.author.id);
+    return await message.reply(response);
   }
   case "update": {
     if (message.author.id !== USER_IDS.YOSOYDEAD) {

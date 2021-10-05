@@ -11,5 +11,6 @@ exports.CommandsObject = {
     "@<person> <anything you want> weeb": "Tags that person and sends an ascii weeb stuff.",
     "%give @<person/here> <number>": "Yosoydead sau Goku o sa poata adauga fonduri cuiva",
     "%forceUpdate": "Yosoydead sau Goku pot porni un update fortat pentru baza de date. O sa fie trimise toate tranzactiile stocate in cache.",
-    "%transactions": "Acel user o sa primeasca un istoric al tranzactiilor. By default, o sa dea ultimele 10 tranzactii. Foloseste %transactions <numar> pt un anumit numar sau %transactions all pentru o lista completa a tranzactiilor."
+    "%transactions": "Acel user o sa primeasca un istoric al tranzactiilor. By default, o sa dea ultimele 10 tranzactii. Foloseste %transactions <numar> pt un anumit numar sau %transactions all pentru o lista completa a tranzactiilor.",
+    "%bank": "Afla cati bani ai in momentul actual."
 };

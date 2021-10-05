@@ -52,6 +52,19 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
+  getUserBank(userId: string): Promise<string> {
+    return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.getUserBank}${userId}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((r: IBackendResponse) => {
+        return r.message;
+      })
+      .catch(() => {
+        return "Nu am putut contacta baza de date.";
+      });
+  }
+
   getUsersBank(): Promise<IBackendResponse> {
     return this._client.get(`${this._baseUrl}${BACKEND_ROUTES.GET.getUsersBank}`)
       .then((res) => {

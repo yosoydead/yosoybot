@@ -71,12 +71,14 @@ client.on("guildCreate", (guild) => __awaiter(void 0, void 0, void 0, function* 
     const myChannel = yield client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
     const channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
     const message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.JOIN);
+    //@ts-ignore
     channelEntry.send(message);
 }));
 client.on("guildDelete", (guild) => __awaiter(void 0, void 0, void 0, function* () {
     const myChannel = yield client.guilds.fetch(constants_1.MY_CHANNEL_IDS.YOSOYDEAD_SERVER);
     const channelEntry = myChannel.channels.cache.get(constants_1.MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
     const message = logJoinOrLeaveServer_1.sendLogs(guild, constants_1.SERVER_ACTION.KICK);
+    //@ts-ignore
     channelEntry.send(message);
 }));
 client.on("message", (message) => commands_1.commandHandler(message, fetchClient));

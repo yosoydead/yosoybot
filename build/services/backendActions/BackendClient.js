@@ -40,6 +40,18 @@ class BackendClient {
             return createMessageEmbed_1.createMessageEmbed(constants_1.MESSAGE_COLORS.CHANNEL_LEFT, "Error", constants_1.YOSOYDB_ERROR_MESSAGES.RANDOM_QUOTE, [], constants_1.BOT_NAME, constants_1.REPLY_MESSAGES.COMMANDS_FOOTER);
         });
     }
+    getUserBank(userId) {
+        return this._client.get(`${this._baseUrl}${constants_1.BACKEND_ROUTES.GET.getUserBank}${userId}`)
+            .then((res) => {
+            return res.json();
+        })
+            .then((r) => {
+            return r.message;
+        })
+            .catch(() => {
+            return "Nu am putut contacta baza de date.";
+        });
+    }
     getUsersBank() {
         return this._client.get(`${this._baseUrl}${constants_1.BACKEND_ROUTES.GET.getUsersBank}`)
             .then((res) => {

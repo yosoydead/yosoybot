@@ -1,5 +1,4 @@
-import { BackendComment, BackendTransaction, ICacheClient, ICacheSchema } from "./types";
-
+import { ICacheClient, ICacheSchema, BackendComment, BackendTransaction } from "./types";
 export default class CacheClient implements ICacheClient {
   private store: ICacheSchema = {
     comments: [],

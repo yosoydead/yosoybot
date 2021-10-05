@@ -30,16 +30,16 @@ exports.msgContentAndAttachment = msgContentAndAttachment;
 function determineTransactionReason(msgContents) {
     let reason;
     if (msgContents.content === "" && msgContents.attachments.length > 0) {
-        reason = `${msgContents.authorUsername}. Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}.`;
+        reason = `Am stocat doar un link de imagine pt dovada: ${msgContents.attachments[0].url}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length === 0) {
-        reason = `${msgContents.authorUsername}. Mesajul a fost: ${msgContents.content}.`;
+        reason = `Mesajul a fost: ${msgContents.content}.`;
     }
     else if (msgContents.content !== "" && msgContents.attachments.length > 0) {
-        reason = `${msgContents.authorUsername}. Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
+        reason = `Text: ${msgContents.content}. Poza: ${msgContents.attachments[0].url}.`;
     }
     else {
-        reason = `${msgContents.authorUsername} pentru ceva necunoscut. Probabil un sticker sau ceva atasament dubios.`;
+        reason = `Ceva necunoscut. Probabil un sticker sau ceva atasament dubios.`;
     }
     return reason;
 }
@@ -73,20 +73,22 @@ function reactionHandler(reaction, user, client) {
                     const reason = determineTransactionReason(contents);
                     const transactionsSet = [
                         {
-                            reason: `Ai dat react lui ${reason}`,
+                            reason: `Ai dat react. ${reason}`,
                             discordUserId: user.id,
                             cost: -1,
                             status: "pending",
-                            type: "give"
+                            type: "give",
+                            receiverDiscordUserId: foundMessage.author.id,
+                            receiverDiscordUsername: foundMessage.author.username
                         },
                         {
                             cost: 1,
                             discordUserId: foundMessage.author.id,
                             status: "pending",
-                            fromDiscordUserId: user.id,
-                            fromDiscordUsername: user.username,
-                            reason: `Ai primit 1 ban din partea lui ${reason}`,
-                            type: "receive"
+                            reason: `Ai primit 1 ban. ${reason}`,
+                            type: "receive",
+                            initiatorDiscordUserId: user.id,
+                            initiatorDiscordUsername: user.username
                         }
                     ];
                     cacheFactory_1.default.getInstance().updateTransactionStore(transactionsSet);
@@ -103,7 +105,8 @@ function reactionHandler(reaction, user, client) {
             case "stitch" /* STITCH */: {
                 reaction.message.channel.messages.fetch(messageID)
                     .then((foundMessage) => {
-                    // if (foundMessage.author.id === USER_IDS.YOSOYBOT) return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
+                    if (foundMessage.author.id === constants_1.USER_IDS.YOSOYBOT)
+                        return Promise.resolve("Nu o sa iau in considerare tranzactiile pe numele botului.");
                     const contents = msgContentAndAttachment(foundMessage);
                     const reason = determineTransactionReason(contents);
                     const transactionsSet = [
@@ -112,50 +115,22 @@ function reactionHandler(reaction, user, client) {
                             discordUserId: user.id,
                             cost: -1,
                             status: "pending",
-                            type: "give"
+                            type: "give",
+                            receiverDiscordUserId: foundMessage.author.id,
+                            receiverDiscordUsername: foundMessage.author.username
                         },
                         {
                             cost: 1,
                             discordUserId: foundMessage.author.id,
                             status: "pending",
-                            fromDiscordUserId: user.id,
-                            fromDiscordUsername: user.username,
                             reason: `Ai primit 1 ban din partea lui ${reason}`,
-                            type: "receive"
+                            type: "receive",
+                            initiatorDiscordUserId: user.id,
+                            initiatorDiscordUsername: user.username
                         }
                     ];
                     cacheFactory_1.default.getInstance().updateTransactionStore(transactionsSet);
                     return Promise.resolve("Trimis tranzactia in cache");
-                    return BackendClient.addTransactions([
-                        {
-                            cost: 10,
-                            discordUserId: "405081094057099276",
-                            reason: reason,
-                            status: "pending",
-                            type: "give"
-                        },
-                        {
-                            cost: -10,
-                            discordUserId: "405081094057099276",
-                            reason: reason,
-                            status: "pending",
-                            type: "give"
-                        },
-                        {
-                            cost: 20,
-                            discordUserId: "405081094057099276",
-                            reason: reason,
-                            status: "pending",
-                            type: "receive"
-                        },
-                        {
-                            cost: -100,
-                            discordUserId: "405081094057099276",
-                            reason: reason,
-                            status: "pending",
-                            type: "receive"
-                        },
-                    ]);
                 })
                     .then((backendResult) => {
                     console.log(backendResult);

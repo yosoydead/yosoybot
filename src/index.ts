@@ -45,6 +45,7 @@ client.on("guildCreate", async (guild: Guild) => {
   const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
   const message = sendLogs(guild, SERVER_ACTION.JOIN);
 
+  //@ts-ignore
   channelEntry.send(message);
 });
 
@@ -53,6 +54,7 @@ client.on("guildDelete", async (guild: Guild) => {
   const channelEntry = myChannel.channels.cache.get(MY_CHANNEL_IDS.INTRAT_PE_SERVERE);
   const message = sendLogs(guild, SERVER_ACTION.KICK);
 
+  //@ts-ignore
   channelEntry.send(message);
 });
 
@@ -64,7 +66,7 @@ client.on("messageDelete", (message: Message | PartialMessage) => {
 
 client.on("messageReactionAdd", (reaction, user) => reactionHandler(reaction, user, fetchClient));
 // // cron function
-function cron(ms, fn) {
+function cron(ms: number, fn: Function) {
   function cb() {
     clearTimeout(timeout);
     timeout = setTimeout(cb, ms);

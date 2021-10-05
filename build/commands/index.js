@@ -130,8 +130,9 @@ function commandHandler(message, client) {
                             transactions.push({
                                 cost: parseInt(sum),
                                 discordUserId: user.id,
-                                reason: `Fonduri adaugate de catre ${message.author.username}`,
-                                status: "successful"
+                                reason: `Fonduri adaugate de catre ${message.author.username}.`,
+                                status: "successful",
+                                type: "receive"
                             });
                         });
                     }
@@ -145,8 +146,9 @@ function commandHandler(message, client) {
                         transactions.push({
                             cost: parseInt(sum),
                             discordUserId: user.id,
-                            reason: `Fonduri adaugate de catre ${message.author.username}`,
-                            status: "successful"
+                            reason: `Fonduri adaugate de catre ${message.author.username}.`,
+                            status: "successful",
+                            type: "receive"
                         });
                     });
                 }
@@ -176,6 +178,10 @@ function commandHandler(message, client) {
                 }
                 const userBank = yield BackendClient.getUserTransactions(userId, number);
                 return yield message.reply(userBank);
+            }
+            case "bank" /* BANK */: {
+                const response = yield BackendClient.getUserBank(message.author.id);
+                return yield message.reply(response);
             }
             case "update": {
                 if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD) {

@@ -100,7 +100,8 @@ export const BACKEND_ROUTES = {
     userData: "/user/get/", // needs an ID
     allUsersData: "/users",
     getUsersBank: "/transactions/getUsersBank",
-    getUserTransactions: "/transactions/getUserTransactions/" // needs an id
+    getUserTransactions: "/transactions/getUserTransactions/", // needs an id
+    getUserBank: "/user/getBank/" // needs an id
   },
   "PATCH": {
     //comments
