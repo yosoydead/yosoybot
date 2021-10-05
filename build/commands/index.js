@@ -30,9 +30,9 @@ const cacheFactory_1 = __importDefault(require("../utils/cacheFactory"));
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 function commandHandler(message, client) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("message", message);
+        // console.log("message", message);
         const BackendClient = dbFactory_1.default.getInstance();
         // nu da mesaj pe prod cand esti pe local
         if (BackendClient.getAppMode() === types_1.APP_MODES.LOCAL && ((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id) === constants_1.GUILD_IDS.GOKU_SERVER)
@@ -136,7 +136,7 @@ function commandHandler(message, client) {
                             });
                         });
                     }
-                    catch (_e) {
+                    catch (_f) {
                         return yield message.channel.send(constants_1.REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
                     }
                 }
@@ -154,6 +154,54 @@ function commandHandler(message, client) {
                 }
                 const response = yield BackendClient.addTransactions(transactions);
                 return yield message.channel.send(response);
+            }
+            case "giveaway" /* GIVEAWAY */: {
+                if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD && message.author.id !== constants_1.USER_IDS.GOKU) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
+                }
+                const splitMessage = message.content.split(" ");
+                if (splitMessage.length < 3 || splitMessage.length > 3) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.GIVEAWAY_FORMAT);
+                }
+                const howManyPeople = parseInt(splitMessage[1]);
+                const howMuchMoney = parseInt(splitMessage[2]);
+                if (isNaN(howManyPeople) || isNaN(howMuchMoney)) {
+                    return yield message.reply(constants_1.REPLY_MESSAGES.GIVEAWAY_FORMAT);
+                }
+                const transactions = [];
+                const usersToString = [];
+                try {
+                    const users = yield ((_d = message.guild) === null || _d === void 0 ? void 0 : _d.members.fetch());
+                    const usersArray = users === null || users === void 0 ? void 0 : users.array().filter(u => {
+                        return u.user.bot === false;
+                    });
+                    let index = 0;
+                    while (index < Math.min(howManyPeople, users === null || users === void 0 ? void 0 : users.size)) {
+                        const randomIndex = Math.floor(Math.random() * (users === null || users === void 0 ? void 0 : users.size));
+                        const isUserDuplicate = transactions.find(t => t.discordUserId === usersArray[randomIndex].id);
+                        if (isUserDuplicate === undefined) {
+                            transactions.push({
+                                cost: howMuchMoney,
+                                discordUserId: usersArray[randomIndex].user.id,
+                                type: "receive",
+                                reason: "Random giveaway",
+                                status: "successful",
+                                initiatorDiscordUserId: message.author.id,
+                                initiatorDiscordUsername: message.author.username
+                            });
+                            usersToString.push(usersArray[randomIndex].user.username);
+                            index++;
+                        }
+                        else {
+                            continue;
+                        }
+                    }
+                }
+                catch (_g) {
+                    return yield message.channel.send(constants_1.REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
+                }
+                const response = yield BackendClient.addTransactions(transactions);
+                return message.channel.send(`${response}. Userii care ar trebui sa primeasca bani sunt: ${usersToString.join()}`);
             }
             case "forceUpdate" /* FORCE_UPDATE_DB */: {
                 if (message.author.id !== constants_1.USER_IDS.YOSOYDEAD && message.author.id !== constants_1.USER_IDS.GOKU) {
@@ -188,7 +236,7 @@ function commandHandler(message, client) {
                     return yield message.reply(constants_1.REPLY_MESSAGES.NO_AUTHORITY);
                 }
                 // console.log(message);
-                const guildId = (_d = message.guild) === null || _d === void 0 ? void 0 : _d.id;
+                const guildId = (_e = message.guild) === null || _e === void 0 ? void 0 : _e.id;
                 message.client.guilds.fetch(guildId)
                     .then((guild) => {
                     // console.log("res", res);

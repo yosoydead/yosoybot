@@ -8,6 +8,7 @@ export const enum CommandNames {
   EIGHT_BALL =  "8ball",
   FORCE_UPDATE_DB = "forceUpdate",
   GIVE_MONEY = "give",
+  GIVEAWAY = "giveaway",
   METEO = "meteo",
   PING = "ping",
   PONG = "pong",

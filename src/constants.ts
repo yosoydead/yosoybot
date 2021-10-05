@@ -12,6 +12,7 @@ export const REPLY_MESSAGES = {
   EMPTY_ANIMAL_FACT: "The request failed. Check if the API is still available. :)",
   GIVE_EVERYONE_MONEY_ERROR: "Ceva nu e ok. Nu am reusit sa culeg toti userii. Incearca mai tarziu sau da bani doar catorva.",
   GIVE_MONEY_FORMAT: "Comanda trebuie sa fie de formatul: %give @user 50",
+  GIVEAWAY_FORMAT: "Format incorect. Comanda trebuie sa fie: %giveaway <cati useri> <ce suma> cu spatiu intre fiecare caracter.",
   MESSAGE_NOT_FOUND: "Ceva nu e in regula. Nu am putut gasi mesajul pentru a fi trimis mai departe.",
   NO_AUTHORITY: "Nu ai dreptul sa folosesti comanda asta",
   PONG: "PONG",

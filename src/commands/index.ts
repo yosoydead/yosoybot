@@ -27,7 +27,7 @@ interface IGuildBackendModel {
 //si o sa folosesc comanda care trebuie pentru asa ceva
 // const regex = /^ball\s.+/i;
 export async function commandHandler(message: Message, client: IFetchClient): Promise<Message | undefined> {
-  console.log("message", message);
+  // console.log("message", message);
   
   const BackendClient = dbFactory.getInstance();
   // nu da mesaj pe prod cand esti pe local
@@ -156,6 +156,58 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
 
     const response = await BackendClient.addTransactions(transactions);
     return await message.channel.send(response);
+  }
+  case CommandNames.GIVEAWAY: {
+    if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
+      return await message.reply(REPLY_MESSAGES.NO_AUTHORITY);
+    }
+
+    const splitMessage: string[] = message.content.split(" ");
+    if (splitMessage.length < 3 || splitMessage.length > 3) {
+      return await message.reply(REPLY_MESSAGES.GIVEAWAY_FORMAT);
+    }
+
+    const howManyPeople = parseInt(splitMessage[1]);
+    const howMuchMoney = parseInt(splitMessage[2]);
+
+    if (isNaN(howManyPeople) || isNaN(howMuchMoney)) {
+      return await message.reply(REPLY_MESSAGES.GIVEAWAY_FORMAT);
+    }
+
+    const transactions: BackendTransaction[] = [];
+    const usersToString: string[] = [];
+
+    try {
+      const users = await message.guild?.members.fetch();
+      const usersArray = users?.array().filter(u => {
+        return u.user.bot === false;
+      });
+      
+      let index = 0;
+      while(index < Math.min(howManyPeople, users?.size!)) {
+        const randomIndex = Math.floor(Math.random() * users?.size!);
+        const isUserDuplicate = transactions.find(t => t.discordUserId === usersArray![randomIndex].id);
+        if (isUserDuplicate === undefined) {
+          transactions.push({
+            cost: howMuchMoney,
+            discordUserId: usersArray![randomIndex].user.id,
+            type: "receive",
+            reason: "Random giveaway",
+            status: "successful",
+            initiatorDiscordUserId: message.author.id,
+            initiatorDiscordUsername: message.author.username
+          });
+          usersToString.push(usersArray![randomIndex].user.username);
+          index++;
+        } else {
+          continue;
+        }
+      }
+    } catch {
+      return await message.channel.send(REPLY_MESSAGES.GIVE_EVERYONE_MONEY_ERROR);
+    }
+    const response = await BackendClient.addTransactions(transactions);
+    return message.channel.send(`${response}. Userii care ar trebui sa primeasca bani sunt: ${usersToString.join()}`);
   }
   case CommandNames.FORCE_UPDATE_DB: {
     if (message.author.id !== USER_IDS.YOSOYDEAD && message.author.id !== USER_IDS.GOKU) {
