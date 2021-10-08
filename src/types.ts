@@ -43,6 +43,7 @@ export interface ICacheSchema {
 export interface BackendComment {
   content: string;
   author: string;
+  commentDiscordId: string;
 }
 
 export interface BackendTransaction {
@@ -71,6 +72,7 @@ export interface IBackendClient {
   getUserBank: (userId: string) => Promise<string>;
   getUserTransactions: (userId: string, numberOfTransactions: number) => Promise<string>
   addQuote: (comment: BackendComment) => Promise<string>;
+  removeQuote: (comment: BackendComment) => Promise<string>;
   addTransactions(transactions: BackendTransaction[]): Promise<string>;
   sendCacheDataOnDemand: (cacheClient: ICacheClient) => Promise<string>;
 }

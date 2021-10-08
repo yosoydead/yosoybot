@@ -98,7 +98,23 @@ function commandHandler(message, client) {
                     const msgId = message.reference.messageID;
                     message.channel.messages.fetch(msgId)
                         .then(res => {
-                        return BackendClient.addQuote({ content: res.content, author: res.author.id });
+                        return BackendClient.addQuote({ content: res.content, author: res.author.id, commentDiscordId: msgId });
+                    })
+                        .then((res) => __awaiter(this, void 0, void 0, function* () {
+                        return yield message.channel.send(res);
+                    }))
+                        .catch((er) => __awaiter(this, void 0, void 0, function* () {
+                        return yield message.channel.send(constants_1.REPLY_MESSAGES.MESSAGE_NOT_FOUND);
+                    }));
+                }
+                return;
+            }
+            case "removeQuote" /* REMOVE_QUOTE */: {
+                if (message.reference !== null && message.content !== "") {
+                    const msgId = message.reference.messageID;
+                    message.channel.messages.fetch(msgId)
+                        .then(res => {
+                        return BackendClient.removeQuote({ content: res.content, author: res.author.id, commentDiscordId: msgId });
                     })
                         .then((res) => __awaiter(this, void 0, void 0, function* () {
                         return yield message.channel.send(res);

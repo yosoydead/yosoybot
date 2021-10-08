@@ -89,6 +89,16 @@ class BackendClient {
             return constants_1.YOSOYDB_ERROR_MESSAGES.ADD_QUOTE;
         });
     }
+    removeQuote(comment) {
+        return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.removeComment}`, Object.assign({}, comment))
+            .then(response => response.json())
+            .then((json) => {
+            return json.message;
+        })
+            .catch(err => {
+            return constants_1.YOSOYDB_ERROR_MESSAGES.REMOVE_QUOTE;
+        });
+    }
     addTransactions(transactions) {
         return this._client.post(`${this._baseUrl}${constants_1.BACKEND_ROUTES.POST.addTransactions}`, { transactions })
             .then(res => res.json())

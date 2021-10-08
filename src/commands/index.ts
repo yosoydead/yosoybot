@@ -96,7 +96,24 @@ export async function commandHandler(message: Message, client: IFetchClient): Pr
       const msgId = message.reference.messageID;
       message.channel.messages.fetch(msgId!)
         .then(res => {
-          return BackendClient.addQuote({ content: res.content, author: res.author.id });
+          return BackendClient.addQuote({ content: res.content, author: res.author.id, commentDiscordId: msgId! });
+        })
+        .then(async res => {
+          return await message.channel.send(res);
+        })
+        .catch(async er => {
+          return await message.channel.send(REPLY_MESSAGES.MESSAGE_NOT_FOUND);
+        });
+    }
+
+    return;
+  }
+  case CommandNames.REMOVE_QUOTE: {
+    if (message.reference !== null && message.content !== "") {
+      const msgId = message.reference.messageID;
+      message.channel.messages.fetch(msgId!)
+        .then(res => {
+          return BackendClient.removeQuote({ content: res.content, author: res.author.id, commentDiscordId: msgId! });
         })
         .then(async res => {
           return await message.channel.send(res);

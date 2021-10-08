@@ -105,6 +105,17 @@ export default class BackendClient implements IBackendClient {
       });
   }
 
+  removeQuote(comment: BackendComment): Promise<string> {
+    return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.removeComment}`, {...comment})
+      .then(response => response.json())
+      .then((json: IBackendResponse) => {
+        return json.message;
+      })
+      .catch(err => {
+        return YOSOYDB_ERROR_MESSAGES.REMOVE_QUOTE;
+      });
+  }
+
   addTransactions(transactions: BackendTransaction[]): Promise<string> {
     return this._client.post(`${this._baseUrl}${BACKEND_ROUTES.POST.addTransactions}`, {transactions})
       .then(res => res.json())

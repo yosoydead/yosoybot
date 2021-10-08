@@ -28,7 +28,8 @@ export const YOSOYDB_ERROR_MESSAGES = {
   ADD_TRANSACTIONS: "Nu am putut apela baza de date pentru a insera tranzactiile de pana acum.",
   BULK_UPDATE_TRANSACTIONS: "Ceva nu e in regula. Nu am putut salva tranzactiile. Vor fi pastrate in cache si trimise urmatoarea data.",
   BULK_UPDATE_COMMENTS: "Ceva nu e in regula. Nu am putut salva comentariile care o ajuns in cache. Vor fi pastrate in cache si trimise urmatoarea data.",
-  BULK_UPDATE_FAIL: "Nu am putut adauga niste date in baza de date. O sa ramana in cache pana la urmatorul update."
+  BULK_UPDATE_FAIL: "Nu am putut adauga niste date in baza de date. O sa ramana in cache pana la urmatorul update.",
+  REMOVE_QUOTE: "Nu am putut sa apelez baza de date pentru a sterge comentariul. Vorbeste cu Bogdan."
 };
 
 export const enum REACT_EMOJI {
@@ -114,6 +115,7 @@ export const BACKEND_ROUTES = {
   "POST": {
     // comments
     addComment: "/comment",
+    removeComment: "/removeComment",
     addMultipleComments: "/comments",
 
     // users

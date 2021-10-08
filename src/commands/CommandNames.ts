@@ -13,6 +13,7 @@ export const enum CommandNames {
   PING = "ping",
   PONG = "pong",
   RANDOM_QUOTE = "quote",
+  REMOVE_QUOTE = "removeQuote",
   TRANSACTION_HISTORY = "transactions",
   WEEB = "weeb",
   WEATHER = "weather",
